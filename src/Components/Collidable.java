@@ -1,4 +1,4 @@
-package Components;
+package components;
  
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import Entities.Entity;
 
 	
  /**
-  *  Kollar om något objekt på kortan kolliderar och uppdaterar därefter, gör däremot ingenting åt det -
+  *  Kollar om nï¿½got objekt pï¿½ kortan kolliderar och uppdaterar dï¿½refter, gï¿½r dï¿½remot ingenting ï¿½t det -
   *  det hanteras i respektive komponent.
   *  
   * @author Ludde
@@ -105,7 +105,7 @@ public class Collidable extends Component {
 				//		System.out.println("NY KOLLISION");
 						foundCollision=true;
 					}
-					//else set false men om vi får minst en HIT så ska den ligga kvar och inte sättas till false när vi tittar vidare
+					//else set false men om vi fï¿½r minst en HIT sï¿½ ska den ligga kvar och inte sï¿½ttas till false nï¿½r vi tittar vidare
 				}	
 			}
 				

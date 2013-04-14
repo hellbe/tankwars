@@ -1,4 +1,4 @@
-package Components;
+package components;
  
 import java.util.ArrayList;
 
@@ -49,7 +49,7 @@ public class BulletMovement extends Component {
 		if (hasCollision(position)) {
 			position.x -= hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
 			position.y += hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
-			//kolla om vi träffat ett objekt som kan skadas, ta bort hp i så fall och ta sedan bort projektilen.
+			//kolla om vi trï¿½ffat ett objekt som kan skadas, ta bort hp i sï¿½ fall och ta sedan bort projektilen.
 		}
 		
 		

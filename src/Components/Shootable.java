@@ -1,4 +1,4 @@
-package Components;
+package components;
 
 import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
@@ -34,11 +34,11 @@ public class Shootable extends RenderComponent {
 			throws SlickException {
 		
 		
-		//håller man knappe intryckt så roteras projektilen. Fixa!
+		//hï¿½ller man knappe intryckt sï¿½ roteras projektilen. Fixa!
 		if (gc.getInput().isKeyDown(Input.KEY_1) && gc.getTime()-lastFire >= fireDelay) {
 			
 			lastFire=gc.getTime();
-			//här måste det pillas lite så att de slutar krocka!	
+			//hï¿½r mï¿½ste det pillas lite sï¿½ att de slutar krocka!	
 			
 			
 			float xspawn = owner.getPosition().x + (float) ((float) (owner.getSize().x*owner.getScale()+bulletImage.getWidth()*bulletScale)*java.lang.Math.sin(java.lang.Math.toRadians(owner.getRotation())));
