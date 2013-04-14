@@ -7,12 +7,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Components.Collidable;
-import Components.Shootable;
-import Components.TopDownMovement;
-import Components.Basic.Component;
-import Components.Basic.ImageRenderComponent;
-import Components.Basic.RenderComponent;
+import component.Collidable;
+import component.Component;
+import component.ImageRenderComponent;
+import component.RenderComponent;
+import component.Shootable;
+import component.TopDownMovement;
 
 /**
  * Player-/input controlled Tank Entity. Steer using the wasd keys and shoot with '1'.

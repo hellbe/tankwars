@@ -4,8 +4,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Entities.Entity;
- 
+import entity.Entity;
+
 public abstract class Component {
  
     protected String id;

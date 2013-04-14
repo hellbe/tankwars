@@ -9,8 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Components.Basic.RenderComponent;
-import Entities.BulletEntity;
+import entity.BulletEntity;
 
 public class Shootable extends RenderComponent {
 

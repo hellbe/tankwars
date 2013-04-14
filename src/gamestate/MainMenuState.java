@@ -33,7 +33,7 @@ public class MainMenuState extends BasicGameState {
     	Input input = gc.getInput();
     	 
         if(input.isKeyDown(Input.KEY_SPACE)){
-        	 sbg.enterState(Game.TankWars.GAMEPLAYSTATE);
+        	 sbg.enterState(main.TankWars.GAMEPLAYSTATE);
         }
     	
     }

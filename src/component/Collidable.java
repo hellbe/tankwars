@@ -8,8 +8,8 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Components.Basic.Component;
-import Entities.Entity;
+import entity.Entity;
+
 
 	
  /**

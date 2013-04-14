@@ -1,13 +1,13 @@
 package main;
  
+import gamestate.GameplayState;
+import gamestate.MainMenuState;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import GameStates.GameplayState;
-import GameStates.MainMenuState;
- 
 /**
  *
  * @author Spiegel

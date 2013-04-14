@@ -6,8 +6,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Components.Collidable.Hitbox;
-import Components.Basic.Component;
+import component.Collidable.Hitbox;
 
  
 public class TopDownMovement extends Component {

@@ -3,9 +3,9 @@ package entity;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import Components.BulletMovement;
-import Components.Collidable;
-import Components.Basic.ImageRenderComponent;
+import component.BulletMovement;
+import component.Collidable;
+import component.ImageRenderComponent;
 
 public class BulletEntity extends Entity {
 	

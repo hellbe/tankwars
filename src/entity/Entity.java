@@ -8,8 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Components.Basic.Component;
-import Components.Basic.RenderComponent;
+import component.Component;
+import component.RenderComponent;
 
 
 public class Entity {

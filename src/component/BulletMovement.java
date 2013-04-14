@@ -6,8 +6,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Components.Basic.Component;
-import Components.Collidable.Hitbox;
+import component.Collidable.Hitbox;
 
  
 public class BulletMovement extends Component {

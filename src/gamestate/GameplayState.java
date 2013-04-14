@@ -8,12 +8,14 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Components.Collidable;
-import Components.Basic.ImageRenderComponent;
-import Entities.BulletEntity;
-import Entities.Entity;
-import Entities.TankEntity;
- 
+import component.Collidable;
+import component.ImageRenderComponent;
+
+import entity.BulletEntity;
+import entity.Entity;
+import entity.TankEntity;
+
+
 public class GameplayState extends BasicGameState {
  
     int stateID = -1;
