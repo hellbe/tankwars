@@ -1,4 +1,4 @@
-package components;
+package component;
 
 import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;

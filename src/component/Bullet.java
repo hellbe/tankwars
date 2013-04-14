@@ -1,4 +1,4 @@
-package components;
+package component;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;

@@ -1,4 +1,4 @@
-package components.basic;
+package component;
  
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
