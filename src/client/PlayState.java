@@ -1,5 +1,8 @@
-package gamestate;
+package client;
  
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -7,37 +10,35 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Client;
 import component.Collidable;
 import component.ImageRenderComponent;
-
 import entity.BulletEntity;
 import entity.Entity;
 import entity.TankEntity;
+import gameplay.World;
 
 
-public class GameplayState extends BasicGameState {
+public class PlayState extends BasicGameState {
  
-    int stateID = -1;
-    
+    int stateID;
+    World world;
+    Client client;
+    Kryo kryo;
  
     TankEntity player1 = null;
     Entity land = null;
-    
     Entity collisionObject = null;
     BulletEntity testBullet = null;
-
-
-    public GameplayState( int stateID ) {
+    
+    public PlayState( int stateID ) {
        this.stateID = stateID;
     }
  
-    @Override
-    public int getID() {
-        return stateID;
-    }
- 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+    	//Connect to the server
+    	connect();
     	
     	//init background
     	land = new Entity("land");
@@ -59,12 +60,13 @@ public class GameplayState extends BasicGameState {
         
     }
  
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException     {
+    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
     	land.render(gc, null, g);
     	player1.render(gc, null, g);
     	collisionObject.render(gc, null, g);
     	testBullet.render(gc, null, g);
-
+    	
+    	//Render everything in the world
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException     {
@@ -72,6 +74,48 @@ public class GameplayState extends BasicGameState {
     	player1.update(gc, null, delta);
     	collisionObject.update(gc, null, delta);
     	testBullet.update(gc, null, delta);
+    	
+    	//Update the world from the server
+    	
+    	//Send input to the server
+    	
     }
+
+	@Override
+	public int getID() {
+		return stateID;
+	}
+	
+	private void connect(){
+		client = new Client();
+		kryo = client.getKryo();
+		kryo.register( World.class );
+		client.start();
+		try {
+			client.connect(5000, "127.0.0.1", 55555, 55556);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+//		addKeyListener(new KeyAdapter() {
+//			public void keyPressed (KeyEvent e) {
+//				sendKey(e.getKeyCode(), true);
+//			}
+//
+//			public void keyReleased (KeyEvent e) {
+//				sendKey(e.getKeyCode(), false);
+//			}
+//
+//			private void sendKey (int keyCode, boolean pressed) {
+//				switch (keyCode) {
+//				case KeyEvent.VK_LEFT:
+//					break;
+//				case KeyEvent.VK_RIGHT:
+//					break;
+//				}
+//				client.sendTCP(message);
+//			}
+//		});
+	}
  
 }

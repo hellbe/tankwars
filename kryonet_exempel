@@ -1,0 +1,296 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
+
+public class NetGades {
+   public static final int gameWidth = 256;
+   public static final int gameHeight = 256;
+   public static final int pixelsPerSecond = 40;
+
+   public static class Network {
+      public static int port = 55777;
+
+      public static class Key {
+         public boolean pressed;
+         public int keyCode;
+      }
+
+      public static class Position {
+         public int id;
+         public float x, y;
+      }
+
+      public static class Remove {
+         public int id;
+      }
+
+      public static void register (Kryo kryo) {
+         kryo.register(Key.class);
+         kryo.register(Position.class);
+      }
+   }
+
+   public static class GameClient extends JPanel {
+      private CopyOnWriteArrayList<Player> players = new CopyOnWriteArrayList();
+      private Client client = new Client();
+
+      GameClient () {
+         setBorder(BorderFactory.createLineBorder(Color.BLACK));
+         setBackground(Color.LIGHT_GRAY);
+         setPreferredSize(new Dimension(gameWidth, gameHeight));
+
+         setFocusable(true);
+         addKeyListener(new KeyAdapter() {
+            public void keyPressed (KeyEvent e) {
+               sendKey(e.getKeyCode(), true);
+            }
+
+            public void keyReleased (KeyEvent e) {
+               sendKey(e.getKeyCode(), false);
+            }
+
+            private void sendKey (int keyCode, boolean pressed) {
+               if (!client.isConnected()) return;
+               switch (keyCode) {
+               case KeyEvent.VK_LEFT:
+               case KeyEvent.VK_RIGHT:
+                  Network.Key key = new Network.Key();
+                  key.pressed = pressed;
+                  key.keyCode = keyCode;
+                  client.sendTCP(key);
+               }
+            }
+         });
+
+         client.addListener(new Listener() {
+            public void received (Connection connection, Object object) {
+               if (object instanceof Network.Position) {
+                  Network.Position position = (Network.Position)object;
+                  Player player = getPlayer(position.id);
+                  if (player == null) {
+                     player = new Player();
+                     player.id = position.id;
+                     players.add(player);
+                  }
+                  player.x = position.x;
+                  player.y = position.y;
+                  repaint();
+               }
+
+               if (object instanceof Network.Remove) {
+                  Network.Remove remove = (Network.Remove)object;
+                  Player player = getPlayer(remove.id);
+                  if (player != null) players.remove(player);
+               }
+            }
+
+            public void disconnected (Connection connection) {
+               System.exit(0);
+            }
+         });
+
+         Network.register(client.getKryo());
+         client.start();
+      }
+
+      private Player getPlayer (int id) {
+         for (Player player : players)
+            if (player.id == id) return player;
+         return null;
+      }
+
+      public void paintComponent (Graphics g) {
+         g.clearRect(0, 0, getWidth(), getHeight());
+         for (Player player : players)
+            player.draw(g);
+      }
+
+      public void connect () {
+         try {
+            client.connect(8000, "localhost", Network.port);
+         } catch (IOException ex) {
+            throw new RuntimeException(ex);
+         }
+      }
+
+      public static void main (String[] args) {
+         Log.DEBUG();
+
+         final JFrame frame = new JFrame("Game");
+         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+         final GameClient gameClient = new GameClient();
+         frame.setContentPane(gameClient);
+
+         frame.pack();
+         frame.setVisible(true);
+
+         new Thread("Connect") {
+            public void run () {
+               try {
+                  gameClient.connect();
+               } catch (Exception ex) {
+                  ex.printStackTrace();
+                  frame.dispose();
+               }
+            }
+         }.start();
+      }
+   }
+
+   public static class GameServer extends Server {
+      private CopyOnWriteArrayList<Player> players = new CopyOnWriteArrayList();
+      private Random random = new Random();
+
+      public GameServer () throws IOException {
+         addListener(new Listener() {
+            public void connected (Connection connection) {
+               int id = connection.getID();
+
+               // Send new connection all the existing players.
+               for (Player player : players)
+                  sendToTCP(id, getPosition(player));
+
+               // Add new player.
+               Player player = new Player();
+               player.id = connection.getID();
+               player.x = random.nextInt((int)(gameWidth - player.width));
+               player.y = random.nextInt((int)(gameHeight - player.height));
+               players.add(player);
+
+               // Send new player to everyone.
+               sendToAllTCP(getPosition(player));
+            }
+
+            public void disconnected (Connection connection) {
+               players.remove(getPlayer(connection.getID()));
+
+               Network.Remove remove = new Network.Remove();
+               remove.id = connection.getID();
+               sendToAllTCP(remove);
+            }
+
+            public void received (Connection connection, Object object) {
+               Player player = getPlayer(connection.getID());
+               if (player == null) return;
+               if (object instanceof Network.Key) {
+                  Network.Key key = (Network.Key)object;
+                  switch (key.keyCode) {
+                  case KeyEvent.VK_LEFT:
+                     player.movingLeft = key.pressed;
+                     break;
+                  case KeyEvent.VK_RIGHT:
+                     player.movingRight = key.pressed;
+                     break;
+                  }
+               }
+            }
+         });
+         Network.register(getKryo());
+         bind(Network.port);
+         start();
+
+         new Thread() {
+            public void run () {
+               while (true) {
+                  tick(48);
+                  try {
+                     Thread.sleep(48);
+                  } catch (InterruptedException ignored) {
+                  }
+               }
+            }
+         }.start();
+      }
+
+      Network.Position getPosition (Player player) {
+         Network.Position position = new Network.Position();
+         position.id = player.id;
+         position.x = player.x;
+         position.y = player.y;
+         return position;
+      }
+
+      private Player getPlayer (int id) {
+         for (Player player : players)
+            if (player.id == id) return player;
+         return null;
+      }
+
+      void tick (int delta) {
+         for (Player player : players) {
+            boolean moved = false;
+            if (player.movingLeft) {
+               player.x -= pixelsPerSecond * delta / 1000f;
+               if (player.x < 0) {
+                  player.x = 0;
+                  player.movingLeft = false;
+               }
+               moved = true;
+            }
+            if (player.movingRight) {
+               player.x += pixelsPerSecond * delta / 1000f;
+               if (player.x > gameWidth - player.width) {
+                  player.x = gameWidth - player.width;
+                  player.movingRight = false;
+               }
+               moved = true;
+            }
+            if (moved) sendToAllTCP(getPosition(player));
+         }
+      }
+
+      public static void main (String[] args) throws IOException {
+         Log.DEBUG();
+         new GameServer();
+      }
+   }
+
+   public static class Player {
+      int id;
+      float x, y;
+      float width = 16, height = 16;
+      boolean movingLeft, movingRight;
+
+      boolean checkCL (Player a, float l1, float l2) {
+         return (l1 - 1 <= a.x + width - 1 && l1 - 1 >= a.x && (l2 + height - 1) >= a.y && l2 <= a.y + height - 1);
+      }
+
+      boolean checkCR (Player a, float l1, float l2) {
+         return (l1 + width <= a.x + width - 1 && l1 + width >= a.x && (l2 + height - 1) >= a.y && l2 <= a.y + height - 1);
+      }
+
+      boolean checkCT (Player a, float l1, float l2) {
+         return (l2 - 1 <= a.y + height - 1 && l2 - 1 >= a.y && (l1 + width - 1) >= a.x && l1 <= a.x + width - 1);
+      }
+
+      boolean checkCB (Player a, float l1, float l2) {
+         return (l2 + height <= a.y + height - 1 && l2 + height >= a.y && (l1 + width - 1) >= a.x && l1 <= a.x + width - 1);
+      }
+
+      boolean checkCBox (Player a, float l1, float l2) {
+         return (l2 + height - 1 >= a.y && l2 <= a.y + height - 1 && l1 + width - 1 >= a.x && l1 <= a.x + width - 1);
+      }
+
+      void draw (Graphics g) {
+         g.setColor(Color.BLACK);
+         g.fillRect((int)x, (int)y, (int)width, (int)height);
+      }
+   }
+}

@@ -1,4 +1,4 @@
-package gamestate;
+package client;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
  
-public class MainMenuState extends BasicGameState {
+public class MenuState extends BasicGameState {
 	  
     int stateID = -1;
   
@@ -22,7 +22,7 @@ public class MainMenuState extends BasicGameState {
     float startGameScale = 1;
     float exitScale = 1;
   
-    public MainMenuState( int stateID )
+    public MenuState( int stateID )
     {
        this.stateID = stateID;
     }
@@ -78,7 +78,7 @@ public class MainMenuState extends BasicGameState {
                 startGameScale += scaleStep * delta;
   
             if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-                sbg.enterState(main.TankWars.GAMEPLAYSTATE);
+                sbg.enterState(client.TWClient.GAMEPLAYSTATE);
             }
         }else{
             if(startGameScale > 1.0f)
