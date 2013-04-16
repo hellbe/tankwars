@@ -15,70 +15,54 @@ import component.RenderComponent;
 public class GameEntity {
 
 	String id;
-
 	Vector2f position;
-	
-	private Vector2f size=null;
-
+	private Vector2f size = null;
 	float scale;
 	float rotation;
-	
 	boolean colliding = false;
 	private boolean isCollidable = false;
-
 	protected ArrayList<RenderComponent> renderComponent = null;
 	protected ArrayList<Component> components = null;
 
-	public GameEntity(String id)
-	{
+	public GameEntity(String id) {
 		this.id = id;
 		renderComponent= new ArrayList<RenderComponent>();
 		components = new ArrayList<Component>();
-
 		position = new Vector2f(0,0);
-		
 		scale = 1;
 		rotation = 0;
-
 	}
 
-	public void AddComponent(Component component)
-	{
-		if(RenderComponent.class.isInstance(component))
+	public void AddComponent(Component component) {
+		if( RenderComponent.class.isInstance(component) ) {
 			renderComponent.add( (RenderComponent)component);
-
+		}
 		component.setOwnerEntity(this);
 		components.add(component);
 	}
 
-	public Component getComponent(String id)
-	{
-		for(Component comp : components)
-		{
-			if ( comp.getId().equalsIgnoreCase(id) )
+	public Component getComponent(String id) {
+		for(Component comp : components) {
+			if ( comp.getId().equalsIgnoreCase(id) ) {
 				return comp;
+			}
 		}
-
 		return null;
 	}
 
-	public Vector2f getPosition()
-	{
+	public Vector2f getPosition() {
 		return position;
 	}
 
-	public float getScale()
-	{
+	public float getScale() {
 		return scale;
 	}
 
-	public float getRotation()
-	{
+	public float getRotation() {
 		return rotation;
 	}
 
-	public String getId()
-	{
+	public String getId() {
 		return id;
 	}
 	
@@ -94,22 +78,17 @@ public class GameEntity {
 		this.scale = scale;
 	}
 
-	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException
-	{
-		for(Component component : components)
-		{
+	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
+		for(Component component : components) {
 			component.update(gc, sb, delta);
 		}
-
 	}
 
-	public void render(GameContainer gc, StateBasedGame sb, Graphics gr)
-	{
+	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
 		for (RenderComponent component : renderComponent) {
 			component.render(gc, sb, gr);
 		}
 	}
-
 
 	public Vector2f getSize() {
 		return size;

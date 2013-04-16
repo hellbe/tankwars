@@ -15,22 +15,19 @@ public class TopDownMovement extends Component {
 	float speed=0.4f;
 	
 	//collision support
-	ArrayList<Hitbox> Collidables = null; //
+	ArrayList<Hitbox> Collidables = null;
 	Hitbox hitbox = null;
 	
 	
-	public TopDownMovement(String id)
-	{
+	public TopDownMovement(String id) {
 		this.id = id;
 	}
  
-	public float getSpeed()
-	{
+	public float getSpeed()	{
 		return speed;
 	}
  
-	public float getDirection()
-	{
+	public float getDirection() {
 		return direction;
 	}
  
@@ -42,18 +39,15 @@ public class TopDownMovement extends Component {
 		Vector2f position = owner.getPosition();
 		Input input = gc.getInput();
  
-        if(input.isKeyDown(Input.KEY_A))
-        {
+        if(input.isKeyDown(Input.KEY_A)) {
         	rotation += -0.2f * delta;
         }
  
-        if(input.isKeyDown(Input.KEY_D))
-        {
+        if(input.isKeyDown(Input.KEY_D)) {
         	rotation += 0.2f * delta;
         }
  
-        if(input.isKeyDown(Input.KEY_W))
-        {
+        if(input.isKeyDown(Input.KEY_W)) {
             float hip = 0.4f * delta;
             position.x += hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
             position.y -= hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
@@ -72,11 +66,9 @@ public class TopDownMovement extends Component {
                 position.y += hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));   
                 position.x -= hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
             }
-            
         }
         
-        if(input.isKeyDown(Input.KEY_S)) 
-        {
+        if(input.isKeyDown(Input.KEY_S)) {
         	float hip = speed * delta;
             position.x -= hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
             position.y += hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
@@ -96,7 +88,6 @@ public class TopDownMovement extends Component {
             }
         
         }
-        	
         	
         	owner.setPosition(position);
         	owner.setRotation(rotation);
@@ -118,16 +109,13 @@ public class TopDownMovement extends Component {
     	}
     	//check collisions to other objects..
     	
-    	
     	hitbox.box.setBounds(position.x, position.y, owner.getSize().x, owner.getSize().y);
-		
 
     	if (Collidables != null) {
 			boolean foundCollision=false;
 			
 			for (Hitbox o : Collidables) {
 				if (o!=this.hitbox) {
-				
 					if (this.hitbox.box.intersects(o.box)) {
 						foundCollision=true;
 						break;
@@ -138,8 +126,7 @@ public class TopDownMovement extends Component {
 			if (foundCollision) {
 				owner.setColliding(true);
 				return true;
-			}
-			else {
+			} else {
 				owner.setColliding(false);
 				return false;
 			}

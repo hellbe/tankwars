@@ -18,18 +18,15 @@ public class BulletMovement extends Component {
  
 	
 	
-	public BulletMovement(String id)
-	{
+	public BulletMovement(String id) {
 		this.id = id;
 	}
  
-	public float getSpeed()
-	{
+	public float getSpeed() {
 		return speed;
 	}
  
-	public float getDirection()
-	{
+	public float getDirection()	{
 		return direction;
 	}
  
@@ -48,9 +45,8 @@ public class BulletMovement extends Component {
 		if (hasCollision(position)) {
 			position.x -= hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
 			position.y += hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
-			//kolla om vi tr�ffat ett objekt som kan skadas, ta bort hp i s� fall och ta sedan bort projektilen.
+			//kolla om vi tr���ffat ett objekt som kan skadas, ta bort hp i s��� fall och ta sedan bort projektilen.
 		}
-		
 		
 		owner.setPosition(position);
 		owner.setRotation(rotation);
@@ -60,7 +56,6 @@ public class BulletMovement extends Component {
 	
 	private boolean hasCollision(Vector2f position) {
 		//initiate hitbox if unset
-		
 		ArrayList<Hitbox> Collidables = Collidable.Collidables;
     	if (this.hitbox == null && Collidables != null) {
     		for (Hitbox o : Collidables) {
@@ -73,12 +68,8 @@ public class BulletMovement extends Component {
     	}
     	//check collisions to other objects..
     	
-    	
-    	
     	hitbox.box.setBounds(position.x, position.y, owner.getSize().x, owner.getSize().y);
 		
-    	
-    	
     	if (Collidables != null) {
 			boolean foundCollision=false;
 			
@@ -104,7 +95,5 @@ public class BulletMovement extends Component {
 		System.out.println("nu kom vi fel!");
 		return false;
 	}
-	
-	
  
 }

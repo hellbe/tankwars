@@ -11,13 +11,11 @@ public abstract class Component {
     protected String id;
     protected GameEntity owner;
  
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
  
-    public void setOwnerEntity(GameEntity owner)
-    {
+    public void setOwnerEntity(GameEntity owner) {
     	this.owner = owner;
     }
  

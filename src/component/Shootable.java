@@ -29,41 +29,36 @@ public class Shootable extends RenderComponent {
 	}
 	
 	@Override
-	public void update(GameContainer gc, StateBasedGame sb, int delta)
-			throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
 		
-		
-		//h�ller man knappe intryckt s� roteras projektilen. Fixa!
+		//h���ller man knappe intryckt s��� roteras projektilen. Fixa!
 		if (gc.getInput().isKeyDown(Input.KEY_1) && gc.getTime()-lastFire >= fireDelay) {
 			
 			lastFire=gc.getTime();
 			
-			
 			float xspawn = owner.getPosition().x + (float) ((float) (owner.getSize().x*owner.getScale()+bulletImage.getWidth()*bulletScale)*java.lang.Math.sin(java.lang.Math.toRadians(owner.getRotation())));
 			float yspawn = owner.getPosition().y - (float) ((float) (owner.getSize().y*owner.getScale()+bulletImage.getHeight()*bulletScale)*java.lang.Math.cos(java.lang.Math.toRadians(owner.getRotation())));
 			
+			BulletEntity tmp = null;
 			Vector2f bulletspawn = new Vector2f(xspawn,yspawn);	
 			
-			BulletEntity tmp=null;
-			
-			if (bulletList==null){
+			if (bulletList==null) {
 				bulletList=new ArrayList<BulletEntity>();
 				removeList=new ArrayList<BulletEntity>();
 				bulletList.add(tmp=new BulletEntity("bullet", bulletImage,bulletScale));
 				tmp.setPosition(bulletspawn);
 				tmp.setRotation(owner.getRotation());
 				tmp = null;
-			}
-			else if (bulletList.size()<=maximum_projectiles){
+			} else if (bulletList.size()<=maximum_projectiles){
 				bulletList.add(tmp=new BulletEntity("bullet", bulletImage,bulletScale));
 				tmp.setPosition(bulletspawn);
 				tmp.setRotation(owner.getRotation());
 				tmp = null;
 			}
 		}
+		
 		if (bulletList!=null) {
 			for (BulletEntity bullet : bulletList) {
-
 				if ( bullet.getPosition().x > gc.getWidth() || bullet.getPosition().x<0) {
 					removeList.add(bullet);	
 					System.out.println("hej1");
@@ -81,8 +76,6 @@ public class Shootable extends RenderComponent {
 					System.out.println("hej2");
 				}
 				removeList.clear();
-				
-			
 			}
 		}
 		if (bulletList!= null) {	

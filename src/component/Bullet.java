@@ -3,11 +3,7 @@ package component;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
-/**
- * Bullet dictionary class; contains relevant information about the bullet
- * @author Ludde
- *
- */
+
 public class Bullet {
 	
 	private Vector2f position;
@@ -60,6 +56,5 @@ public class Bullet {
 	public void setImage(Image image) {
 		this.image = image;
 	}
-	
 	
 }
