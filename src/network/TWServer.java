@@ -44,7 +44,7 @@ public class TWServer {
 	}
 	
 	private final void processMessage( TWMessage message ){
-		
+		System.out.println(message.text);
 	}
 
 }
