@@ -7,62 +7,48 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.*;
 
-public class TWClient extends JFrame {
+import gameplay.World;
 
+public class TWClient extends JFrame {
+	private Client client;
+	private World world;
+	public int id;
+	
+	
 	public static void main(String[] args) {
 		new TWClient();
 	}
 
-	public TWClient(){
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setBackground(Color.LIGHT_GRAY);
-        setPreferredSize(new Dimension(200, 200));
-        pack();
-        setVisible(true);
-        
-		final Client client = new Client();
-		Kryo kryo = client.getKryo();
-		kryo.register( TWMessage.class );
-
+	public TWClient( ){
+		this.world = new World();
+		client = new Client();
 		client.start();
-		try {
-			client.connect(5000, "127.0.0.1", 55555, 55556);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 
-		addKeyListener(new KeyAdapter() {
-			public void keyPressed (KeyEvent e) {
-				sendKey(e.getKeyCode(), true);
-			}
+        client.addListener(new Listener() {
+                public void connected(Connection connection) {
+                        handleConnect(connection);
+                }
 
-			public void keyReleased (KeyEvent e) {
-				sendKey(e.getKeyCode(), false);
-			}
+                public void received(Connection connection, Object object) {
+                        handleMessage(connection.getID(), object);
+                }
 
-			private void sendKey (int keyCode, boolean pressed) {
-				TWMessage message = new TWMessage();
-				if(pressed){
-					message.text = "Klienten tryckte in ";
-				} else {
-					message.text = "Klienten släppte ";
-				}
-				switch (keyCode) {
-				case KeyEvent.VK_LEFT:
-					message.text += "vänsterpil!";
-					break;
-				case KeyEvent.VK_RIGHT:
-					message.text += "högerpil!";
-					break;
-				}
-				client.sendTCP(message);
-				
-			}
-		});
+                public void disconnected(Connection connection) {
+                        handleDisonnect(connection);
+                }
+        });
 
+	}
+	
+	protected void handleDisonnect(Connection connection) {
+        world.onDisconnect();
 	}
 
 }
