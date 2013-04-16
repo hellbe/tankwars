@@ -7,7 +7,7 @@ import component.BulletMovement;
 import component.Collidable;
 import component.ImageRenderComponent;
 
-public class BulletEntity extends Entity {
+public class BulletEntity extends GameEntity {
 	
 	
 	public BulletEntity(String id, Image image, float scale) throws SlickException {

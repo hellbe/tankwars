@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import entity.Entity;
+import entity.GameEntity;
 
 
 	
@@ -23,11 +23,11 @@ public class Collidable extends Component {
  
 	
 	public class Hitbox {
-		Entity owner;
+		GameEntity owner;
 		Rectangle box;
 		
 		
-		public Hitbox(Entity owner, Rectangle hitbox) {
+		public Hitbox(GameEntity owner, Rectangle hitbox) {
 			this.owner=owner;
 			this.box=hitbox;
 			
@@ -38,7 +38,7 @@ public class Collidable extends Component {
 	Hitbox hitbox;
 	
 	
-	public Collidable( String id ,Entity e, Vector2f size)
+	public Collidable( String id ,GameEntity e, Vector2f size)
 	{
 		this.id = id;
 		
@@ -59,7 +59,7 @@ public class Collidable extends Component {
 		e.setCollidable(true);
 	}
 	
-	public Collidable( String id ,Entity e, Image img)
+	public Collidable( String id ,GameEntity e, Image img)
 	{
 		Vector2f size=new Vector2f(img.getWidth(),img.getHeight());
 		this.id = id;

@@ -4,19 +4,19 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import entity.Entity;
+import entity.GameEntity;
 
 public abstract class Component {
  
     protected String id;
-    protected Entity owner;
+    protected GameEntity owner;
  
     public String getId()
     {
         return id;
     }
  
-    public void setOwnerEntity(Entity owner)
+    public void setOwnerEntity(GameEntity owner)
     {
     	this.owner = owner;
     }

@@ -37,16 +37,12 @@ public class Shootable extends RenderComponent {
 		if (gc.getInput().isKeyDown(Input.KEY_1) && gc.getTime()-lastFire >= fireDelay) {
 			
 			lastFire=gc.getTime();
-			//h�r m�ste det pillas lite s� att de slutar krocka!	
 			
 			
 			float xspawn = owner.getPosition().x + (float) ((float) (owner.getSize().x*owner.getScale()+bulletImage.getWidth()*bulletScale)*java.lang.Math.sin(java.lang.Math.toRadians(owner.getRotation())));
 			float yspawn = owner.getPosition().y - (float) ((float) (owner.getSize().y*owner.getScale()+bulletImage.getHeight()*bulletScale)*java.lang.Math.cos(java.lang.Math.toRadians(owner.getRotation())));
 			
-			Vector2f bulletspawn = new Vector2f(xspawn,yspawn);
-			//Vector2f bulletspawn = new Vector2f((owner.getPosition().x+(owner.getSize().x-bulletImage.getWidth())/2.0f), (owner.getPosition().y-bulletImage.getHeight()*bulletScale-1.0f));
-			
-			
+			Vector2f bulletspawn = new Vector2f(xspawn,yspawn);	
 			
 			BulletEntity tmp=null;
 			
@@ -65,15 +61,16 @@ public class Shootable extends RenderComponent {
 				tmp = null;
 			}
 		}
-		
 		if (bulletList!=null) {
 			for (BulletEntity bullet : bulletList) {
 
 				if ( bullet.getPosition().x > gc.getWidth() || bullet.getPosition().x<0) {
 					removeList.add(bullet);	
+					System.out.println("hej1");
 				}
 				if ( bullet.getPosition().y > gc.getHeight()+40 || bullet.getPosition().y<-40) {
-					removeList.add(bullet);	
+					removeList.add(bullet);
+					System.out.println("hej1");
 				}
 
 			}
@@ -81,9 +78,11 @@ public class Shootable extends RenderComponent {
 			if (removeList!=null) {	
 				for (BulletEntity remobj : removeList) {
 					bulletList.remove(remobj);
+					System.out.println("hej2");
 				}
 				removeList.clear();
-
+				
+			
 			}
 		}
 		if (bulletList!= null) {	

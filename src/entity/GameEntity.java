@@ -12,7 +12,7 @@ import component.Component;
 import component.RenderComponent;
 
 
-public class Entity {
+public class GameEntity {
 
 	String id;
 
@@ -29,7 +29,7 @@ public class Entity {
 	protected ArrayList<RenderComponent> renderComponent = null;
 	protected ArrayList<Component> components = null;
 
-	public Entity(String id)
+	public GameEntity(String id)
 	{
 		this.id = id;
 		renderComponent= new ArrayList<RenderComponent>();

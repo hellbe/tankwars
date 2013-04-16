@@ -19,7 +19,7 @@ import component.TopDownMovement;
  * @author Ludde
  *
  */
-public class TankEntity extends Entity {
+public class TankEntity extends GameEntity {
 
 	/**
 	 * can be changed if needed or wanted.
@@ -53,7 +53,6 @@ public class TankEntity extends Entity {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr)
 	{
-		gr.drawString(position.x+ "  " + colliding, 0, 100);
 		for (RenderComponent component : renderComponent) {
 			component.render(gc, sb, gr);
 		}

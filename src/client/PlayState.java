@@ -15,7 +15,7 @@ import com.esotericsoftware.kryonet.Client;
 import component.Collidable;
 import component.ImageRenderComponent;
 import entity.BulletEntity;
-import entity.Entity;
+import entity.GameEntity;
 import entity.TankEntity;
 import gameplay.World;
 
@@ -28,8 +28,8 @@ public class PlayState extends BasicGameState {
     Kryo kryo;
  
     TankEntity player1 = null;
-    Entity land = null;
-    Entity collisionObject = null;
+    GameEntity land = null;
+    GameEntity collisionObject = null;
     BulletEntity testBullet = null;
     
     public PlayState( int stateID ) {
@@ -41,7 +41,7 @@ public class PlayState extends BasicGameState {
     	connect();
     	
     	//init background
-    	land = new Entity("land");
+    	land = new GameEntity("land");
         land.AddComponent( new ImageRenderComponent("LandRender", new Image("/data/land.jpg")) );
         
         //init player
@@ -49,7 +49,7 @@ public class PlayState extends BasicGameState {
         player1.setPosition(new Vector2f(100, 100));
         
         //init collidable object
-        collisionObject = new Entity("object");
+        collisionObject = new GameEntity("object");
         collisionObject.AddComponent( new ImageRenderComponent("objectrender", new Image("/data/battletank.png")));
         collisionObject.AddComponent(new Collidable("collidable", collisionObject, new Vector2f(128,128)));
         collisionObject.setPosition(new Vector2f(500,300));

@@ -15,9 +15,9 @@ public class BulletMovement extends Component {
 	float speed=0.8f;
 	//collision handling
 	Hitbox hitbox;
-	
-	
  
+	
+	
 	public BulletMovement(String id)
 	{
 		this.id = id;
