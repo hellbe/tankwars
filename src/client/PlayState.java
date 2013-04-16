@@ -14,7 +14,6 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import component.Collidable;
 import component.ImageRenderComponent;
-import entity.BulletEntity;
 import entity.GameEntity;
 import entity.TankEntity;
 import gameplay.World;
@@ -27,12 +26,8 @@ public class PlayState extends BasicGameState {
     Client client;
     Kryo kryo;
 
-    
+    //list of map entities
     ArrayList<GameEntity> entities;
-    TankEntity player1 = null;
-//    GameEntity land = null;
-    GameEntity collisionObject = null;
-    BulletEntity testBullet = null;
     
     //TiledMap attributes
     TiledMap map;
@@ -48,12 +43,8 @@ public class PlayState extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     	//Connect to the server
     	connect();
-    	
-//    	//init background
-//    	land = new GameEntity("land");
-//        land.AddComponent( new ImageRenderComponent("LandRender", new Image("/data/land.jpg")) );
-    	 
-    	//TiledMap
+     
+    	//TiledMap background
         map = new TiledMap("config/TankWars.tmx","config/");
 		tileSize = map.getTileHeight();
 
@@ -73,12 +64,12 @@ public class PlayState extends BasicGameState {
 		entities = new ArrayList<GameEntity>();
 		
         //init player
-        player1 = new TankEntity("player1");
+        TankEntity player1 = new TankEntity("player1");
         player1.setPosition(new Vector2f(100, 100));
         entities.add(player1);
         
         //init collidable object
-        collisionObject = new GameEntity("object");
+        GameEntity collisionObject = new GameEntity("object");
         collisionObject.AddComponent( new ImageRenderComponent("objectrender", new Image("/data/battletank.png")));
         collisionObject.AddComponent(new Collidable("collidable", collisionObject, new Vector2f(128,128)));
         collisionObject.setPosition(new Vector2f(500,300));
@@ -105,15 +96,15 @@ public class PlayState extends BasicGameState {
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException     {
-//    	land.update(gc, null, delta);
-    	
+
+    	//send updates to the server
+    	//update returned values
     	for (GameEntity e : entities) {
 			e.update(gc, sbg, delta);
 		}
     	
     	
-    	//Update the world from the server
- 
+    	
     }
 
 	@Override
