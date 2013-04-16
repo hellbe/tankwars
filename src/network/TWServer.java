@@ -1,5 +1,8 @@
 package network;
+import game.TWWorld;
 import java.io.IOException;
+
+import network.TWNetwork.PlayerMovement;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.*;
@@ -7,27 +10,29 @@ import com.esotericsoftware.kryonet.*;
 public class TWServer {
 	Server server;
 	Kryo kryo;
-	
-	public static void main(String[] args) {
-		new TWServer();
-	}
+	TWWorld world;
 
 	public TWServer(){
 		start();
 		
-		while(true){
-			//Update the world
-			//Push the world to clients
-		}
+		//Update the world
+		//Push the world to clients
 
 	}
 	
 	private void start(){
-		server = new Server();
-		Kryo kryo = server.getKryo();
-		kryo.register( TWMessage.class );
+		/**
+		 * Game
+		 */
+		world = new TWWorld();
 		
+		/**
+		 * Network
+		 */
+		server = new Server();
+		TWNetwork.register( server );
 		server.start();
+		
 		try {
 			server.bind(55555, 55556);
 		} catch (IOException e) {
@@ -36,15 +41,33 @@ public class TWServer {
 		
 		server.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
-				if (object instanceof TWMessage) {
-					processMessage( (TWMessage) object );
-				}
+				handleMessage(object);
 			}
 		});
 	}
 	
-	private final void processMessage( TWMessage message ){
-		System.out.println(message.text);
+	protected void handleMessage(Object object) {
+		
+		if (object instanceof String) {
+			processMessage( (String) object );
+		}
+		
+		else if ( object instanceof PlayerMovement ) {
+			world.setPlayerMovement( (PlayerMovement) object );
+		}
+		
+		else if ( object instanceof PlayerShoots ) {
+			world.setPlayerShoots( (PlayerShoots) object );
+		}
+		
+		else if ( object instanceof TWWorld ) {
+			world.setPlayerShoots( (TWWorld) object );
+		}
+		
+	}
+	
+	private final void processMessage( String message ){
+		System.out.println("Server got: "+message);
 	}
 
 }
