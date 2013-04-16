@@ -1,8 +1,8 @@
 package client;
- 
-//import java.awt.event.KeyAdapter;
-//import java.awt.event.KeyEvent;
+
 import java.io.IOException;
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -26,7 +26,9 @@ public class PlayState extends BasicGameState {
     World world;
     Client client;
     Kryo kryo;
- 
+
+    
+    ArrayList<GameEntity> entities;
     TankEntity player1 = null;
 //    GameEntity land = null;
     GameEntity collisionObject = null;
@@ -52,7 +54,7 @@ public class PlayState extends BasicGameState {
 //        land.AddComponent( new ImageRenderComponent("LandRender", new Image("/data/land.jpg")) );
     	 
     	//TiledMap
-        map = new TiledMap("TankWars.tmx","");
+        map = new TiledMap("config/TankWars.tmx","config/");
 		tileSize = map.getTileHeight();
 
 		blocked = new boolean[map.getWidth()][map.getHeight()];
@@ -67,20 +69,21 @@ public class PlayState extends BasicGameState {
 			}
 		}
 		
+		//init GameEntities
+		entities = new ArrayList<GameEntity>();
+		
         //init player
         player1 = new TankEntity("player1");
         player1.setPosition(new Vector2f(100, 100));
+        entities.add(player1);
         
         //init collidable object
         collisionObject = new GameEntity("object");
         collisionObject.AddComponent( new ImageRenderComponent("objectrender", new Image("/data/battletank.png")));
         collisionObject.AddComponent(new Collidable("collidable", collisionObject, new Vector2f(128,128)));
         collisionObject.setPosition(new Vector2f(500,300));
+        entities.add(collisionObject);
 
-        //testbullet
-        testBullet = new BulletEntity("testbullet", new Image("data/bullet.png"), 0.4f);
-        testBullet.setPosition(new Vector2f(400,300));
-        
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -94,20 +97,20 @@ public class PlayState extends BasicGameState {
     		yOffset = 240 - (int) y; 
     	}
     	map.render( xOffset, yOffset );
-    	
-    	
-    	player1.render(gc, null, g);
-    	collisionObject.render(gc, null, g);
-    	//testBullet.render(gc, null, g);
-    	
+    
     	//Render everything in the world
+    	for (GameEntity e : entities) {
+			e.render(gc, sbg, g);
+		}
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException     {
 //    	land.update(gc, null, delta);
-    	player1.update(gc, null, delta);
-    	collisionObject.update(gc, null, delta);
-    	testBullet.update(gc, null, delta);
+    	
+    	for (GameEntity e : entities) {
+			e.update(gc, sbg, delta);
+		}
+    	
     	
     	//Update the world from the server
  
