@@ -1,7 +1,7 @@
 package client;
  
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+//import java.awt.event.KeyAdapter;
+//import java.awt.event.KeyEvent;
 import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,7 +18,7 @@ import entity.BulletEntity;
 import entity.GameEntity;
 import entity.TankEntity;
 import gameplay.World;
-
+import org.newdawn.slick.tiled.TiledMap;
 
 public class PlayState extends BasicGameState {
  
@@ -28,9 +28,16 @@ public class PlayState extends BasicGameState {
     Kryo kryo;
  
     TankEntity player1 = null;
-    GameEntity land = null;
+//    GameEntity land = null;
     GameEntity collisionObject = null;
     BulletEntity testBullet = null;
+    
+    //TiledMap attributes
+    TiledMap map;
+	Image player;
+	float x = 35f, y = 35f;
+	int tileSize, xOffset = 0, yOffset = 0;
+	boolean[][] blocked;
     
     public PlayState( int stateID ) {
        this.stateID = stateID;
@@ -40,10 +47,26 @@ public class PlayState extends BasicGameState {
     	//Connect to the server
     	connect();
     	
-    	//init background
-    	land = new GameEntity("land");
-        land.AddComponent( new ImageRenderComponent("LandRender", new Image("/data/land.jpg")) );
-        
+//    	//init background
+//    	land = new GameEntity("land");
+//        land.AddComponent( new ImageRenderComponent("LandRender", new Image("/data/land.jpg")) );
+    	 
+    	//TiledMap
+        map = new TiledMap("TankWars.tmx","");
+		tileSize = map.getTileHeight();
+
+		blocked = new boolean[map.getWidth()][map.getHeight()];
+
+		for ( int xAxis=0; xAxis < map.getWidth(); xAxis ++ ) {
+			for ( int yAxis=0; yAxis < map.getHeight(); yAxis ++ ) {
+				int tileID = map.getTileId(xAxis, yAxis, 0);
+				String value = map.getTileProperty(tileID, "blocked", "false");
+				if ("true".equals(value)){
+					blocked[xAxis][yAxis] = true;
+				}
+			}
+		}
+		
         //init player
         player1 = new TankEntity("player1");
         player1.setPosition(new Vector2f(100, 100));
@@ -61,16 +84,28 @@ public class PlayState extends BasicGameState {
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-    	land.render(gc, null, g);
+    	//land.render(gc, null, g);
+    	
+    	//TiledMap
+    	if ( x > 240 ){
+    		xOffset = 240 - (int) x;
+    	}
+    	if ( y > 240 ){
+    		yOffset = 240 - (int) y; 
+    	}
+    	map.render( xOffset, yOffset );
+    	
+    	
     	player1.render(gc, null, g);
     	collisionObject.render(gc, null, g);
     	testBullet.render(gc, null, g);
+    	
     	
     	//Render everything in the world
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException     {
-    	land.update(gc, null, delta);
+//    	land.update(gc, null, delta);
     	player1.update(gc, null, delta);
     	collisionObject.update(gc, null, delta);
     	testBullet.update(gc, null, delta);
@@ -118,4 +153,13 @@ public class PlayState extends BasicGameState {
 //		});
 	}
  
+	public boolean isBlocked(float x, float y) {
+		if( x > map.getWidth() * map.getTileWidth() || y > map.getHeight() * map.getTileHeight() || x < 0 || y < 0 ){
+			return true;
+		}
+		int xBlock = (int) x / tileSize;
+		int yBlock = (int) y / tileSize;
+		return blocked[xBlock][yBlock];
+	}
+	
 }

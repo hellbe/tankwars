@@ -1,12 +1,8 @@
 package server;
 
-//import gameplay.World;
-
 import gameplay.World;
-
 import java.io.IOException;
 import java.util.ArrayList;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.*;
 
@@ -33,8 +29,8 @@ public class TWServer {
 		server = new Server();
 		Kryo kryo = server.getKryo();
 		kryo.register( World.class );
-
 		server.start();
+		
 		try {
 			server.bind(55555, 55556);
 		} catch (IOException e) {

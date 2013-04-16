@@ -5,7 +5,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-
 import component.Collidable.Hitbox;
 
  
@@ -53,7 +52,7 @@ public class TopDownMovement extends Component {
             position.y -= hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
             
             if (position.x<0 || position.x>gc.getWidth()-owner.getSize().x) {
-                position.x -= hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
+               	position.x -= hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
             }
             
             if (position.y<0 || position.y>gc.getHeight()-owner.getSize().y) {
@@ -94,6 +93,8 @@ public class TopDownMovement extends Component {
         	owner.setScale(scale);
         
 	}
+	
+	
 	
 	private boolean hasCollision(Vector2f position) {
 		//initiate hitbox if unset
