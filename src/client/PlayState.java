@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
@@ -98,8 +99,7 @@ public class PlayState extends BasicGameState {
     	
     	player1.render(gc, null, g);
     	collisionObject.render(gc, null, g);
-    	testBullet.render(gc, null, g);
-    	
+    	//testBullet.render(gc, null, g);
     	
     	//Render everything in the world
     }
@@ -112,7 +112,6 @@ public class PlayState extends BasicGameState {
     	
     	//Update the world from the server
     	
-    	//Send input to the server
     	
     }
 
