@@ -9,20 +9,21 @@ import javax.swing.JFrame;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tiled.TiledMap;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.*;
 
-import game.TWWorld;
 
 public class TWClient {
 	private Client client;
 	private Kryo kryo;
-	private TWWorld world;
+	private TWClientWorld world;
 	public int id;
 
-	public TWClient( )  {
-		this.world = new TWWorld();
+	public TWClient() throws SlickException  {
+		this.world = new TWClientWorld();
 		client = new Client();
 		kryo = client.getKryo();
 		
@@ -60,7 +61,7 @@ public class TWClient {
 	}
 	
 	private void handleConnect(Connection connection) {
-		
+		id = connection.getID();
 	}
 	
 	protected void handleDisonnect(Connection connection) {
@@ -70,6 +71,16 @@ public class TWClient {
 	public void shutdown() {
 		client.stop();
 		client.close();
+	}
+
+	public TWEntities getEntities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public TiledMap getMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

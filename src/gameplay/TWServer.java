@@ -1,6 +1,5 @@
-package server;
+package gameplay;
 
-import gameplay.World;
 import java.io.IOException;
 import java.util.ArrayList;
 import com.esotericsoftware.kryo.Kryo;

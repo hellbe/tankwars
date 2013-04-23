@@ -1,34 +1,27 @@
 package network;
-import game.TWWorld;
 import java.io.IOException;
-
-import network.TWNetwork.PlayerMovement;
-
+import network.TWNetwork.PlayerStatus;
+import org.newdawn.slick.SlickException;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.*;
 
 public class TWServer {
 	Server server;
 	Kryo kryo;
-	TWWorld world;
+	TWServerWorld world;
+	TWServerUpdater updater;
+	Thread thread;
 
-	public TWServer(){
+	public TWServer() throws SlickException{
+		world = new TWServerWorld();
+		updater = new TWServerUpdater( world );
+		thread = new Thread( updater );
+		thread.run();
 		start();
-		
-		//Update the world
-		//Push the world to clients
-
 	}
 	
-	private void start(){
-		/**
-		 * Game
-		 */
-		world = new TWWorld();
-		
-		/**
-		 * Network
-		 */
+	private void start() throws SlickException{
+		world = new TWServerWorld();
 		server = new Server();
 		TWNetwork.register( server );
 		server.start();
@@ -49,25 +42,19 @@ public class TWServer {
 	protected void handleMessage(Object object) {
 		
 		if (object instanceof String) {
-			processMessage( (String) object );
+			message( (String) object );
 		}
 		
-		else if ( object instanceof PlayerMovement ) {
-			world.setPlayerMovement( (PlayerMovement) object );
-		}
-		
-		else if ( object instanceof PlayerShoots ) {
-			world.setPlayerShoots( (PlayerShoots) object );
-		}
-		
-		else if ( object instanceof TWWorld ) {
-			world.setPlayerShoots( (TWWorld) object );
+		else if ( object instanceof PlayerStatus ) {
+			world.updatePlayerStatus( (PlayerStatus) object );
 		}
 		
 	}
 	
-	private final void processMessage( String message ){
+	private final void message( String message ){
 		System.out.println("Server got: "+message);
 	}
-
+	
+	
+	
 }
