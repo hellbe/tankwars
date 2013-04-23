@@ -37,7 +37,7 @@ public class TopDownMovement extends Component {
 		float scale = owner.getScale();
 		Vector2f position = owner.getPosition();
 		Input input = gc.getInput();
- 
+		
         if(input.isKeyDown(Input.KEY_A)) {
         	rotation += -0.2f * delta;
         }

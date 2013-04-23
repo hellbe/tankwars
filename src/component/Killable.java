@@ -24,7 +24,7 @@ public class Killable extends Component {
 	public void update(GameContainer gc, StateBasedGame sb, int delta)
 			throws SlickException {
 		
-		if (hp<0f && isAlive) {
+		if (hp<=0f && isAlive) {
 			Vector2f pos = owner.getPosition();
 			//move tank out of the picture TODO: remove tank entirely from game
 			System.out.println(owner.toString()  +" was killed!");

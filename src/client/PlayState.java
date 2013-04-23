@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
@@ -27,6 +28,7 @@ public class PlayState extends BasicGameState {
     World world;
     Client client;
     Kryo kryo;
+ 
 
     //list of map entities
     ArrayList<GameEntity> entities;
@@ -45,7 +47,16 @@ public class PlayState extends BasicGameState {
     	//Connect to the server
     	connect();
      	
-		//init GameEntities
+		//init controls in order [player][up, left, down, right, shoot]
+    	// ( w , a , s , d , 1)
+    	// ( 'up', 'left', 'down', 'right', 'space')
+    	Integer[][] playerKeybinds = {
+    			{Input.KEY_W,Input.KEY_A,Input.KEY_S,Input.KEY_D, Input.KEY_1},
+    			{Input.KEY_UP,Input.KEY_LEFT,Input.KEY_DOWN,Input.KEY_RIGHT,Input.KEY_SPACE}
+    			};
+    	
+    	
+    	//init GameEntities
 		entities = new ArrayList<GameEntity>();
     	   	
     	//TiledMap background
