@@ -17,9 +17,11 @@ public class TopDownMovement extends Component {
 	ArrayList<Hitbox> Collidables = null;
 	Hitbox hitbox = null;
 	
+	Integer[] keybinds; //[up, left, down, right , shoot]
 	
-	public TopDownMovement(String id) {
+	public TopDownMovement(String id, Integer[] controlConfig) {
 		this.id = id;
+		keybinds=controlConfig;
 	}
  
 	public float getSpeed()	{
@@ -38,15 +40,15 @@ public class TopDownMovement extends Component {
 		Vector2f position = owner.getPosition();
 		Input input = gc.getInput();
 		
-        if(input.isKeyDown(Input.KEY_A)) {
+        if(input.isKeyDown(keybinds[1])) {
         	rotation += -0.2f * delta;
         }
  
-        if(input.isKeyDown(Input.KEY_D)) {
+        if(input.isKeyDown(keybinds[3])) {
         	rotation += 0.2f * delta;
         }
  
-        if(input.isKeyDown(Input.KEY_W)) {
+        if(input.isKeyDown(keybinds[0])) {
             float hip = 0.4f * delta;
             position.x += hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
             position.y -= hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
@@ -67,7 +69,7 @@ public class TopDownMovement extends Component {
             }
         }
         
-        if(input.isKeyDown(Input.KEY_S)) {
+        if(input.isKeyDown(keybinds[2])) {
         	float hip = speed * delta;
             position.x -= hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
             position.y += hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));

@@ -22,17 +22,19 @@ public class Shootable extends RenderComponent {
 	private int maxProjectiles = 100;
 	private Image bulletImage = null;
 	
-	public Shootable(String id, Vector2f entitySize, Image image) {
+	Integer shootButton;
+	
+	public Shootable(String id, Vector2f entitySize, Image image, Integer keybind) {
 		super(id);
 		this.bulletImage=image;
-		
+		this.shootButton=keybind;
 	}
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
 		
 		//TODO: Projektilen roteras om man håller in knappen; bör fixas men är inget direkt problem.
-		if (gc.getInput().isKeyDown(Input.KEY_1) && gc.getTime()-lastFire >= fireDelay) {
+		if (gc.getInput().isKeyDown(shootButton) && gc.getTime()-lastFire >= fireDelay) {
 			
 			lastFire=gc.getTime();
 			

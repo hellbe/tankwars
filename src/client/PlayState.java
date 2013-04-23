@@ -74,18 +74,24 @@ public class PlayState extends BasicGameState {
 		}
 		
 		
-        //init player
-        TankEntity player1 = new TankEntity("player1");
+        //init player1
+        TankEntity player1 = new TankEntity("player1", playerKeybinds[0]);
         player1.setPosition(new Vector2f(100, 100));
         entities.add(player1);
+
+        //init player2
+        TankEntity player2 = new TankEntity("player2", playerKeybinds[1]);
+        player2.setPosition(new Vector2f(500, 300));
+        entities.add(player2);
+
         
-        //init collidable object
-        GameEntity collisionObject = new GameEntity("object");
-        collisionObject.AddComponent( new ImageRenderComponent("objectrender", new Image("/data/battletank.png")));
-        collisionObject.AddComponent(new Collidable("collidable", collisionObject, new Vector2f(128,128)));
-        collisionObject.setPosition(new Vector2f(500,300));
-        collisionObject.AddComponent(new Killable("killable", 100f));
-        entities.add(collisionObject);
+//        //init collidable object
+//        GameEntity collisionObject = new GameEntity("object");
+//        collisionObject.AddComponent( new ImageRenderComponent("objectrender", new Image("/data/battletank.png")));
+//        collisionObject.AddComponent(new Collidable("collidable", collisionObject, new Vector2f(128,128)));
+//        collisionObject.setPosition(new Vector2f(500,300));
+//        collisionObject.AddComponent(new Killable("killable", 100f));
+//        entities.add(collisionObject);
 
     }
  
