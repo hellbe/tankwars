@@ -19,11 +19,9 @@ import com.esotericsoftware.kryonet.*;
 public class TWClient {
 	private Client client;
 	private Kryo kryo;
-	private TWClientWorld world;
 	public int id;
 
 	public TWClient() throws SlickException  {
-		this.world = new TWClientWorld();
 		client = new Client();
 		kryo = client.getKryo();
 		
@@ -36,7 +34,6 @@ public class TWClient {
 		}
 		
 		client.sendTCP( new String("Test") );
-
 
 		client.addListener( new Listener() {
 			
