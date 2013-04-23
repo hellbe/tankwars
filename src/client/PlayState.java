@@ -100,8 +100,12 @@ public class PlayState extends BasicGameState {
     	//Render everything in the world
     	for (GameEntity e : entities) {
 			e.render(gc, sbg, g);
-		}
-    	
+			
+			//mapdebug
+			if (e.getSize() != null) {
+			g.drawRect(e.getPosition().x,e.getPosition().y,e.getSize().x,e.getSize().y);
+			}
+    	}
     	
     	
     }
