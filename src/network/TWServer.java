@@ -36,6 +36,11 @@ public class TWServer {
 			public void received (Connection connection, Object object) {
 				handleMessage(object);
 			}
+			
+			public void connected(Connection connection){
+				System.out.println( connection.getID() );
+			}
+			
 		});
 	}
 	

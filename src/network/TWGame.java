@@ -15,7 +15,7 @@ public class TWGame extends BasicGame implements InputListener {
 	TWClientWorld world;
 	float x = 35f, y = 35f;
 	int tileSize, xOffset = 0, yOffset = 0;
-	
+
 	TWServer server;
 	TWClient client;
 
@@ -40,18 +40,23 @@ public class TWGame extends BasicGame implements InputListener {
 		world.render();
 	}
 
-	public static void main(String[] args) throws SlickException {
-		AppGameContainer app = new AppGameContainer( new TWGame() );
-		app.setDisplayMode(480, 480, false);
-		app.start();
+	public static void main(String[] args) {
+		AppGameContainer app;
+		try {
+			app = new AppGameContainer( new TWGame() );
+			app.setDisplayMode(480, 480, false);
+			app.start();
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void keyPressed( int key, char c ){
 		world.changePlayerStatus( key, true );
 	}
-	
+
 	public void keyReleased(int key, char c){
 		world.changePlayerStatus( key, false );
 	}
-	
+
 }
