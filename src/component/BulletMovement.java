@@ -7,16 +7,20 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import component.Collidable.Hitbox;
+import entity.GameEntity;
 
  
 public class BulletMovement extends Component {
- 
+	
+	boolean active = true;
+	
 	float direction;
 	float speed=0.8f;
 	//collision handling
 	Hitbox hitbox;
- 
+	float pDamage = 20f;
 	
+	GameEntity collidingWith = null;
 	
 	public BulletMovement(String id) {
 		this.id = id;
@@ -33,6 +37,8 @@ public class BulletMovement extends Component {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {
  
+		if (active) {
+		
 		float rotation = owner.getRotation();
 		float scale = owner.getScale();
 		Vector2f position = owner.getPosition();
@@ -43,15 +49,23 @@ public class BulletMovement extends Component {
 		position.y -= hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
 
 		if (hasCollision(position)) {
-			position.x -= hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
-			position.y += hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
-			//kolla om vi tr���ffat ett objekt som kan skadas, ta bort hp i s��� fall och ta sedan bort projektilen.
+
+			//TODO: if entity is killable -> subtract hp and remove missile
+			if (collidingWith.getComponent("killable") != null) {
+				((Killable) collidingWith.getComponent("killable")).addHp(-1f*pDamage);
+			}
+			
+			position.y = gc.getHeight() + owner.getSize().y;
+			active = false;
+			System.out.println("hit!");	
+			collidingWith=null;
 		}
 		
 		owner.setPosition(position);
 		owner.setRotation(rotation);
 		owner.setScale(scale);
         
+		}
 	}
 	
 	private boolean hasCollision(Vector2f position) {
@@ -74,9 +88,12 @@ public class BulletMovement extends Component {
 			boolean foundCollision=false;
 			
 			for (Hitbox o : Collidables) {
-				if (o!=this.hitbox) {
+				
+				//checks so that we dont collide with ourselves or any other (heritage of) BulletEntity
+				if (o!=this.hitbox && !owner.getClass().isAssignableFrom( o.owner.getClass())) {
 				
 					if (this.hitbox.box.intersects(o.box)) {
+						collidingWith=o.owner;
 						foundCollision=true;
 						break;
 					}

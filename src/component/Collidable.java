@@ -67,22 +67,9 @@ public class Collidable extends Component {
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {
+		
 		hitbox.box.setBounds(owner.getPosition().x, owner.getPosition().y, owner.getSize().x, owner.getSize().y);
 		
-		if (Collidables != null) {
-			boolean foundCollision=false;
-			
-			for (Hitbox o : Collidables) {
-				if (o!=this.hitbox) {
-					if (this.hitbox.box.intersects(o.box)) {
-						foundCollision=true;
-					}
-				}	
-			}				
-			if (foundCollision) {
-				owner.setColliding(true);
-			} else {owner.setColliding(false);}
-		}
 	}
 	
 }

@@ -19,7 +19,7 @@ public class Shootable extends RenderComponent {
 	private long lastFire;
 	private long fireDelay = 400;
 	private float bulletScale=1.0f;
-	private int maximum_projectiles = 20;
+	private int maxProjectiles = 100;
 	private Image bulletImage = null;
 	
 	public Shootable(String id, Vector2f entitySize, Image image) {
@@ -31,7 +31,7 @@ public class Shootable extends RenderComponent {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
 		
-		//h���ller man knappe intryckt s��� roteras projektilen. Fixa!
+		//TODO: Projektilen roteras om man håller in knappen; bör fixas men är inget direkt problem.
 		if (gc.getInput().isKeyDown(Input.KEY_1) && gc.getTime()-lastFire >= fireDelay) {
 			
 			lastFire=gc.getTime();
@@ -49,7 +49,7 @@ public class Shootable extends RenderComponent {
 				tmp.setPosition(bulletspawn);
 				tmp.setRotation(owner.getRotation());
 				tmp = null;
-			} else if (bulletList.size()<=maximum_projectiles){
+			} else if (bulletList.size()<=maxProjectiles){
 				bulletList.add(tmp=new BulletEntity("bullet", bulletImage,bulletScale));
 				tmp.setPosition(bulletspawn);
 				tmp.setRotation(owner.getRotation());

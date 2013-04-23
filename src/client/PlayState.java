@@ -14,6 +14,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import component.Collidable;
 import component.ImageRenderComponent;
+import component.Killable;
 import entity.BlockEntity;
 import entity.GameEntity;
 import entity.TankEntity;
@@ -35,7 +36,6 @@ public class PlayState extends BasicGameState {
 	Image player;
 	float x = 35f, y = 35f;
 	int tileSize, xOffset = 0, yOffset = 0;
-	static boolean[][] blocked;
     
     public PlayState( int stateID ) {
        this.stateID = stateID;
@@ -44,29 +44,20 @@ public class PlayState extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     	//Connect to the server
     	connect();
-     
-		
+     	
 		//init GameEntities
 		entities = new ArrayList<GameEntity>();
-    	
-    	
+    	   	
     	//TiledMap background
         map = new TiledMap("config/TankWars.tmx","config/");
 		tileSize = map.getTileHeight();
-
-		blocked = new boolean[map.getWidth()][map.getHeight()];
-
 		for ( int xAxis=0; xAxis < map.getWidth(); xAxis ++ ) {
 			for ( int yAxis=0; yAxis < map.getHeight(); yAxis ++ ) {
 				int tileID = map.getTileId(xAxis, yAxis, 0);
 				String value = map.getTileProperty(tileID, "blocked", "false");
 				if ("true".equals(value)){
-					blocked[xAxis][yAxis] = true;
-					
 					//add a block entity for each blocked tile
 					entities.add(new BlockEntity("tileBlock", new Vector2f(xAxis*map.getTileWidth(),yAxis*map.getTileHeight()), new Vector2f(map.getTileWidth(),map.getTileHeight())));
-				
-					
 				}
 			}
 		}
@@ -82,6 +73,7 @@ public class PlayState extends BasicGameState {
         collisionObject.AddComponent( new ImageRenderComponent("objectrender", new Image("/data/battletank.png")));
         collisionObject.AddComponent(new Collidable("collidable", collisionObject, new Vector2f(128,128)));
         collisionObject.setPosition(new Vector2f(500,300));
+        collisionObject.AddComponent(new Killable("killable", 100f));
         entities.add(collisionObject);
 
     }
@@ -101,10 +93,11 @@ public class PlayState extends BasicGameState {
     	for (GameEntity e : entities) {
 			e.render(gc, sbg, g);
 			
-			//mapdebug
-			if (e.getSize() != null) {
-			g.drawRect(e.getPosition().x,e.getPosition().y,e.getSize().x,e.getSize().y);
-			}
+//			//mapdebug
+//			if (e.getSize() != null) {
+//			g.drawRect(e.getPosition().x,e.getPosition().y,e.getSize().x,e.getSize().y);
+//			}
+
     	}
     	
     	
@@ -136,15 +129,6 @@ public class PlayState extends BasicGameState {
 			e.printStackTrace();
 		}
 
-	}
- 
-	public boolean isBlocked(float x, float y) {
-		if( x > map.getWidth() * map.getTileWidth() || y > map.getHeight() * map.getTileHeight() || x < 0 || y < 0 ){
-			return true;
-		}
-		int xBlock = (int) x / tileSize;
-		int yBlock = (int) y / tileSize;
-		return blocked[xBlock][yBlock];
 	}
 	
 }

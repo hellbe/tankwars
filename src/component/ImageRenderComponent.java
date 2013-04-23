@@ -21,7 +21,7 @@ public class ImageRenderComponent extends RenderComponent {
 		Vector2f pos = owner.getPosition();
 		float scale = owner.getScale();
 	//	debug
-		gr.drawRect(pos.x, pos.y, image.getWidth()*scale, image.getHeight()*scale);
+	//	gr.drawRect(pos.x, pos.y, image.getWidth()*scale, image.getHeight()*scale);
 		image.draw(pos.x, pos.y, scale);
 		
 	}

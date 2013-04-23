@@ -9,6 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import component.Collidable;
 import component.Component;
 import component.ImageRenderComponent;
+import component.Killable;
 import component.RenderComponent;
 import component.Shootable;
 import component.TopDownMovement;

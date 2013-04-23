@@ -21,6 +21,8 @@ public class GameEntity {
 	float rotation;
 	boolean colliding = false;
 	private boolean isCollidable = false;
+	
+	
 	protected ArrayList<RenderComponent> renderComponent = null;
 	protected ArrayList<Component> components = null;
 
