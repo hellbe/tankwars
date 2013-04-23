@@ -106,24 +106,24 @@ public class TopDownMovement extends Component {
 					System.out.println(this.toString() + ": hitbox set.");
 					break;
 				}
-			}
+    		}
     	}
     	//check collisions to other objects..
-    	
+
     	hitbox.box.setBounds(position.x, position.y, owner.getSize().x, owner.getSize().y);
 
     	if (Collidables != null) {
-			boolean foundCollision=false;
-			
-			for (Hitbox o : Collidables) {
-				if (o!=this.hitbox) {
-					if (this.hitbox.box.intersects(o.box)) {
-						foundCollision=true;
-						break;
-					}
-				}	
-			}
-				
+    		boolean foundCollision=false;
+
+    		for (Hitbox o : Collidables) {
+    			if (o!=this.hitbox) {
+    				if (this.hitbox.box.intersects(o.box)) {
+    					foundCollision=true;
+    					break;
+    				}
+    			}	
+    		}    		
+
 			if (foundCollision) {
 				owner.setColliding(true);
 				return true;
@@ -131,8 +131,8 @@ public class TopDownMovement extends Component {
 				owner.setColliding(false);
 				return false;
 			}
-		}
-		System.out.println("nu kom vi fel!");
+    	}
+    	System.out.println("nu kom vi fel!");
 		return false;
 	}
 	

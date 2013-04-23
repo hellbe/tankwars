@@ -14,6 +14,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import component.Collidable;
 import component.ImageRenderComponent;
+import entity.BlockEntity;
 import entity.GameEntity;
 import entity.TankEntity;
 import gameplay.World;
@@ -34,7 +35,7 @@ public class PlayState extends BasicGameState {
 	Image player;
 	float x = 35f, y = 35f;
 	int tileSize, xOffset = 0, yOffset = 0;
-	boolean[][] blocked;
+	static boolean[][] blocked;
     
     public PlayState( int stateID ) {
        this.stateID = stateID;
@@ -44,6 +45,11 @@ public class PlayState extends BasicGameState {
     	//Connect to the server
     	connect();
      
+		
+		//init GameEntities
+		entities = new ArrayList<GameEntity>();
+    	
+    	
     	//TiledMap background
         map = new TiledMap("config/TankWars.tmx","config/");
 		tileSize = map.getTileHeight();
@@ -56,12 +62,15 @@ public class PlayState extends BasicGameState {
 				String value = map.getTileProperty(tileID, "blocked", "false");
 				if ("true".equals(value)){
 					blocked[xAxis][yAxis] = true;
+					
+					//add a block entity for each blocked tile
+					entities.add(new BlockEntity("tileBlock", new Vector2f(xAxis*map.getTileWidth(),yAxis*map.getTileHeight()), new Vector2f(map.getTileWidth(),map.getTileHeight())));
+				
+					
 				}
 			}
 		}
 		
-		//init GameEntities
-		entities = new ArrayList<GameEntity>();
 		
         //init player
         TankEntity player1 = new TankEntity("player1");
@@ -78,7 +87,6 @@ public class PlayState extends BasicGameState {
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-    	//land.render(gc, null, g);
     	
     	//TiledMap
     	if ( x > 240 ){
@@ -93,6 +101,9 @@ public class PlayState extends BasicGameState {
     	for (GameEntity e : entities) {
 			e.render(gc, sbg, g);
 		}
+    	
+    	
+    	
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException     {
@@ -102,9 +113,7 @@ public class PlayState extends BasicGameState {
     	for (GameEntity e : entities) {
 			e.update(gc, sbg, delta);
 		}
-    	
-    	
-    	
+     	
     }
 
 	@Override
@@ -123,25 +132,6 @@ public class PlayState extends BasicGameState {
 			e.printStackTrace();
 		}
 
-//		addKeyListener(new KeyAdapter() {
-//			public void keyPressed (KeyEvent e) {
-//				sendKey(e.getKeyCode(), true);
-//			}
-//
-//			public void keyReleased (KeyEvent e) {
-//				sendKey(e.getKeyCode(), false);
-//			}
-//
-//			private void sendKey (int keyCode, boolean pressed) {
-//				switch (keyCode) {
-//				case KeyEvent.VK_LEFT:
-//					break;
-//				case KeyEvent.VK_RIGHT:
-//					break;
-//				}
-//				client.sendTCP(message);
-//			}
-//		});
 	}
  
 	public boolean isBlocked(float x, float y) {
