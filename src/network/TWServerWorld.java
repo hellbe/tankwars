@@ -11,13 +11,12 @@ public class TWServerWorld {
 	public boolean[][] blocked;
 
 	public TWServerWorld() throws SlickException{
-		map = new TiledMap("data/TankWars.tmx","data");
-		loadBlocked();
+		//map = new TiledMap("data/TankWars.tmx","data");
+		//loadBlocked();
 	}
 
-	public void updatePlayerStatus(PlayerStatus object) {
-		// TODO Auto-generated method stub
-
+	public void updatePlayerStatus(PlayerStatus player) {
+		System.out.println("Server: got player "+player.id+" who has turn:"+player.turn+", move: "+player.move+" and shoot: "+player.shoot);
 	}
 
 	public void update(float delta) {

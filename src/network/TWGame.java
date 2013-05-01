@@ -10,6 +10,8 @@ import org.newdawn.slick.InputListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
+import com.esotericsoftware.minlog.Log;
+
 public class TWGame extends BasicGame implements InputListener {
 
 	TWClientWorld world;
@@ -33,6 +35,11 @@ public class TWGame extends BasicGame implements InputListener {
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		world.update();
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		world.sendPlayerStatus();
 	}
 
@@ -41,9 +48,8 @@ public class TWGame extends BasicGame implements InputListener {
 	}
 
 	public static void main(String[] args) {
-		AppGameContainer app;
 		try {
-			app = new AppGameContainer( new TWGame() );
+			AppGameContainer app = new AppGameContainer( new TWGame() );
 			app.setDisplayMode(480, 480, false);
 			app.start();
 		} catch (SlickException e) {

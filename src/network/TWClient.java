@@ -1,14 +1,8 @@
 package network;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-import javax.swing.JFrame;
+import network.TWNetwork.PlayerStatus;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -23,20 +17,10 @@ public class TWClient {
 
 	public TWClient() throws SlickException  {
 		client = new Client();
-		kryo = client.getKryo();
-		
-		kryo.register( String.class );
-		client.start();
-		try {
-			client.connect(5000, "127.0.0.1", 55555, 55556);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		client.sendTCP( new String("Test") );
+		TWNetwork.register( client );
 
 		client.addListener( new Listener() {
-			
+
 			public void connected(Connection connection) {
 				handleConnect(connection);
 			}
@@ -48,21 +32,29 @@ public class TWClient {
 			public void disconnected(Connection connection) {
 				handleDisonnect(connection);
 			}
-			
+
 		});
 
+		client.start();
+		try {
+			client.connect(5000, "127.0.0.1", 55555, 55556);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	protected void handleMessage(int id2, Object object) {
 		
 	}
-	
+
 	private void handleConnect(Connection connection) {
 		id = connection.getID();
+		System.out.println("Client: connected to server with connection id: "+id);
 	}
-	
+
 	protected void handleDisonnect(Connection connection) {
-		
+		System.out.println("Client "+id+" disconnected");
 	}
 
 	public void shutdown() {
@@ -78,6 +70,10 @@ public class TWClient {
 	public TiledMap getMap() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void send( Object data ){
+		client.sendTCP( data );
 	}
 
 }

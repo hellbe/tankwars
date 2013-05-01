@@ -28,26 +28,34 @@ public class TWClientWorld {
 	public void changePlayerStatus(int key, boolean pressed ) {
 		switch ( key ){
 		case Input.KEY_LEFT:
-
+			if( pressed ){
+				playerStatus.turn = -1;
+			} else {
+				playerStatus.turn = 0;
+			}
 			break;
 		case Input.KEY_RIGHT:
-
+				playerStatus.turn = 1;
 			break;
 		case Input.KEY_UP:
-
+				playerStatus.move = 1;
 			break;
 		case Input.KEY_DOWN:
-
+				playerStatus.move = -1;
 			break;
 		case Input.KEY_SPACE:
-
+				playerStatus.shoot = true;
 			break;
 		}
-
+		playerStatus.change = true;
 	}
 
 	public void sendPlayerStatus() {
-		// TODO Auto-generated method stub
+		if( playerStatus.change ){
+			client.send( playerStatus );
+			playerStatus.change = false;
+			playerStatus.shoot = false;
+		}
 	}
 
 	public void render() {

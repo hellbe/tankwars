@@ -1,5 +1,7 @@
 package network;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import network.TWNetwork.PlayerStatus;
 import org.newdawn.slick.SlickException;
 import com.esotericsoftware.kryo.Kryo;
@@ -11,16 +13,18 @@ public class TWServer {
 	TWServerWorld world;
 	TWServerUpdater updater;
 	Thread thread;
+	ArrayList<PlayerStatus> players = new ArrayList<PlayerStatus>();
 
 	public TWServer() throws SlickException{
 		world = new TWServerWorld();
 		updater = new TWServerUpdater( world );
 		thread = new Thread( updater );
-		thread.run();
+		thread.start();
 		start();
 	}
 	
 	private void start() throws SlickException{
+
 		world = new TWServerWorld();
 		server = new Server();
 		TWNetwork.register( server );
@@ -34,17 +38,18 @@ public class TWServer {
 		
 		server.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
-				handleMessage(object);
+				System.out.println("Server: got an object");
+				handleReceived( object );
 			}
 			
 			public void connected(Connection connection){
-				System.out.println( connection.getID() );
+				handleConnected( connection );
 			}
 			
 		});
 	}
 	
-	protected void handleMessage(Object object) {
+	private void handleReceived(Object object) {
 		
 		if (object instanceof String) {
 			message( (String) object );
@@ -54,6 +59,11 @@ public class TWServer {
 			world.updatePlayerStatus( (PlayerStatus) object );
 		}
 		
+	}
+	
+	private void handleConnected( Connection connection ){
+		players.add( new PlayerStatus( connection.getID() ));
+		System.out.println( "Server: client connected with connection id:"+connection.getID() );
 	}
 	
 	private final void message( String message ){
