@@ -12,14 +12,13 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import com.esotericsoftware.minlog.Log;
 
-public class TWGame extends BasicGame implements InputListener {
+public class TWGame extends BasicGame{
 
-	TWClientWorld world;
 	float x = 35f, y = 35f;
 	int tileSize, xOffset = 0, yOffset = 0;
 
-	TWServer server;
-	TWClient client;
+	TWGameServer server;
+	TWGameClient client;
 
 	public TWGame() {
 		super("TankWars");
@@ -27,27 +26,22 @@ public class TWGame extends BasicGame implements InputListener {
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		server = new TWServer();
-		client = new TWClient();
-		world = new TWClientWorld( client );
+		server = new TWGameServer();
+		client = new TWGameClient();
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		world.update();
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		world.sendPlayerStatus();
+		client.update();
+		client.sendPlayerStatus();
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		world.render();
+		client.render();
 	}
 
 	public static void main(String[] args) {
+		Log.set( Log.LEVEL_DEBUG );
 		try {
 			AppGameContainer app = new AppGameContainer( new TWGame() );
 			app.setDisplayMode(480, 480, false);
@@ -58,11 +52,11 @@ public class TWGame extends BasicGame implements InputListener {
 	}
 
 	public void keyPressed( int key, char c ){
-		world.changePlayerStatus( key, true );
+		client.changePlayerStatus( key, true );
 	}
 
 	public void keyReleased(int key, char c){
-		world.changePlayerStatus( key, false );
+		client.changePlayerStatus( key, false );
 	}
 
 }

@@ -1,21 +1,23 @@
 package network;
 import java.io.IOException;
 
-import network.TWNetwork.PlayerStatus;
+import network.TWNetwork.TWEntityContainer;
+import network.TWNetwork.TWMap;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.*;
 
 
-public class TWClient {
+public class TWNetworkClient {
 	private Client client;
+	private TWGameClient gameClient;
 	private Kryo kryo;
 	public int id;
 
-	public TWClient() throws SlickException  {
+	public TWNetworkClient( TWGameClient gameClient ) throws SlickException {
+		this.gameClient = gameClient;
 		client = new Client();
 		TWNetwork.register( client );
 
@@ -41,11 +43,22 @@ public class TWClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	protected void handleMessage(int id2, Object object) {
-		
+		if ( object instanceof TWEntityContainer ){
+			gameClient.entities = (TWEntityContainer) object;
+		} 
+		else if ( object instanceof TWMap ){
+			TWMap mapInfo = (TWMap) object;
+			try {
+				gameClient.map = new TiledMap( mapInfo.path, mapInfo.folder );
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	private void handleConnect(Connection connection) {
@@ -62,16 +75,6 @@ public class TWClient {
 		client.close();
 	}
 
-	public TWEntities getEntities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public TiledMap getMap() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	public void send( Object data ){
 		client.sendTCP( data );
 	}

@@ -6,10 +6,10 @@ public class TWServerUpdater implements Runnable {
 	float newTime;
 	float delta;
 	boolean isRunning = true;
-	TWServerWorld world;
+	TWGameServer server;
 	
-	public TWServerUpdater( TWServerWorld world ){
-		this.world = world;
+	public TWServerUpdater( TWGameServer server ){
+		this.server = server;
 	}
 	
 	public void run() {
@@ -17,7 +17,13 @@ public class TWServerUpdater implements Runnable {
 			newTime = System.nanoTime();
 			delta = newTime - oldTime;
 			oldTime = newTime;
-			world.update( delta );
+			server.update( delta );
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			server.render();
 		}
 	}
 
