@@ -13,13 +13,15 @@ public class MenuState extends BasicGameState {
     int stateID = -1;
   
     Image background = null;
-    Image startGameOption = null;
+    Image hostGameOption = null;
+    Image joinGameOption = null;
     Image exitOption = null;
   
     private static int menuX = 200;
-    private static int menuY = 300;
+    private static int menuY = 200;
   
-    float startGameScale = 1;
+    float hostGameScale = 1;
+    float joinGameScale = 1;
     float exitScale = 1;
   
     public MenuState( int stateID )
@@ -37,8 +39,9 @@ public class MenuState extends BasicGameState {
     	  
         // Load the menu images
         Image menuOptions = new Image("data/tankwars-menuoptions.png");
-        startGameOption = menuOptions.getSubImage(0, 0, 377, 71);
-        exitOption = menuOptions.getSubImage(0, 71, 377, 71);
+        hostGameOption = menuOptions.getSubImage(0, 0, 377, 71);
+        joinGameOption = menuOptions.getSubImage(0, 70, 377, 60);
+        exitOption = menuOptions.getSubImage(0, 130, 377, 71);
 
     }
   
@@ -47,8 +50,9 @@ public class MenuState extends BasicGameState {
         background.draw(0, 0);
   
         // Draw menu
-        startGameOption.draw(menuX, menuY, startGameScale);
-        exitOption.draw(menuX, menuY+80, exitScale);
+        hostGameOption.draw(menuX, menuY, hostGameScale);
+        joinGameOption.draw(menuX, menuY+80, joinGameScale);
+        exitOption.draw(menuX, menuY+160, exitScale);
     }
     
     float scaleStep = 0.0001f;
@@ -59,30 +63,51 @@ public class MenuState extends BasicGameState {
         int mouseX = input.getMouseX();
         int mouseY = input.getMouseY();
   
-        boolean insideStartGame = false;
+        boolean insideHostGame = false;
+        boolean insideJoinGame = false;
         boolean insideExit = false;
   
-        if( ( mouseX >= menuX && mouseX <= menuX + startGameOption.getWidth()) &&
-            ( mouseY >= menuY && mouseY <= menuY + startGameOption.getHeight()) )
+        if( ( mouseX >= menuX && mouseX <= menuX + hostGameOption.getWidth()) &&
+            ( mouseY >= menuY && mouseY <= menuY + hostGameOption.getHeight()) )
         {
-            insideStartGame = true;
+            insideHostGame = true;
+        }else if( ( mouseX >= menuX && mouseX <= menuX+ joinGameOption.getWidth()) &&
+            ( mouseY >= menuY+80 && mouseY <= menuY+80 + joinGameOption.getHeight()) )
+        {
+        	insideJoinGame = true;
         }else if( ( mouseX >= menuX && mouseX <= menuX+ exitOption.getWidth()) &&
-            ( mouseY >= menuY+80 && mouseY <= menuY+80 + exitOption.getHeight()) )
+            ( mouseY >= menuY+160 && mouseY <= menuY+160 + exitOption.getHeight()) )
         {
             insideExit = true;
         }
   
-        if(insideStartGame)
+        if(insideHostGame)
         {
-            if(startGameScale < 1.05f)
-                startGameScale += scaleStep * delta;
+            if(hostGameScale < 1.05f)
+                hostGameScale += scaleStep * delta;
   
             if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-                sbg.enterState(client.TWClient.GAMEPLAYSTATE);
+                sbg.enterState(client.TWClient.HOSTGAMEPLAYSTATE);	
             }
-        }else{
-            if(startGameScale > 1.0f)
-                startGameScale -= scaleStep * delta;
+        } else{
+            if(hostGameScale > 1.0f)
+                hostGameScale -= scaleStep * delta;
+  
+            if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) )
+                gc.exit();
+        }
+        
+        if(insideJoinGame)
+        {
+            if(joinGameScale < 1.05f)
+                joinGameScale += scaleStep * delta;
+  
+            if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
+                sbg.enterState(client.TWClient.JOINGAMEPLAYSTATE);	
+            }
+        } else{
+            if(joinGameScale > 1.0f)
+                joinGameScale -= scaleStep * delta;
   
             if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) )
                 gc.exit();

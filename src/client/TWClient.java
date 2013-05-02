@@ -8,7 +8,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class TWClient extends StateBasedGame {
 	
     public static final int MAINMENUSTATE = 0;
-    public static final int GAMEPLAYSTATE = 1;
+    public static final int HOSTGAMEPLAYSTATE = 1;
+    public static final int JOINGAMEPLAYSTATE = 1;
  
     public TWClient() {
         super("TankWars");
@@ -22,6 +23,7 @@ public class TWClient extends StateBasedGame {
  
     public void initStatesList(GameContainer gameContainer) throws SlickException {
         this.addState(new MenuState(MAINMENUSTATE));
-        this.addState(new PlayState(GAMEPLAYSTATE));
+        //this.addState(new PlayState(HOSTGAMEPLAYSTATE));
+        //this.addState(new PlayState(JOINGAMEPLAYSTATE));
     }
 }
