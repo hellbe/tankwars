@@ -1,31 +1,38 @@
 package network;
 
-import java.util.ArrayList;
-
-
 import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWPlayerStatus;
-
-import org.newdawn.slick.Image;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-import entity.GameEntity;
+public class TWGameClient extends BasicGameState {
 
-public class TWGameClient {
-
-	public TWEntityContainer entities;
+	private int stateID = 0;
+	public TWEntityContainer entities = new TWEntityContainer();
 	public TiledMap map;
 	public TWNetworkClient client;
 	public TWPlayerStatus playerStatus;
 
 	public TWGameClient() throws SlickException{
+		new TWGameServer();
 		this.client = new TWNetworkClient( this );
 		this.playerStatus = new TWPlayerStatus( client.id );
 	}
 
-	public void changePlayerStatus(int key, boolean pressed ) {
+	public void keyPressed( int key, char c ){
+		changePlayerStatus( key, true );
+	}
+
+	public void keyReleased(int key, char c){
+		changePlayerStatus( key, false );
+	}
+
+	private void changePlayerStatus(int key, boolean pressed ) {
 		if ( pressed ){
 			switch ( key ){
 			case Input.KEY_LEFT:
@@ -44,7 +51,8 @@ public class TWGameClient {
 				playerStatus.shoot = true;
 				break;
 			}
-		} else {
+		} 
+		else {
 			switch ( key ){
 			case Input.KEY_LEFT:
 			case Input.KEY_RIGHT:
@@ -69,14 +77,29 @@ public class TWGameClient {
 		}
 	}
 
-	public void render() {
+	@Override
+	public void init(GameContainer container, StateBasedGame game) throws SlickException {
+	}
+
+	@Override
+	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		if( map != null ){
 			map.render(0, 0);
 		}
+		for ( TWGameEntity entity : entities ){
+			entity.draw();
+		}
 	}
 
-	public void update() { }
+	@Override
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		sendPlayerStatus();
+	}
 
+	@Override
+	public int getID() {
+		return stateID;
+	}
 
 }
 

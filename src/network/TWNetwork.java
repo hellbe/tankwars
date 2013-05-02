@@ -1,8 +1,9 @@
 package network;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Vector2f;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
@@ -13,8 +14,10 @@ public class TWNetwork {
 		Kryo kryo = endPoint.getKryo();
 		kryo.register(String.class);
 		kryo.register(TWPlayerStatus.class);
+		kryo.register(TWGameEntity.class);
+		kryo.register(Vector2f.class);
 		kryo.register(TWEntityContainer.class);
-		kryo.register(ArrayList.class);
+		kryo.register(CopyOnWriteArrayList.class);
 		kryo.register(TWMap.class);
 	}
 	/**
@@ -35,10 +38,10 @@ public class TWNetwork {
 		
 	}
 	
-	static public class TWEntityContainer {
-		ArrayList<TWGameEntity> entities;
-		
-		public TWEntityContainer(){}
+	static public class TWEntityContainer extends CopyOnWriteArrayList<TWGameEntity>{
+		public TWEntityContainer(){
+			super();
+		}
 	}
 	
 	static public class TWMap{

@@ -23,7 +23,7 @@ public class TWNetworkServer {
 		server.start();
 
 		try {
-			server.bind(55555, 55556);
+			server.bind(55555);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

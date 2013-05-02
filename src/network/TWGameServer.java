@@ -23,7 +23,6 @@ public class TWGameServer {
 	TWNetworkServer server;
 	TWServerUpdater updater;
 	Thread thread;
-	
 	ArrayList<TWPlayerStatus> players = new ArrayList<TWPlayerStatus>();
 	TWEntityContainer entities = new TWEntityContainer();
 	
@@ -36,22 +35,30 @@ public class TWGameServer {
 		map = new TiledMap( mapInfo.path , mapInfo.folder );
 		loadBlocked();	
 		
+		TWGameEntity entity1 = new TWGameEntity();
+		TWGameEntity entity2 = new TWGameEntity();
+		TWGameEntity entity3 = new TWGameEntity();
+		entity2.position = new Vector2f(50,100);
+		entity3.position = new Vector2f(50,150);
+		entity2.speed = 10;
+		entity1.speed = 20;
+		entities.add( entity1 );
+		entities.add( entity2 );
+		entities.add( entity3 );
+		
 		// Start the server updater thread
 		updater = new TWServerUpdater( this );
 		thread = new Thread( updater );
 		thread.start();
+		
 	}
 	
-
 	public void updatePlayerStatus(TWPlayerStatus player) {
 		System.out.println("Server: got player "+player.id+" who has turn:"+player.turn+", move: "+player.move+" and shoot: "+player.shoot);
 	}
 
-
 	public void loadBlocked() throws SlickException{
-
 		blocked = new boolean[map.getWidth()][map.getHeight()];
-
 		for ( int xAxis=0; xAxis < map.getWidth(); xAxis ++ ) {
 			for ( int yAxis=0; yAxis < map.getHeight(); yAxis ++ ) {
 				int tileID = map.getTileId(xAxis, yAxis, 0);
@@ -63,7 +70,6 @@ public class TWGameServer {
 		}
 	}
 
-
 	public boolean isBlocked(float x, float y) {
 		if( x > map.getWidth() * map.getTileWidth() || y > map.getHeight() * map.getTileHeight() || x < 0 || y < 0 ){
 			return true;
@@ -74,20 +80,14 @@ public class TWGameServer {
 	}
 	
 	public void update(float delta) {
-		// TODO Auto-generated method stub
-		
+		for( TWGameEntity entity : entities ){
+			entity.move(delta);
+		}
+		server.updateClients( entities );
 	}
-
 
 	public void addPlayer(TWPlayerStatus playerStatus) {
 		players.add( playerStatus );
 	}
-
-
-	public void render() {
-		server.updateClients( entities );
-		
-	}
-	
 	
 }

@@ -39,7 +39,7 @@ public class TWNetworkClient {
 
 		client.start();
 		try {
-			client.connect(5000, "127.0.0.1", 55555, 55556);
+			client.connect(5000, "127.0.0.1", 55555);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
