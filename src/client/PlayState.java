@@ -13,9 +13,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
-import component.Collidable;
-import component.ImageRenderComponent;
-import component.Killable;
 import entity.BlockEntity;
 import entity.GameEntity;
 import entity.TankEntity;
@@ -45,7 +42,7 @@ public class PlayState extends BasicGameState {
  
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     	//Connect to the server
-    	connect();
+    	//connect();
      	
 		//init controls in order [player][up, left, down, right, shoot]
     	// ( w , a , s , d , 1)
@@ -60,7 +57,7 @@ public class PlayState extends BasicGameState {
 		entities = new ArrayList<GameEntity>();
     	   	
     	//TiledMap background
-        map = new TiledMap("config/TankWars.tmx","config/");
+        map = new TiledMap("data/TankWars.tmx","data/");
 		tileSize = map.getTileHeight();
 		for ( int xAxis=0; xAxis < map.getWidth(); xAxis ++ ) {
 			for ( int yAxis=0; yAxis < map.getHeight(); yAxis ++ ) {

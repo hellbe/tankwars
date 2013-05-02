@@ -18,7 +18,7 @@ public class MenuState extends BasicGameState {
     Image exitOption = null;
   
     private static int menuX = 200;
-    private static int menuY = 200;
+    private static int menuY = 250;
   
     float hostGameScale = 1;
     float joinGameScale = 1;
