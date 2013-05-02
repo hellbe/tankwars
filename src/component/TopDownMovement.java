@@ -11,7 +11,8 @@ import component.Collidable.Hitbox;
 public class TopDownMovement extends Component {
  
 	float direction;
-	float speed=0.4f;
+	float speed=0.35f;
+	float rotationSpeed = 0.15f;
 	
 	//collision support
 	ArrayList<Hitbox> Collidables = null;
@@ -41,15 +42,15 @@ public class TopDownMovement extends Component {
 		Input input = gc.getInput();
 		
         if(input.isKeyDown(keybinds[1])) {
-        	rotation += -0.2f * delta;
+        	rotation += -rotationSpeed * delta;
         }
  
         if(input.isKeyDown(keybinds[3])) {
-        	rotation += 0.2f * delta;
+        	rotation += rotationSpeed * delta;
         }
  
         if(input.isKeyDown(keybinds[0])) {
-            float hip = 0.4f * delta;
+            float hip = speed * delta;
             position.x += hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
             position.y -= hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
             

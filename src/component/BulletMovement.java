@@ -18,14 +18,15 @@ public class BulletMovement extends Component {
 	float speed=0.8f;
 	//collision handling
 	Hitbox hitbox;
-	float pDamage = 20f;
+	float pDamage;
 	
 	GameEntity collidingWith = null;
 	
-	public BulletMovement(String id) {
+	public BulletMovement(String id, float pDamage) {
 		this.id = id;
+		this.pDamage = pDamage;
 	}
- 
+	
 	public float getSpeed() {
 		return speed;
 	}

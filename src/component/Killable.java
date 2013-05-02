@@ -1,9 +1,14 @@
 package component;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import client.TWClient;
 
 public class Killable extends Component {
 
@@ -31,6 +36,7 @@ public class Killable extends Component {
 			pos.x=gc.getWidth()+owner.getSize().x;
 			owner.setPosition(pos);
 			isAlive=false;
+			sb.enterState(TWClient.ENDGAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 		}
 		
 		

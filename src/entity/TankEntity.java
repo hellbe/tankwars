@@ -16,7 +16,7 @@ import component.TopDownMovement;
 
 public class TankEntity extends GameEntity {
 
-	Image tankImage=new Image("/data/fasttank.png");
+	Image tankImage=new Image("/data/battletank.png");
 	Image bulletImage= new Image("/data/bullet.png");
 	float hp = 60f;
 	/**
