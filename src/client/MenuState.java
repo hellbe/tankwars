@@ -23,9 +23,9 @@ public class MenuState extends BasicGameState {
 	float hostGameScale = 1;
 	float joinGameScale = 1;
 	float exitScale = 1;
+	float scaleStep = 0.0001f;
 
-	public MenuState( int stateID )
-	{
+	public MenuState( int stateID )	{
 		this.stateID = stateID;
 	}
 
@@ -55,7 +55,6 @@ public class MenuState extends BasicGameState {
 		exitOption.draw(menuX, menuY+160, exitScale);
 	}
 
-	float scaleStep = 0.0001f;
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
@@ -67,54 +66,52 @@ public class MenuState extends BasicGameState {
 		boolean insideJoinGame = false;
 		boolean insideExit = false;
 
-		if( ( mouseX >= menuX && mouseX <= menuX + hostGameOption.getWidth()) &&
-				( mouseY >= menuY && mouseY <= menuY + hostGameOption.getHeight()) )
-		{
+		if ( ( mouseX >= menuX && mouseX <= menuX + hostGameOption.getWidth()) && ( mouseY >= menuY && mouseY <= menuY + hostGameOption.getHeight()) ) {
 			insideHostGame = true;
-		}else if( ( mouseX >= menuX && mouseX <= menuX+ joinGameOption.getWidth()) &&
-				( mouseY >= menuY+80 && mouseY <= menuY+80 + joinGameOption.getHeight()) )
-		{
+		} else if ( ( mouseX >= menuX && mouseX <= menuX+ joinGameOption.getWidth()) && ( mouseY >= menuY+80 && mouseY <= menuY+80 + joinGameOption.getHeight()) ) {
 			insideJoinGame = true;
-		}else if( ( mouseX >= menuX && mouseX <= menuX+ exitOption.getWidth()) &&
-				( mouseY >= menuY+160 && mouseY <= menuY+160 + exitOption.getHeight()) )
-		{
+		} else if ( ( mouseX >= menuX && mouseX <= menuX+ exitOption.getWidth()) && ( mouseY >= menuY+160 && mouseY <= menuY+160 + exitOption.getHeight()) ) {
 			insideExit = true;
 		}
 
 
 		if(insideHostGame){
-			if(hostGameScale < 1.05f)
+			if(hostGameScale < 1.05f) {
 				hostGameScale += scaleStep * delta;
-
+			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				sbg.enterState(TWClient.HOSTGAMEPLAYSTATE);
 			}
-		}else{
-			if(hostGameScale > 1.0f)
+		} else {
+			if(hostGameScale > 1.0f) {
 				hostGameScale -= scaleStep * delta;
+			}
 		}
 		
 		if(insideJoinGame){
-			if(joinGameScale < 1.05f)
+			if (joinGameScale < 1.05f) {
 				joinGameScale += scaleStep * delta;
-
+			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				sbg.enterState(TWClient.JOINGAMEPLAYSTATE);
 			}
-		}else{
-			if(joinGameScale > 1.0f)
+		} else {
+			if(joinGameScale > 1.0f) {
 				joinGameScale -= scaleStep * delta;
+			}
 		}
 
-		if(insideExit)
-		{
-			if(exitScale < 1.05f)
+		if(insideExit) {
+			if(exitScale < 1.05f) {
 				exitScale +=  scaleStep * delta;
-			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) )
+			}
+			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ) {
 				gc.exit();
-		}else{
-			if(exitScale > 1.0f)
+			}
+		} else{
+			if(exitScale > 1.0f) {
 				exitScale -= scaleStep * delta;
+			}
 		}
 	}
 }
