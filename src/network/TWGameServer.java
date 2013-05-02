@@ -23,8 +23,9 @@ public class TWGameServer {
 	TWNetworkServer server;
 	TWServerUpdater updater;
 	Thread thread;
-	ArrayList<TWPlayerStatus> players = new ArrayList<TWPlayerStatus>();
 	TWEntityContainer entities = new TWEntityContainer();
+	ArrayList<TWPlayerStatus> newPlayers = new ArrayList<TWPlayerStatus>();
+	ArrayList<TWPlayer> players = new ArrayList<TWPlayer>();
 	
 	public TWGameServer() throws SlickException {
 		// Start network server
@@ -35,17 +36,6 @@ public class TWGameServer {
 		map = new TiledMap( mapInfo.path , mapInfo.folder );
 		loadBlocked();	
 		
-		TWGameEntity entity1 = new TWGameEntity();
-		TWGameEntity entity2 = new TWGameEntity();
-		TWGameEntity entity3 = new TWGameEntity();
-		entity2.position = new Vector2f(50,100);
-		entity3.position = new Vector2f(50,150);
-		entity2.speed = 10;
-		entity1.speed = 20;
-		entities.add( entity1 );
-		entities.add( entity2 );
-		entities.add( entity3 );
-		
 		// Start the server updater thread
 		updater = new TWServerUpdater( this );
 		thread = new Thread( updater );
@@ -53,8 +43,9 @@ public class TWGameServer {
 		
 	}
 	
-	public void updatePlayerStatus(TWPlayerStatus player) {
-		System.out.println("Server: got player "+player.id+" who has turn:"+player.turn+", move: "+player.move+" and shoot: "+player.shoot);
+	public void updatePlayerStatus(TWPlayerStatus playerStatus ) {
+		System.out.println( "Updating player:"+playerStatus.id);
+		players.get( playerStatus.id - 1 ).playerStatus = playerStatus;
 	}
 
 	public void loadBlocked() throws SlickException{
@@ -80,14 +71,22 @@ public class TWGameServer {
 	}
 	
 	public void update(float delta) {
+		// Make movements
 		for( TWGameEntity entity : entities ){
 			entity.move(delta);
 		}
+		// Update status on all entities
+		for ( TWGameEntity entity : entities ){
+			entity.update();
+		}
+		// Update the clients
 		server.updateClients( entities );
 	}
 
-	public void addPlayer(TWPlayerStatus playerStatus) {
-		players.add( playerStatus );
+	public void addPlayer(TWPlayerStatus playerStatus){
+		players.add( new TWPlayer( playerStatus) );
+		entities.add( players.get( players.size() - 1 ) );
 	}
+	
 	
 }

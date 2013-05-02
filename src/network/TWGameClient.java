@@ -16,12 +16,36 @@ public class TWGameClient extends BasicGameState {
 	public TWEntityContainer entities = new TWEntityContainer();
 	public TiledMap map;
 	public TWNetworkClient client;
-	public TWPlayerStatus playerStatus;
+	public TWPlayerStatus playerStatus = new TWPlayerStatus();
+	public TWGameEntityPainter painter = new TWGameEntityPainter();
+	
+	public TWGameClient() throws SlickException{ }
 
-	public TWGameClient() throws SlickException{
+	@Override
+	public void init(GameContainer container, StateBasedGame game) throws SlickException {
+		painter.init();
 		new TWGameServer();
 		this.client = new TWNetworkClient( this );
-		this.playerStatus = new TWPlayerStatus( client.id );
+	}
+
+	@Override
+	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+		if( map != null ){
+			map.render(0, 0);
+		}
+		for ( TWGameEntity entity : entities ){
+			painter.draw( entity );
+		}
+	}
+
+	@Override
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		sendPlayerStatus();
+	}
+
+	@Override
+	public int getID() {
+		return stateID;
 	}
 
 	public void keyPressed( int key, char c ){
@@ -36,10 +60,12 @@ public class TWGameClient extends BasicGameState {
 		if ( pressed ){
 			switch ( key ){
 			case Input.KEY_LEFT:
-				playerStatus.turn = -1;
+				if ( playerStatus.turn == 0 )
+					playerStatus.turn = -1;
 				break;
 			case Input.KEY_RIGHT:
-				playerStatus.turn = 1;
+				if ( playerStatus.turn == 0 )
+					playerStatus.turn = 1;
 				break;
 			case Input.KEY_UP:
 				playerStatus.move = 1;
@@ -55,8 +81,12 @@ public class TWGameClient extends BasicGameState {
 		else {
 			switch ( key ){
 			case Input.KEY_LEFT:
+				if ( playerStatus.turn == -1 )
+					playerStatus.turn = 0;
+				break;
 			case Input.KEY_RIGHT:
-				playerStatus.turn = 0;
+				if ( playerStatus.turn == 1 )
+					playerStatus.turn = 0;
 				break;
 			case Input.KEY_UP:
 			case Input.KEY_DOWN:
@@ -71,35 +101,12 @@ public class TWGameClient extends BasicGameState {
 	}
 
 	public void sendPlayerStatus() {
-		if( playerStatus.change ){
+		if( playerStatus.change && playerStatus.id != 0 ){
 			client.send( playerStatus );
 			playerStatus.change = false;
 		}
 	}
 
-	@Override
-	public void init(GameContainer container, StateBasedGame game) throws SlickException {
-	}
-
-	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		if( map != null ){
-			map.render(0, 0);
-		}
-		for ( TWGameEntity entity : entities ){
-			entity.draw();
-		}
-	}
-
-	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		sendPlayerStatus();
-	}
-
-	@Override
-	public int getID() {
-		return stateID;
-	}
 
 }
 

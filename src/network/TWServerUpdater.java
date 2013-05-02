@@ -19,7 +19,7 @@ public class TWServerUpdater implements Runnable {
 		while( isRunning ){
 			server.update( 0.5f );
 			try {
-				Thread.sleep(20);
+				Thread.sleep(40);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

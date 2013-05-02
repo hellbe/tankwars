@@ -16,6 +16,7 @@ public class TWNetwork {
 		kryo.register(TWPlayerStatus.class);
 		kryo.register(TWGameEntity.class);
 		kryo.register(Vector2f.class);
+		kryo.register(TWPlayer.class);
 		kryo.register(TWEntityContainer.class);
 		kryo.register(CopyOnWriteArrayList.class);
 		kryo.register(TWMap.class);

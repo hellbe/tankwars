@@ -41,6 +41,7 @@ public class TankEntity extends GameEntity {
 		for(Component component : components) {
 			component.update(gc, sb, delta);
 		}
+		//skicka information om status till server
 	}
 
 	@Override
