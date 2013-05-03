@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
@@ -25,15 +24,10 @@ public class PlayState extends BasicGameState {
 	Client client;
 	Kryo kryo;
 
-
+	//TiledMap
+	TiledMap map;
 	//list of map entities
 	ArrayList<GameEntity> entities;
-
-	//TiledMap attributes
-	TiledMap map;
-	Image player;
-	float x = 35f, y = 35f;
-	int tileSize, xOffset = 0, yOffset = 0;
 
 	public PlayState( int stateID ) {
 		this.stateID = stateID;
@@ -57,7 +51,6 @@ public class PlayState extends BasicGameState {
 
 		//TiledMap background
 		map = new TiledMap("data/TankWars.tmx","data/");
-		tileSize = map.getTileHeight();
 		for ( int xAxis=0; xAxis < map.getWidth(); xAxis ++ ) {
 			for ( int yAxis=0; yAxis < map.getHeight(); yAxis ++ ) {
 				int tileID = map.getTileId(xAxis, yAxis, 0);
@@ -84,14 +77,8 @@ public class PlayState extends BasicGameState {
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
-		//TiledMap
-		if ( x > 240 ){
-			xOffset = 240 - (int) x;
-		}
-		if ( y > 240 ){
-			yOffset = 240 - (int) y; 
-		}
-		map.render( xOffset, yOffset );
+		
+		map.render( 0, 0 );
 
 		//Render everything in the world
 		for (GameEntity e : entities) {

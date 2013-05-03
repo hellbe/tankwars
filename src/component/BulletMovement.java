@@ -26,46 +26,38 @@ public class BulletMovement extends Component {
 		this.id = id;
 		this.pDamage = pDamage;
 	}
-	
-	public float getSpeed() {
-		return speed;
-	}
- 
-	public float getDirection()	{
-		return direction;
-	}
  
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {
  
 		if (active) {
-		
-		float rotation = owner.getRotation();
-		float scale = owner.getScale();
-		Vector2f position = owner.getPosition();
 
-		float hip = speed * delta;
-		
-		position.x += hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
-		position.y -= hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
+			float rotation = owner.getRotation();
+			float scale = owner.getScale();
+			Vector2f position = owner.getPosition();
 
-		if (hasCollision(position)) {
+			float hip = speed * delta;
 
-			//TODO: if entity is killable -> subtract hp and remove missile
-			if (collidingWith.getComponent("killable") != null) {
-				((Killable) collidingWith.getComponent("killable")).addHp(-1f*pDamage);
+			position.x += hip * java.lang.Math.sin(java.lang.Math.toRadians(rotation));
+			position.y -= hip *java.lang.Math.cos(java.lang.Math.toRadians(rotation));
+
+			if (hasCollision(position)) {
+
+				//if is colliding at current position => subtract hp and remove bullet
+				if (collidingWith.getComponent("killable") != null) {
+					((Killable) collidingWith.getComponent("killable")).addHp(-1f*pDamage);
+				}
+
+				position.y = gc.getHeight() + owner.getSize().y;
+				active = false;
+				System.out.println("hit!");	
+				collidingWith=null;
 			}
-			
-			position.y = gc.getHeight() + owner.getSize().y;
-			active = false;
-			System.out.println("hit!");	
-			collidingWith=null;
-		}
-		
-		owner.setPosition(position);
-		owner.setRotation(rotation);
-		owner.setScale(scale);
-        
+
+			owner.setPosition(position);
+			owner.setRotation(rotation);
+			owner.setScale(scale);
+
 		}
 	}
 	
@@ -110,7 +102,7 @@ public class BulletMovement extends Component {
 				return false;
 			}
 		}
-		System.out.println("nu kom vi fel!");
+		System.out.println("UNEXPECTED ERROR IN " + this.toString() + ": Collidables is a nullpointer.");
 		return false;
 	}
  
