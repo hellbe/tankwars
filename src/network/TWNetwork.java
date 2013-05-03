@@ -25,6 +25,11 @@ public class TWNetwork {
 	 * All network messages
 	 */
 	static public class TWPlayerStatus {
+		boolean left = false;
+		boolean right = false;
+		boolean up = false;
+		boolean down = false;
+		
 		int id;					//The player's client connection id
 		int move = 0; 			// 1 means forward, -1 backwards and 0 still
 		int turn = 0; 			// 1 means turn right, -1 left and 0 go straight

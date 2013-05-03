@@ -17,7 +17,7 @@ public class TWServerUpdater implements Runnable {
 
 	public void run() {
 		while( isRunning ){
-			server.update( 0.5f );
+			server.updateEntities( 0.5f );
 			try {
 				Thread.sleep(40);
 			} catch (InterruptedException e) {

@@ -16,11 +16,11 @@ import com.esotericsoftware.kryonet.*;
 import entity.BlockEntity;
 import entity.TankEntity;
 
-public class TWGameServer implements Runnable {
+public class TWGameServer {
 	public TiledMap map;
 	public TWMap mapInfo;
-	public boolean[][] blocked;
-	TWNetworkServer server;
+	public boolean[][] mapBlockData;
+	TWNetworkServer networkServer;
 	TWServerUpdater updater;
 	Thread thread;
 	TWEntityContainer entities = new TWEntityContainer();
@@ -29,12 +29,12 @@ public class TWGameServer implements Runnable {
 	
 	public TWGameServer() throws SlickException {
 		// Start network server
-		server = new TWNetworkServer( this );
+		networkServer = new TWNetworkServer( this );
 		
 		// Load map data
 		mapInfo = new TWMap("data/TankWars.tmx","data");
 		map = new TiledMap( mapInfo.path , mapInfo.folder );
-		loadBlocked();	
+		loadMapBlockData();	
 		
 		// Start the server updater thread
 		updater = new TWServerUpdater( this );
@@ -43,47 +43,48 @@ public class TWGameServer implements Runnable {
 		
 	}
 
-	@Override
-	public void run() { }
-	
 	public void updatePlayerStatus(TWPlayerStatus playerStatus ) {
-		System.out.println( "Updating player:"+playerStatus.id);
 		players.get( playerStatus.id - 1 ).playerStatus = playerStatus;
 	}
 
-	public void loadBlocked() throws SlickException{
-		blocked = new boolean[map.getWidth()][map.getHeight()];
+	public void loadMapBlockData() throws SlickException{
+		mapBlockData = new boolean[ map.getWidth() ][ map.getHeight() ];
 		for ( int xAxis=0; xAxis < map.getWidth(); xAxis ++ ) {
 			for ( int yAxis=0; yAxis < map.getHeight(); yAxis ++ ) {
 				int tileID = map.getTileId(xAxis, yAxis, 0);
 				String value = map.getTileProperty(tileID, "blocked", "false");
 				if ("true".equals(value)){
-					blocked[xAxis][yAxis] = true;
+					mapBlockData[xAxis][yAxis] = true;
 				}
 			}
 		}
 	}
 
-	public boolean isBlocked(float x, float y) {
-		if( x > map.getWidth() * map.getTileWidth() || y > map.getHeight() * map.getTileHeight() || x < 0 || y < 0 ){
+	public boolean isBlocked( Vector2f position ) {
+		if( position.x > map.getWidth() * map.getTileWidth() 
+				|| position.y > map.getHeight() * map.getTileHeight() 
+				|| position.x < 0 
+				|| position.y < 0 ){
 			return true;
 		}
-		int xBlock = (int) x / map.getTileWidth();
-		int yBlock = (int) y / map.getTileHeight();
-		return blocked[xBlock][yBlock];
+		int xBlock = (int) ( position.x / map.getTileWidth() );
+		int yBlock = (int) ( position.y / map.getTileHeight() );
+		return mapBlockData[xBlock][yBlock];
 	}
 	
-	public void update(float delta) {
+	public void updateEntities(float delta) {
 		// Make movements
 		for( TWGameEntity entity : entities ){
-			entity.move(delta);
+			if ( ! isBlocked( entity.getFutureMove( delta ) ) ){
+				entity.move(delta);
+			}
 		}
 		// Update status on all entities
 		for ( TWGameEntity entity : entities ){
 			entity.update();
 		}
 		// Update the clients
-		server.updateClients( entities );
+		networkServer.updateClients( entities );
 	}
 
 	public void addPlayer(TWPlayerStatus playerStatus){

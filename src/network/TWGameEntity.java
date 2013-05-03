@@ -20,8 +20,9 @@ public abstract class TWGameEntity {
 	 */
 
 	public TWGameEntity () {
-		direction = new Vector2f(30);
+		direction = new Vector2f(45);
 		position = new Vector2f(50,50);
+		size = new Vector2f(0,0);
 		speed = 0;
 	}
 

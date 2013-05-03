@@ -24,7 +24,8 @@ public class TWNetworkClient {
 		client.addListener( new Listener() {
 
 			public void connected(Connection connection) {
-				gameClient.playerStatus.id = connection.getID();
+				id = connection.getID();
+				gameClient.playerStatus.id = id;
 			}
 
 			public void received(Connection connection, Object object) {
