@@ -16,7 +16,7 @@ public class TWNetworkServer {
 	private Kryo kryo;
 	private TWGameServer gameServer;
 
-	public TWNetworkServer( TWGameServer gameServer ) throws SlickException{
+	public TWNetworkServer( TWGameServer gameServer ) throws SlickException {
 		this.gameServer = gameServer;
 		server = new Server();
 		TWNetwork.register( server );

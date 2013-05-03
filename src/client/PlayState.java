@@ -24,8 +24,11 @@ public class PlayState extends BasicGameState {
 	Client client;
 	Kryo kryo;
 
+<<<<<<< HEAD
 	//TiledMap
 	TiledMap map;
+=======
+>>>>>>> Lagt in musik och fixat till lite filar
 	//list of map entities
 	ArrayList<GameEntity> entities;
 
@@ -36,7 +39,7 @@ public class PlayState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		//Connect to the server
 		//connect();
-
+		
 		//init controls in order [player][up, left, down, right, shoot]
 		// ( w , a , s , d , 1)
 		// ( 'up', 'left', 'down', 'right', 'space')

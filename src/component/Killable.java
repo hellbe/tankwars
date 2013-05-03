@@ -8,6 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import client.MenuState;
 import client.TWClient;
 
 public class Killable extends Component {
@@ -26,7 +27,7 @@ public class Killable extends Component {
 	
 	
 	@Override
-	public void update(GameContainer gc, StateBasedGame sb, int delta)
+	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		
 		if (hp<=0f && isAlive) {
@@ -36,10 +37,8 @@ public class Killable extends Component {
 			pos.x=gc.getWidth()+owner.getSize().x;
 			owner.setPosition(pos);
 			isAlive=false;
-			sb.enterState(TWClient.ENDGAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
+			sbg.enterState(TWClient.ENDGAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 		}
-		
-		
 	}
 	
 	/**adds hp to the component

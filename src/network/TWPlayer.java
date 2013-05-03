@@ -10,7 +10,7 @@ public class TWPlayer extends TWGameEntity {
 	int mayShootWhen;
 	TWPlayerStatus playerStatus;
 	
-	public TWPlayer(){
+	public TWPlayer() {
 		super();
 	}
 	

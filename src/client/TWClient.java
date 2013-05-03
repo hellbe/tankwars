@@ -11,7 +11,7 @@ public class TWClient extends StateBasedGame {
     public static final int HOSTGAMEPLAYSTATE = 1;
     public static final int JOINGAMEPLAYSTATE = 2;
     public static final int ENDGAMESTATE = 3;
- 
+    
     public TWClient() {
         super("TankWars");
     }
