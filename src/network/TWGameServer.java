@@ -16,7 +16,7 @@ import com.esotericsoftware.kryonet.*;
 import entity.BlockEntity;
 import entity.TankEntity;
 
-public class TWGameServer {
+public class TWGameServer implements Runnable {
 	public TiledMap map;
 	public TWMap mapInfo;
 	public boolean[][] blocked;
@@ -42,6 +42,9 @@ public class TWGameServer {
 		thread.start();
 		
 	}
+
+	@Override
+	public void run() { }
 	
 	public void updatePlayerStatus(TWPlayerStatus playerStatus ) {
 		System.out.println( "Updating player:"+playerStatus.id);
@@ -87,6 +90,6 @@ public class TWGameServer {
 		players.add( new TWPlayer( playerStatus) );
 		entities.add( players.get( players.size() - 1 ) );
 	}
-	
-	
+
+
 }

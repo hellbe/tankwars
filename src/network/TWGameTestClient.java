@@ -7,15 +7,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.esotericsoftware.minlog.Log;
 
-public class TWGame extends StateBasedGame {
+public class TWGameTestClient extends StateBasedGame {
 
-	public TWGame() throws SlickException {
-		super("TankWars");
+	public TWGameTestClient() throws SlickException {
+		super("TankWars Client");
 	}
 
 	public static void main(String[] args) throws SlickException {
 		Log.set( Log.LEVEL_DEBUG );
-		AppGameContainer app = new AppGameContainer( new TWGame() );
+		AppGameContainer app = new AppGameContainer( new TWGameTestClient() );
 		app.setDisplayMode(800, 600, false);
 		app.setAlwaysRender(true);
 		app.start();
@@ -23,7 +23,8 @@ public class TWGame extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
-		this.addState(new TWGameClient(true));
+		this.addState(new TWGameClient(false));
 	}
+	
 
 }

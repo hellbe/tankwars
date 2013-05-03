@@ -34,12 +34,7 @@ public class TWNetworkClient {
 				} 
 				else if ( object instanceof TWMap ){
 					TWMap mapInfo = (TWMap) object;
-					try {
-						gameClient.map = new TiledMap( mapInfo.path, mapInfo.folder );
-					} 
-					catch (SlickException e) {
-						e.printStackTrace();
-					}
+					gameClient.mapInfo = mapInfo;
 				}
 			}
 

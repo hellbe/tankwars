@@ -1,6 +1,7 @@
 package network;
 
 import network.TWNetwork.TWEntityContainer;
+import network.TWNetwork.TWMap;
 import network.TWNetwork.TWPlayerStatus;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,24 +14,34 @@ import org.newdawn.slick.tiled.TiledMap;
 public class TWGameClient extends BasicGameState {
 
 	private int stateID = 0;
-	public TWEntityContainer entities = new TWEntityContainer();
-	public TiledMap map;
-	public TWNetworkClient client;
-	public TWPlayerStatus playerStatus = new TWPlayerStatus();
-	public TWGameEntityPainter painter = new TWGameEntityPainter();
+	TWEntityContainer entities = new TWEntityContainer();
+	TiledMap map;
+	TWMap mapInfo;
+	TWNetworkClient client;
+	TWPlayerStatus playerStatus = new TWPlayerStatus();
+	TWGameEntityPainter painter = new TWGameEntityPainter();
+	boolean host;
 	
-	public TWGameClient() throws SlickException{ }
+	public TWGameClient(boolean host) throws SlickException{ 
+		this.host = host;
+	}
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		painter.init();
-		new TWGameServer();
+		if ( host ){
+			new TWGameServer();
+		}
 		this.client = new TWNetworkClient( this );
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		if( map != null ){
+		if( map == null ){
+			if( mapInfo != null ){
+				map = new TiledMap( mapInfo.path, mapInfo.folder );
+			}
+		} else {
 			map.render(0, 0);
 		}
 		for ( TWGameEntity entity : entities ){
