@@ -24,11 +24,9 @@ public class PlayState extends BasicGameState {
 	Client client;
 	Kryo kryo;
 
-<<<<<<< HEAD
 	//TiledMap
 	TiledMap map;
-=======
->>>>>>> Lagt in musik och fixat till lite filar
+
 	//list of map entities
 	ArrayList<GameEntity> entities;
 

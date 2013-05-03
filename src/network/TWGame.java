@@ -17,10 +17,7 @@ public class TWGame extends StateBasedGame {
 		Log.set( Log.LEVEL_DEBUG );
 		AppGameContainer app = new AppGameContainer( new TWGame() );
 		app.setDisplayMode(800, 600, false);
-<<<<<<< HEAD
 		app.setAlwaysRender(true);
-=======
->>>>>>> Lagt in musik och fixat till lite filar
 		app.start();
 	}
 
