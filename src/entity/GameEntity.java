@@ -17,7 +17,7 @@ public class GameEntity {
 	String id;
 	Vector2f position;
 	private Vector2f size = null;
-	float scale;
+	protected float scale;
 	float rotation;
 	boolean colliding = false;
 	private boolean isCollidable = false;

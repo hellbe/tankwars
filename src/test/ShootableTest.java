@@ -1,4 +1,4 @@
-package component;
+package test;
 
 import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
@@ -8,9 +8,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
+import component.RenderComponent;
+
 import entity.BulletEntity;
 
-public class Shootable extends RenderComponent {
+public class ShootableTest extends RenderComponent {
 
 	ArrayList<BulletEntity> bulletList = null;
 	ArrayList<BulletEntity> removeList = null;
@@ -23,7 +25,9 @@ public class Shootable extends RenderComponent {
 	
 	Integer shootButton;
 	
-	public Shootable(String id, Vector2f entitySize, Image image, Integer keybind) {
+	private long testTimer;
+	
+	public ShootableTest(String id, Vector2f entitySize, Image image, Integer keybind) {
 		super(id);
 		this.bulletImage=image;
 		this.shootButton=keybind;
@@ -34,6 +38,9 @@ public class Shootable extends RenderComponent {
 		
 		//TODO: Projektilen roteras om man håller in knappen; bör fixas men är inget direkt problem.
 		if (gc.getInput().isKeyDown(shootButton) && gc.getTime()-lastFire >= fireDelay) {
+			
+			//initiate test timer
+			testTimer=gc.getTime();
 			
 			lastFire=gc.getTime();
 			
@@ -56,6 +63,8 @@ public class Shootable extends RenderComponent {
 				tmp.setRotation(owner.getRotation());
 				tmp = null;
 			}
+		//testresult
+			System.out.println("Testresult bulletTimer: " + (testTimer-gc.getTime()) + "ms between buttonpress and spawn.");
 		}
 		
 		if (bulletList!=null) {
@@ -82,6 +91,7 @@ public class Shootable extends RenderComponent {
 		if (bulletList!= null) {	
 			for (BulletEntity bullet : bulletList) {
 				bullet.update(gc, sb, delta);
+			//	bullet.render(gc, sb, gc.getGraphics());
 			}
 		}
 	}

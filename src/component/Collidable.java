@@ -13,8 +13,8 @@ import entity.GameEntity;
 public class Collidable extends Component {
  
 	public class Hitbox {
-		GameEntity owner;
-		Rectangle box;
+		public GameEntity owner;
+		public Rectangle box;
 		
 		public Hitbox(GameEntity owner, Rectangle hitbox) {
 			this.owner=owner;
@@ -23,7 +23,7 @@ public class Collidable extends Component {
 		
 	}
 	
-	static ArrayList<Hitbox> Collidables = null;
+	public static ArrayList<Hitbox> Collidables = null;
 
 	Hitbox hitbox;
 	

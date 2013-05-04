@@ -17,6 +17,8 @@ import entity.TankEntity;
 import gameplay.World;
 import org.newdawn.slick.tiled.TiledMap;
 
+import test.TestTankEntity;
+
 public class PlayState extends BasicGameState {
 
 	int stateID;
@@ -70,7 +72,7 @@ public class PlayState extends BasicGameState {
 		entities.add(player1);
 
 		//init player2
-		TankEntity player2 = new TankEntity("player2", playerKeybinds[1]);
+		TestTankEntity player2 = new TestTankEntity("player2", playerKeybinds[1]);
 		player2.setPosition(new Vector2f(500, 300));
 		entities.add(player2);
 
