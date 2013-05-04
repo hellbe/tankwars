@@ -18,7 +18,7 @@ public class TankEntity extends GameEntity {
 
 	Image tankImage=new Image("/data/battletank.png");
 	Image bulletImage= new Image("/data/bullet.png");
-	float hp = 60f;
+	float hp = 100f;
 	/**
 	 * Tank Entity's constructor
 	 * @param id the idstring of the entity

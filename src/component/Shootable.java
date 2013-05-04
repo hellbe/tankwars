@@ -46,12 +46,12 @@ public class Shootable extends RenderComponent {
 			if (bulletList==null) {
 				bulletList=new ArrayList<BulletEntity>();
 				removeList=new ArrayList<BulletEntity>();
-				bulletList.add(tmp=new BulletEntity("bullet", bulletImage,bulletScale));
+				bulletList.add(tmp=new BulletEntity("bullet", bulletImage,bulletScale,owner));
 				tmp.setPosition(bulletspawn);
 				tmp.setRotation(owner.getRotation());
 				tmp = null;
 			} else if (bulletList.size()<=maxProjectiles){
-				bulletList.add(tmp=new BulletEntity("bullet", bulletImage,bulletScale));
+				bulletList.add(tmp=new BulletEntity("bullet", bulletImage,bulletScale,owner));
 				tmp.setPosition(bulletspawn);
 				tmp.setRotation(owner.getRotation());
 				tmp = null;

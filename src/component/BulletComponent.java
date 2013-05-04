@@ -1,7 +1,6 @@
 package component;
  
 import java.util.ArrayList;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
@@ -10,7 +9,7 @@ import component.Collidable.Hitbox;
 import entity.GameEntity;
 
  
-public class BulletMovement extends Component {
+public class BulletComponent extends Component {
 	
 	boolean active = true;
 	
@@ -21,10 +20,14 @@ public class BulletMovement extends Component {
 	float pDamage;
 	
 	GameEntity collidingWith = null;
+	GameEntity bulletOwner;
+
+	int hitCounter=0;
 	
-	public BulletMovement(String id, float pDamage) {
+	public BulletComponent(String id, float pDamage, GameEntity bulletOwner) {
 		this.id = id;
 		this.pDamage = pDamage;
+		this.bulletOwner=bulletOwner;
 	}
  
 	@Override
@@ -44,8 +47,9 @@ public class BulletMovement extends Component {
 			if (hasCollision(position)) {
 
 				//if is colliding at current position => subtract hp and remove bullet
-				if (collidingWith.getComponent("killable") != null) {
-					((Killable) collidingWith.getComponent("killable")).addHp(-1f*pDamage);
+				Killable enemyKillable = (Killable) collidingWith.getComponent("killable");
+				if (enemyKillable != null) {
+					enemyKillable.addHp(-1f*pDamage);
 				}
 
 				position.y = gc.getHeight() + owner.getSize().y;
