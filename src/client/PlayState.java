@@ -13,6 +13,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import entity.BlockEntity;
 import entity.GameEntity;
+import entity.PowerUpEntity;
 import entity.TankEntity;
 import gameplay.World;
 import org.newdawn.slick.tiled.TiledMap;
@@ -75,7 +76,7 @@ public class PlayState extends BasicGameState {
 		TankEntity player2 = new TankEntity("player2", playerKeybinds[1]);
 		player2.setPosition(new Vector2f(500, 300));
 		entities.add(player2);
-
+		
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
