@@ -14,7 +14,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 public class TWGameClient extends BasicGameState {
 
-	private int stateID = 0;
+	private int stateID = 1;
 	TWEntityContainer entities = new TWEntityContainer();
 	TiledMap map;
 	TWMap mapInfo;
