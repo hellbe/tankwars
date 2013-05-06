@@ -12,7 +12,14 @@ import com.esotericsoftware.minlog.Log;
 
 public class TWGame extends StateBasedGame {
 	public static final int MAINMENUSTATE = 0;
+<<<<<<< HEAD
 	public static final int ENDSTATE = 4;
+=======
+	public static final int GAMESTATE = 1;
+	public static final int ENDSTATE = 3;
+	
+	public static boolean HOST = false;
+>>>>>>> Meny till gamestate fungerar
 
 	public TWGame() throws SlickException {
 		super("TankWars");
@@ -29,8 +36,12 @@ public class TWGame extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		this.addState(new TWMenuState(MAINMENUSTATE));
+<<<<<<< HEAD
 		this.addState(new TWGameClient(true, 1));
 		this.addState(new TWGameClient(false, 2));
+=======
+		this.addState(new TWGameClient(GAMESTATE));
+>>>>>>> Meny till gamestate fungerar
 		this.addState(new TWEndState(ENDSTATE));
 	}
 

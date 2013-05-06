@@ -1,20 +1,14 @@
 package network;
-import java.io.IOException;
+
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWMap;
 import network.TWNetwork.TWPlayerStatus;
-
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
-
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.*;
-
-import entity.BlockEntity;
-import entity.TankEntity;
 
 public class TWGameServer {
 	public TiledMap map;
@@ -24,8 +18,6 @@ public class TWGameServer {
 	TWServerUpdater updater;
 	Thread thread;
 	TWEntityContainer entities = new TWEntityContainer();
-	ArrayList<TWPlayerStatus> newPlayers = new ArrayList<TWPlayerStatus>();
-	ArrayList<TWPlayer> players = new ArrayList<TWPlayer>();
 	
 	public TWGameServer() throws SlickException {
 		// Start network server
@@ -43,8 +35,8 @@ public class TWGameServer {
 		
 	}
 
-	public void updatePlayerStatus(TWPlayerStatus playerStatus ) {
-		players.get( playerStatus.id - 1 ).playerStatus = playerStatus;
+	public void updatePlayerStatus( Integer id, TWPlayerStatus playerStatus ) {
+		entities.getPlayer( id ).playerStatus = playerStatus;
 	}
 
 	public void loadMapBlockData() throws SlickException{
@@ -87,10 +79,8 @@ public class TWGameServer {
 		networkServer.updateClients( entities );
 	}
 
-	public void addPlayer(TWPlayerStatus playerStatus){
-		players.add( new TWPlayer( playerStatus) );
-		entities.add( players.get( players.size() - 1 ) );
+	public void endGame() {
+		networkServer.stop();
 	}
-
 
 }

@@ -30,7 +30,6 @@ public class TWNetwork {
 		boolean up = false;
 		boolean down = false;
 		
-		int id;					//The player's client connection id
 		int move = 0; 			// 1 means forward, -1 backwards and 0 still
 		int turn = 0; 			// 1 means turn right, -1 left and 0 go straight
 		boolean shoot = false; 	//if the player wants to shoot
@@ -38,15 +37,37 @@ public class TWNetwork {
 		
 		public TWPlayerStatus(){ }
 		
-		public TWPlayerStatus( int id ){
-			this.id = id;
-		}
-		
 	}
 	
 	static public class TWEntityContainer extends CopyOnWriteArrayList<TWGameEntity>{
 		public TWEntityContainer(){
 			super();
+		}
+		
+		public void addPlayer( Integer id ){
+			add( new TWPlayer( id ));
+		}
+		
+		public TWPlayer getPlayer ( Integer id ){
+			for ( TWGameEntity entity : this ){
+				if ( entity instanceof TWPlayer && ( (TWPlayer) entity).id == id ){
+					return (TWPlayer) entity;
+				}
+			}
+			return null;
+		}
+		
+		public void removePlayer ( Integer id ){
+			int toRemove = -1;
+			for ( TWGameEntity entity : this ){
+				if ( entity instanceof TWPlayer && ( (TWPlayer) entity).id == id ){
+					toRemove = indexOf(entity);
+					break;
+				}
+			}
+			if ( toRemove != -1 ){
+				remove( toRemove );
+			}
 		}
 	}
 	

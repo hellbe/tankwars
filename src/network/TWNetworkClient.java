@@ -25,7 +25,6 @@ public class TWNetworkClient {
 
 			public void connected(Connection connection) {
 				id = connection.getID();
-				gameClient.playerStatus.id = id;
 			}
 
 			public void received(Connection connection, Object object) {
@@ -43,17 +42,23 @@ public class TWNetworkClient {
 
 		});
 
+	}
+
+	public void send( Object data ){
+		client.sendTCP( data );
+	}
+	
+	public void connect(){
 		client.start();
 		try {
 			client.connect(5000, "127.0.0.1", 55555);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	public void send( Object data ){
-		client.sendTCP( data );
+	public void disconnect() {
+		client.stop();
 	}
 
 }

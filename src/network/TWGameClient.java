@@ -14,57 +14,33 @@ import org.newdawn.slick.tiled.TiledMap;
 
 public class TWGameClient extends BasicGameState {
 
-	private int stateID = 1;
-	TWEntityContainer entities = new TWEntityContainer();
-	TiledMap map;
-	TWMap mapInfo;
 	TWNetworkClient networkClient;
+	TWGameServer gameServer;
+	TWGameRenderer renderer;
+	
+	private int gameStateID = -1;
+	TWEntityContainer entities = new TWEntityContainer();
+	TWMap mapInfo;
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
-	TWGameEntityPainter painter;
 	boolean host;
 
-	public TWGameClient( boolean host ) throws SlickException {
-		this.host = host;
+	public TWGameClient( int gameStateID ) throws SlickException {
+		this.gameStateID = gameStateID;
 	}
 
 	@Override
-	public void init(GameContainer container, StateBasedGame game) throws SlickException {
-		painter = new TWGameEntityPainter();
-		if ( host ){
-			new TWGameServer();
-		}
-		this.networkClient = new TWNetworkClient( this );
+	public void init( GameContainer container, StateBasedGame game ) throws SlickException {
+		renderer = new TWGameRenderer( this );
+		networkClient = new TWNetworkClient( this );
 	}
+
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-		Vector2f position = getPlayerEntityPosition();
-		System.out.println(position);
-		Vector2f offset = new Vector2f();
-		if ( position == null ){
-			position = new Vector2f(0,0);
-		}
-		if( position.x > 400 ){
-			offset.x = position.x - 400f;
-			if ( position.x > map.getWidth() * map.getTileWidth() - 400 ){
-				offset.x = map.getWidth() * map.getTileWidth() - 800;
-			}
-		}
-		if( position.y > 300  ){
-			offset.y = position.y - 300f;
-			if ( position.y > map.getHeight() * map.getTileHeight() - 300 ){
-				offset.y = map.getHeight() * map.getTileHeight() - 600;
-			}
-		}
-		if( map == null ){
-			if( mapInfo != null ){
-				map = new TiledMap( mapInfo.path, mapInfo.folder );
-			}
-		} else {
-			map.render( - (int) offset.x, - (int) offset.y);
-		}
+		renderer.updateOffset();
+		renderer.renderMap();
 		for ( TWGameEntity entity : entities ){
-			painter.draw( entity, offset );
+			renderer.renderEntity( entity );
 		}
 	}
 
@@ -75,18 +51,34 @@ public class TWGameClient extends BasicGameState {
 
 	@Override
 	public int getID() {
-		return stateID;
+		return gameStateID;
+	}
+
+	public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
+		System.out.println("Entering state " + getID());
+		if ( TWGame.HOST ){
+			gameServer = new TWGameServer();
+		}
+		networkClient.connect();
+	}
+
+	public void leave(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
+		System.out.println("Leaving state " + getID());
+		if ( TWGame.HOST ){
+			gameServer.endGame();
+		}
+		this.networkClient.disconnect();
 	}
 
 	public void keyPressed( int key, char c ){
-		changePlayerStatus( key, true );
+		updatePlayerStatus( key, true );
 	}
 
 	public void keyReleased(int key, char c){
-		changePlayerStatus( key, false );
+		updatePlayerStatus( key, false );
 	}
 
-	private void changePlayerStatus(int key, boolean pressed ) {
+	public void updatePlayerStatus(int key, boolean pressed ) {
 		switch ( key ){
 		case Input.KEY_LEFT:
 			playerStatus.left = pressed;
@@ -104,10 +96,10 @@ public class TWGameClient extends BasicGameState {
 			playerStatus.shoot = pressed;
 			break;
 		}
-		
+
 		if ( playerStatus.up && ! playerStatus.down ){
 			playerStatus.move = 1;
-			
+
 			//Set turn
 			if ( playerStatus.right && ! playerStatus.left ){
 				playerStatus.turn = 1;
@@ -122,7 +114,7 @@ public class TWGameClient extends BasicGameState {
 		}
 		else if ( ! playerStatus.up && playerStatus.down ){
 			playerStatus.move = -1;
-			
+
 			//Set turn
 			if ( playerStatus.right && ! playerStatus.left ){
 				playerStatus.turn = -1;
@@ -133,9 +125,10 @@ public class TWGameClient extends BasicGameState {
 			else {
 				playerStatus.turn = 0;
 			}
-		} else {
+		} 
+		else {
 			playerStatus.move = 0;
-			
+
 			//Set turn
 			if ( playerStatus.right && ! playerStatus.left ){
 				playerStatus.turn = 1;
@@ -152,21 +145,18 @@ public class TWGameClient extends BasicGameState {
 	}
 
 	public void sendPlayerStatus() {
-		if( playerStatus.change && playerStatus.id != 0 ){
+		if( playerStatus.change ){
 			networkClient.send( playerStatus );
 			playerStatus.change = false;
 		}
 	}
-	
+
 	public Vector2f getPlayerEntityPosition(){
-		for ( TWGameEntity entity : entities ){
-			if( entity instanceof TWPlayer ){
-				if( ((TWPlayer) entity ).playerStatus.id == networkClient.id ){
-					return entity.position;
-				}
-			}
+		TWPlayer player = entities.getPlayer( networkClient.id );
+		if( player != null ){
+			return player.position;
 		}
-		return null;
+		return new Vector2f();
 	}
 
 

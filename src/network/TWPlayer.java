@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class TWPlayer extends TWGameEntity {
 
+	int id;
 	int mayShootWhen;
 	TWPlayerStatus playerStatus;
 	
@@ -15,10 +16,9 @@ public class TWPlayer extends TWGameEntity {
 		super();
 	}
 	
-	public TWPlayer( TWPlayerStatus playerStatus ) {
+	public TWPlayer( Integer id ) {
 		super();
-		imagePath = "data/fastTank.png";
-		this.playerStatus = playerStatus;
+		this.id = id;
 	}
 	
 	@Override

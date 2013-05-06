@@ -31,7 +31,7 @@ public class TWNetworkServer {
 		server.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
 				System.out.println("Server: got an object");
-				handleReceived( object );
+				handleReceived( connection, object );
 			}
 
 			public void connected(Connection connection){
@@ -42,20 +42,20 @@ public class TWNetworkServer {
 
 	}
 
-	private void handleReceived(Object object) {
+	private void handleReceived(Connection connection, Object object) {
 
 		if (object instanceof String) {
 			message( (String) object );
 		}
 
 		else if ( object instanceof TWPlayerStatus ) {
-			gameServer.updatePlayerStatus( (TWPlayerStatus) object );
+			gameServer.updatePlayerStatus( connection.getID(), (TWPlayerStatus) object );
 		}
 
 	}
 
 	private void handleConnected( Connection connection ){
-		gameServer.addPlayer( new TWPlayerStatus( connection.getID() ));
+		gameServer.entities.addPlayer( connection.getID() );
 		server.sendToTCP( connection.getID(),  gameServer.mapInfo );
 	}
 
@@ -65,5 +65,9 @@ public class TWNetworkServer {
 
 	public void updateClients( TWEntityContainer entities) {
 		server.sendToAllTCP( entities );
+	}
+	
+	public void stop(){
+		server.stop();
 	}
 }

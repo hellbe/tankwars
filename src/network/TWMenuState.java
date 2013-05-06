@@ -75,9 +75,11 @@ public class TWMenuState extends BasicGameState {
 
 		if ( ( mouseX >= menuX && mouseX <= menuX + hostGameOption.getWidth()) && ( mouseY >= menuY && mouseY <= menuY + hostGameOption.getHeight()) ) {
 			insideHostGame = true;
-		} else if ( ( mouseX >= menuX && mouseX <= menuX+ joinGameOption.getWidth()) && ( mouseY >= menuY+80 && mouseY <= menuY+80 + joinGameOption.getHeight()) ) {
+		} 
+		else if ( ( mouseX >= menuX && mouseX <= menuX+ joinGameOption.getWidth()) && ( mouseY >= menuY+80 && mouseY <= menuY+80 + joinGameOption.getHeight()) ) {
 			insideJoinGame = true;
-		} else if ( ( mouseX >= menuX && mouseX <= menuX+ exitOption.getWidth()) && ( mouseY >= menuY+160 && mouseY <= menuY+160 + exitOption.getHeight()) ) {
+		} 
+		else if ( ( mouseX >= menuX && mouseX <= menuX+ exitOption.getWidth()) && ( mouseY >= menuY+160 && mouseY <= menuY+160 + exitOption.getHeight()) ) {
 			insideExit = true;
 		}
 
@@ -87,10 +89,16 @@ public class TWMenuState extends BasicGameState {
 				hostGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
+<<<<<<< HEAD
 				//Går in i TWGameClient( true, client_id ), true = host
 				sbg.enterState(1);
+=======
+				TWGame.HOST = true;
+				sbg.enterState( TWGame.GAMESTATE );
+>>>>>>> Meny till gamestate fungerar
 			}
-		} else {
+		} 
+		else {
 			if(hostGameScale > 1.0f) {
 				hostGameScale -= scaleStep * delta;
 			}
@@ -101,10 +109,16 @@ public class TWMenuState extends BasicGameState {
 				joinGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
+<<<<<<< HEAD
 				//Går in i TWGameClient( false, client_id ), false = ej host
 				sbg.enterState(4);
+=======
+				TWGame.HOST = true;
+				sbg.enterState(TWGame.GAMESTATE);
+>>>>>>> Meny till gamestate fungerar
 			}
-		} else {
+		} 
+		else {
 			if(joinGameScale > 1.0f) {
 				joinGameScale -= scaleStep * delta;
 			}
@@ -117,7 +131,8 @@ public class TWMenuState extends BasicGameState {
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ) {
 				gc.exit();
 			}
-		} else{
+		} 
+		else{
 			if(exitScale > 1.0f) {
 				exitScale -= scaleStep * delta;
 			}
