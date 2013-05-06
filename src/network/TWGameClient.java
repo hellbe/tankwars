@@ -42,6 +42,7 @@ public class TWGameClient extends BasicGameState {
 		for ( TWGameEntity entity : entities ){
 			renderer.renderEntity( entity );
 		}
+		renderer.renderScore(g);
 	}
 
 	@Override

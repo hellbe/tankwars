@@ -1,5 +1,9 @@
 package network;
 
+import java.util.ArrayList;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
@@ -62,6 +66,26 @@ public class TWGameRenderer {
 		} 
 		else {
 			map.render( - (int) offset.x, - (int) offset.y);
+		}
+	}
+	
+	public void renderScore(Graphics g){
+		ArrayList<TWPlayer> players = gameClient.entities.getPlayers();
+		int y = 30;
+		g.setColor( new Color( 0, 0, 0, 0.3f) );
+		g.fillRect(5, 5, 300, 30 + 20 * players.size() );
+		g.setColor( Color.white );
+		for ( TWPlayer player : players ){
+			String string = "Player "+player.id+" got "+player.hp+"hp and score: "+player.score;
+			if ( player.id == gameClient.networkClient.id ){
+				g.setColor( Color.red );
+				g.drawString( string , 10, y );
+				g.setColor( Color.white );
+			} 
+			else {
+				g.drawString( string , 10, y );
+			}
+			y = y + 20;
 		}
 	}
 }

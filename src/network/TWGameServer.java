@@ -64,12 +64,22 @@ public class TWGameServer {
 	}
 	
 	public void updateEntities(float delta) {
+		ArrayList<TWPlayer> players = entities.getPlayers();
+		
 		// Make movements
 		for( TWGameEntity entity : entities ){
-			if ( ! isBlocked( entity.getFutureMove( delta ))){
+			boolean move = true;
+			if ( isBlocked( entity.getFutureMove( delta ))){
+				move = false;
+			}
+//			if ( entity instanceof TWPlayer && playersCollide( (TWPlayer) entity, players )){
+//				move = false;
+//			} 
+			if ( move ){
 				entity.move(delta);
 			}
 		}
+		
 		// Shoot!
 		for ( TWPlayer player : entities.getPlayers() ){
 			if ( player.playerStatus.shoot && System.currentTimeMillis() - player.lastShot > 500 ){
@@ -78,10 +88,21 @@ public class TWGameServer {
 			}
 		}
 		
-		// Update status on all entities
-		for ( TWGameEntity entity : entities ){
-			entity.update();
+		// Hits
+		for ( TWPlayer player : players ){
+			for ( TWGameEntity entity : entities ){
+				if ( entity instanceof TWBullet && player.collides(entity) ){
+					player.hp = player.hp - 20;
+					entities.remove(entity);
+					if ( player.hp == 0 ){
+						player.position.set(50,50);
+						player.hp = 100;
+						entities.getPlayer( ((TWBullet) entity ).playerId ).score ++;
+					}
+				}
+			}
 		}
+		
 		// Update the clients
 		networkServer.updateClients( entities );
 	}

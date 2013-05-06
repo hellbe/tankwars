@@ -15,7 +15,7 @@ public class TWNetworkServer {
 	private Server server;
 	private TWGameServer gameServer;
 
-	public TWNetworkServer( TWGameServer gameServer ) throws SlickException {
+	public TWNetworkServer( final TWGameServer gameServer ) throws SlickException {
 		this.gameServer = gameServer;
 		server = new Server();
 		TWNetwork.register( server );
@@ -34,7 +34,12 @@ public class TWNetworkServer {
 			}
 
 			public void connected(Connection connection){
-				handleConnected( connection );
+				gameServer.entities.addPlayer( connection.getID() );
+				server.sendToTCP( connection.getID(),  gameServer.mapInfo );
+			}
+			
+			public void disconnected(Connection connection){
+				gameServer.entities.removePlayer( connection.getID() );
 			}
 
 		});
@@ -51,11 +56,6 @@ public class TWNetworkServer {
 			gameServer.updatePlayerStatus( connection.getID(), (TWPlayerStatus) object );
 		}
 
-	}
-
-	private void handleConnected( Connection connection ){
-		gameServer.entities.addPlayer( connection.getID() );
-		server.sendToTCP( connection.getID(),  gameServer.mapInfo );
 	}
 
 	private final void message( String message ){

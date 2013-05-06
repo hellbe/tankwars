@@ -104,7 +104,7 @@ public class TWMenuState extends BasicGameState {
 				joinGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.HOST = true;
+				TWGame.HOST = false;
 				sbg.enterState(TWGame.GAMESTATE);
 			}
 		} 

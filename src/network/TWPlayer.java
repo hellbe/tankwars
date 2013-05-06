@@ -6,6 +6,8 @@ import org.newdawn.slick.geom.Vector2f;
 public class TWPlayer extends TWGameEntity {
 
 	int id;
+	int hp = 100;
+	int score = 0;
 	long lastShot = 0;
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
 	
