@@ -114,7 +114,7 @@ public class TopDownMovement extends Component {
     	//check collisions to other objects..
 
     	hitbox.box.setBounds(position.x, position.y, owner.getSize().x, owner.getSize().y);
-
+    	
     	if (Collidables != null) {
     		boolean foundCollision=false;
 

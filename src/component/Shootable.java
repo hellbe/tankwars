@@ -21,17 +21,19 @@ public class Shootable extends RenderComponent {
 	private int maxProjectiles = 100;
 	private Image bulletImage = null;
 	
+	private float pDamage;
 	Integer shootButton;
 	
-	public Shootable(String id, Vector2f entitySize, Image image, Integer keybind) {
+	public Shootable(String id, float pDamage, Vector2f entitySize, Image image, Integer keybind) {
 		super(id);
 		this.bulletImage=image;
+		this.pDamage=pDamage;
 		this.shootButton=keybind;
 	}
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
-		
+				
 		//TODO: Projektilen roteras om man håller in knappen; bör fixas men är inget direkt problem.
 		if (gc.getInput().isKeyDown(shootButton) && gc.getTime()-lastFire >= fireDelay) {
 			
@@ -46,12 +48,12 @@ public class Shootable extends RenderComponent {
 			if (bulletList==null) {
 				bulletList=new ArrayList<BulletEntity>();
 				removeList=new ArrayList<BulletEntity>();
-				bulletList.add(tmp=new BulletEntity("bullet", bulletImage,bulletScale,owner));
+				bulletList.add(tmp=new BulletEntity("bullet", pDamage, bulletImage,bulletScale,owner));
 				tmp.setPosition(bulletspawn);
 				tmp.setRotation(owner.getRotation());
 				tmp = null;
 			} else if (bulletList.size()<=maxProjectiles){
-				bulletList.add(tmp=new BulletEntity("bullet", bulletImage,bulletScale,owner));
+				bulletList.add(tmp=new BulletEntity("bullet", pDamage, bulletImage,bulletScale,owner));
 				tmp.setPosition(bulletspawn);
 				tmp.setRotation(owner.getRotation());
 				tmp = null;
@@ -94,5 +96,13 @@ public class Shootable extends RenderComponent {
 			}
 		}
 	}
-	
+
+	public float getpDamage() {
+		return pDamage;
+	}
+
+	public void setDoubleDamage() {
+				pDamage = pDamage*2f;
+	}
+
 }

@@ -14,14 +14,22 @@ import component.RenderComponent;
 import component.Shootable;
 import component.TopDownMovement;
 
+/**
+ * a standard tank entity containing a package of properties. the tank is controllable by input and can shoot
+ * missiles around the map
+ * @author Ludde
+ *
+ */
 public class TankEntity extends GameEntity {
 
 	Image tankImage=new Image("/data/battletank.png");
 	Image bulletImage= new Image("/data/bullet.png");
 	float hp = 100f;
+	float pDamage = 20f;
 	/**
 	 * Tank Entity's constructor
 	 * @param id the idstring of the entity
+	 * @param the control configurations in order (up,left,down,right,shoot)
 	 * @throws SlickException
 	 */
 	public TankEntity(String id, Integer[] controlConfig) throws SlickException {
@@ -31,7 +39,7 @@ public class TankEntity extends GameEntity {
 		this.AddComponent(new ImageRenderComponent("TankImageRender", tankImage));
 		this.AddComponent( new TopDownMovement("TankMovement", controlConfig));
 		this.AddComponent(new Collidable("collidable", this, getSize()));
-		this.AddComponent(new Shootable("shootableTank", getSize(),bulletImage, controlConfig[4]));
+		this.AddComponent(new Shootable("shootable", pDamage, getSize(),bulletImage, controlConfig[4]));
 		this.AddComponent(new Killable("killable", hp));
 	
 	}

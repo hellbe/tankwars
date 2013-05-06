@@ -5,7 +5,7 @@ import org.newdawn.slick.geom.Vector2f;
 import component.Collidable;
 
 /**
- * an invisible entity that blocks a specifik region on the map using Collidable.
+ * an invisible entity that blocks a specific region on the map using the component Collidable.
  * @author Ludde
  *
  */
