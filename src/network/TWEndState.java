@@ -73,8 +73,7 @@ public class TWEndState extends BasicGameState  {
 				mainMenuScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				//Tillbaka till huvudmenyn
-				//sbg.enterState(TWGame.ENDGAMESTATE);
+				sbg.enterState(0);
 			}
 		} else {
 			if(mainMenuScale > 1.0f) {
