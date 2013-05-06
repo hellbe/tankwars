@@ -42,7 +42,8 @@ public abstract class TWGameEntity {
 		}
 		return false;
 	}
-
+	
 	public abstract void update();
+
 
 }

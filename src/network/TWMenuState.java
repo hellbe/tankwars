@@ -89,13 +89,8 @@ public class TWMenuState extends BasicGameState {
 				hostGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-<<<<<<< HEAD
-				//Går in i TWGameClient( true, client_id ), true = host
-				sbg.enterState(1);
-=======
 				TWGame.HOST = true;
 				sbg.enterState( TWGame.GAMESTATE );
->>>>>>> Meny till gamestate fungerar
 			}
 		} 
 		else {
@@ -109,13 +104,8 @@ public class TWMenuState extends BasicGameState {
 				joinGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-<<<<<<< HEAD
-				//Går in i TWGameClient( false, client_id ), false = ej host
-				sbg.enterState(4);
-=======
 				TWGame.HOST = true;
 				sbg.enterState(TWGame.GAMESTATE);
->>>>>>> Meny till gamestate fungerar
 			}
 		} 
 		else {

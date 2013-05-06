@@ -1,5 +1,6 @@
 package network;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.newdawn.slick.Image;
@@ -20,6 +21,7 @@ public class TWNetwork {
 		kryo.register(TWEntityContainer.class);
 		kryo.register(CopyOnWriteArrayList.class);
 		kryo.register(TWMap.class);
+		kryo.register(TWBullet.class);
 	}
 	/**
 	 * All network messages
@@ -68,6 +70,16 @@ public class TWNetwork {
 			if ( toRemove != -1 ){
 				remove( toRemove );
 			}
+		}
+
+		public ArrayList<TWPlayer> getPlayers() {
+			ArrayList<TWPlayer> toReturn = new ArrayList<TWPlayer>();
+			for ( TWGameEntity entity : this ){
+				if ( entity instanceof TWPlayer ){
+					toReturn.add ( (TWPlayer) entity );
+				}
+			}
+			return toReturn;
 		}
 	}
 	

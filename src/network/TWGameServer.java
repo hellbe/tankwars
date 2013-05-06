@@ -1,7 +1,6 @@
 package network;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
 
 import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWMap;
@@ -67,16 +66,33 @@ public class TWGameServer {
 	public void updateEntities(float delta) {
 		// Make movements
 		for( TWGameEntity entity : entities ){
-			if ( ! isBlocked( entity.getFutureMove( delta ) ) ){
+			if ( ! isBlocked( entity.getFutureMove( delta ))){
 				entity.move(delta);
 			}
 		}
+		// Shoot!
+		for ( TWPlayer player : entities.getPlayers() ){
+			if ( player.playerStatus.shoot && System.currentTimeMillis() - player.lastShot > 500 ){
+				entities.add( new TWBullet( player.id, player.position.copy().add( player.direction.copy().scale( 50)), player.direction.copy() ) );
+				player.lastShot = System.currentTimeMillis();
+			}
+		}
+		
 		// Update status on all entities
 		for ( TWGameEntity entity : entities ){
 			entity.update();
 		}
 		// Update the clients
 		networkServer.updateClients( entities );
+	}
+
+	private boolean playersCollide( TWPlayer player , ArrayList<TWPlayer> players) {
+		for ( TWPlayer other : players ){
+			if( player.id != other.id && player.collides( other) ){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void endGame() {

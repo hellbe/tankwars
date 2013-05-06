@@ -13,7 +13,6 @@ import com.esotericsoftware.kryonet.*;
 public class TWNetworkClient {
 	private Client client;
 	private TWGameClient gameClient;
-	private Kryo kryo;
 	public int id;
 
 	public TWNetworkClient( final TWGameClient gameClient ) throws SlickException {
@@ -33,8 +32,7 @@ public class TWNetworkClient {
 					gameClient.entities = (TWEntityContainer) object;
 				} 
 				else if ( object instanceof TWMap ){
-					TWMap mapInfo = (TWMap) object;
-					gameClient.mapInfo = mapInfo;
+					gameClient.mapInfo = (TWMap) object;
 				}
 			}
 

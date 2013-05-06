@@ -13,7 +13,6 @@ import com.esotericsoftware.kryonet.Server;
 
 public class TWNetworkServer {
 	private Server server;
-	private Kryo kryo;
 	private TWGameServer gameServer;
 
 	public TWNetworkServer( TWGameServer gameServer ) throws SlickException {
