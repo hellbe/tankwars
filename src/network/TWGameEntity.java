@@ -61,10 +61,5 @@ public abstract class TWGameEntity {
 		}
 		return false;
 	}
-	/**
-	 * update values of the entity
-	 */
-	public abstract void update();
-
 
 }

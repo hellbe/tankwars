@@ -17,52 +17,38 @@ import org.newdawn.slick.tiled.TiledMap;
  *
  */
 public class TWGameServer {
-	/**
-	 * the active map
-	 */
+	
+	/** The active map */
 	TiledMap map;
-	/**
-	 * information about the current map
-	 */
+	
+	/** information about the current map */
 	TWMap mapInfo;
-	/**
-	 * contains information about what tile is blocked and what's not
-	 */
+	
+	/** Contains information about what map tiles are blocked or not */
 	boolean[][] mapBlockData;
-	/**
-	 * the network server
-	 */
+	
+	/** The network server */
 	TWNetworkServer networkServer;
-	/**
-	 * the server updater
-	 */
+	
+	/** the server updater */
 	TWServerUpdater updater;
-	/**
-	 * container for every entity on the map
-	 */
+	
+	/** container for every entity on the map */
 	TWEntityContainer entities = new TWEntityContainer();
-	/**
-	 * container for chat messages
-	 */
+	
+	/** container for chat messages */
 	TWMessageContainer messages = new TWMessageContainer();
-	/**
-	 * constaints the message sending so we dont update the chat more than nessesary
-	 */
+	
+	/** constaints the message sending so we dont update the chat more than nessesary */
 	long lastMessageUpdate = 0;
 	
-	public TWGameServer( String mapName ) throws SlickException {
-		// Start network server
+	public TWGameServer(String mapName) throws SlickException {
 		networkServer = new TWNetworkServer( this );
-		
-		// Load map data
 		mapInfo = new TWMap( mapName, "data" );
 		map = new TiledMap( mapInfo.path , mapInfo.folder );
 		loadMapBlockData();	
-		
-		// Start the server updater thread
 		updater = new TWServerUpdater( this );
 		new Thread( updater ).start();
-		
 	}
 
 	/**
@@ -114,15 +100,17 @@ public class TWGameServer {
 	public void updateEntities(float delta) {
 		ArrayList<TWPlayer> players = entities.getPlayers();
 		ArrayList<TWBullet> bullets = entities.getBullets();
-		
-		// Tank movement
+		/**
+		 * Process tank movements
+		 */
 		for( TWPlayer player : players ){
 			if ( ! isBlocked( player.getFutureMove( delta ))){
 				player.move(delta);
 			} 
 		}
-		
-		// Bullet movement
+		/**
+		 * Process bullet movements and removal if they hit walls 
+		 */
 		for ( TWBullet bullet : bullets ){
 			if ( ! isBlocked( bullet.getFutureMove( delta ))){
 				bullet.move(delta);
@@ -131,16 +119,19 @@ public class TWGameServer {
 				entities.remove(bullet);
 			}
 		}
-		
-		// Shoot!
+		/**
+		 * Process bullet creation
+		 */
 		for ( TWPlayer player : entities.getPlayers() ){
 			if ( player.playerStatus.shoot && System.currentTimeMillis() - player.lastShot > 300 ){
-				entities.add( new TWBullet( player.id, player.position.copy().add( player.direction.copy().scale( 50)), player.direction.copy() ) );
+				entities.add(new TWBullet(player.id, player.position.copy().add( player.direction.copy().scale(50)),
+						player.direction.copy() ) );
 				player.lastShot = System.currentTimeMillis();
 			}
 		}
-		
-		// Hits
+		/**
+		 * Process player getting hit
+		 */
 		for ( TWPlayer player : players ){
 			for ( TWGameEntity entity : entities ){
 				if ( entity instanceof TWBullet && player.collides(entity) ){
@@ -157,15 +148,16 @@ public class TWGameServer {
 				}
 			}
 		}
-		
-		// Update the client entities
+		/**
+		 * Update the clients' entities
+		 */
 		networkServer.updateClients( entities );
-		
-		// Update the client messages
+		/**
+		 * Update the clients' message list
+		 */
 		if ( System.currentTimeMillis() - lastMessageUpdate > 1000 ){
 			networkServer.updateClients( messages );
 		}
-		
 	}
 
 	/**
@@ -183,18 +175,18 @@ public class TWGameServer {
 		Random random = new Random();
 		Vector2f position = new Vector2f();
 		do {
-			position.set( random.nextInt( map.getWidth() * map.getTileWidth() ), random.nextInt( map.getHeight() * map.getTileHeight() ) );
+			position.set( random.nextInt( map.getWidth() * map.getTileWidth() ), 
+					random.nextInt( map.getHeight() * map.getTileHeight() ) );
 		} while ( isBlocked( position ));
 		return position;
 	}
 	
 	/**
-	 * returns a random angle (rotation)
-	 * @return random angle
+	 * returns a random angle in degrees (rotation)
+	 * @return angle
 	 */
 	public int getRandomAngle(){
-		Random random = new Random();
-		return random.nextInt(359);
+		return new Random().nextInt(359);
 	}
 	
 	/**

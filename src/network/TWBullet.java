@@ -8,17 +8,12 @@ public class TWBullet extends TWGameEntity {
 	
 	public TWBullet(){ }
 	
-	public TWBullet( int playerId, Vector2f position, Vector2f direction ){
+	public TWBullet(int playerId, Vector2f position, Vector2f direction) {
 		this.speed = 40;
 		this.size = new Vector2f(25,25);
 		this.playerId = playerId;
 		this.position = position;
 		this.direction = direction;
 	}
-	
-	public void update(){
-		
-	}
-
 	
 }
