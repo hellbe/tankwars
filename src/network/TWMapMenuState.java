@@ -22,8 +22,8 @@ public class TWMapMenuState extends BasicGameState  {
 	Image map4option = null;
 	Image back = null;
 
-	private static int menuX = 200;
-	private static int menuY = 150;
+	private static int menuX = 250;
+	private static int menuY = 170;
 
 	float map1Scale = 1;
 	float map2Scale = 1;
@@ -47,10 +47,10 @@ public class TWMapMenuState extends BasicGameState  {
 
 		// Load the menu images
 		Image menuOptions = new Image("data/tankwars-mapoption.png");
-		map1option = menuOptions.getSubImage(0, 0, 156, 118);
-		map2option = menuOptions.getSubImage(158, 0, 156, 118);
-		map3option = menuOptions.getSubImage(318, 0, 156, 118);
-		map4option = menuOptions.getSubImage(476, 0, 156, 118);
+		map1option = menuOptions.getSubImage(0, 0, 156, 138);
+		map2option = menuOptions.getSubImage(158, 0, 156, 138);
+		map3option = menuOptions.getSubImage(318, 0, 156, 138);
+		map4option = menuOptions.getSubImage(476, 0, 156, 138);
 		
 		//Load back image
 		back = new Image("data/tankwars-mapback.png");
@@ -66,7 +66,7 @@ public class TWMapMenuState extends BasicGameState  {
 		map2option.draw(menuX+250, menuY, map2Scale);
 		map3option.draw(menuX, menuY+180, map3Scale);
 		map4option.draw(menuX+250, menuY+180, map4Scale);
-		back.draw(menuX+125, menuY+330, backScale);
+		back.draw(menuX+125, menuY+360, backScale);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class TWMapMenuState extends BasicGameState  {
 			insideMap3 = true;
 		} else if ( ( mouseX >= menuX + 250 && mouseX <= menuX + 250 + map4option.getWidth()) && ( mouseY >= menuY + 180 && mouseY <= menuY + 180 + map4option.getHeight()) ) {
 			insideMap4 = true;
-		} else if ( ( mouseX >= menuX + 125 && mouseX <= menuX + 125 + back.getWidth()) && ( mouseY >= menuY + 330 && mouseY <= menuY + 330 + back.getHeight()) ){
+		} else if ( ( mouseX >= menuX + 125 && mouseX <= menuX + 125 + back.getWidth()) && ( mouseY >= menuY + 360 && mouseY <= menuY + 360 + back.getHeight()) ){
 			insideBack = true;
 		}
 
@@ -101,7 +101,7 @@ public class TWMapMenuState extends BasicGameState  {
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.mapName = "data/TankWarsMap1.tmx";
 				TWGame.host = true;
-				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
+				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
 			if(map1Scale > 1.0f) {
@@ -116,7 +116,7 @@ public class TWMapMenuState extends BasicGameState  {
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.mapName = "data/TankWarsMap2.tmx";
 				TWGame.host = true;
-				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
+				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
 			if(map2Scale > 1.0f) {
@@ -131,7 +131,7 @@ public class TWMapMenuState extends BasicGameState  {
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.mapName = "data/TankWarsMap3.tmx";
 				TWGame.host = true;
-				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
+				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
 			if(map3Scale > 1.0f) {
@@ -146,7 +146,7 @@ public class TWMapMenuState extends BasicGameState  {
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.mapName = "data/TankWarsMap4.tmx";
 				TWGame.host = true;
-				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
+				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
 			if(map4Scale > 1.0f) {

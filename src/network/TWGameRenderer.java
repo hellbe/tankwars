@@ -37,7 +37,7 @@ public class TWGameRenderer {
 		this.windowHeight = gc.getHeight();
 		this.windowWidth = gc.getWidth();
 		try {
-			tankImage = new Image("data/tank.png");
+			tankImage = new Image("data/fastTank.png");
 			bulletImage = new Image("data/bullet2.png");
 		}
 		catch (SlickException e) {

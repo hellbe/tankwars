@@ -10,7 +10,6 @@ public class TWGame extends StateBasedGame {
 	public static final int MAINMENUSTATE = 0;
 	public static final int MAPMENUSTATE = 1;
 	public static final int GAMESTATE = 2;
-	public static final int ENDSTATE = 3;
 	
 	private static String GAMELOG = "Game log:";
 	private static int LOGROWS = 0;
@@ -26,7 +25,7 @@ public class TWGame extends StateBasedGame {
 		//Log.set( Log.LEVEL_DEBUG );
 		System.setProperty("java.net.preferIPv4Stack" , "true"); // Fixes host discovery problems on OSX
 		AppGameContainer app = new AppGameContainer( new TWGame() );
-		app.setDisplayMode(800, 600, false);
+		app.setDisplayMode(900, 700, false);
 		app.setAlwaysRender(true);
 		app.start();
 	}
@@ -36,7 +35,6 @@ public class TWGame extends StateBasedGame {
 		this.addState(new TWMenuState(MAINMENUSTATE));
 		this.addState(new TWMapMenuState(MAPMENUSTATE));
 		this.addState(new TWGameClient(GAMESTATE));
-		this.addState(new TWEndState(ENDSTATE));
 	}
 	
 	public static void addtoGameLog(String message) {
