@@ -110,7 +110,7 @@ public class TWMenuState extends BasicGameState {
 				hostGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				sbg.enterState( TWGame.MAPMENUSTATE );
+				sbg.enterState( TWGame.MAPMENUSTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 1000) );
 			}
 		} 
 		else {
