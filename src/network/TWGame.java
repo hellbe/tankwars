@@ -8,10 +8,12 @@ import org.newdawn.slick.state.StateBasedGame;
 public class TWGame extends StateBasedGame {
 	
 	public static final int MAINMENUSTATE = 0;
-	public static final int GAMESTATE = 1;
+	public static final int MAPMENUSTATE = 1;
+	public static final int GAMESTATE = 2;
 	public static final int ENDSTATE = 4;
 	
-	public static String GAMELOG = "Game log:";
+	private static String GAMELOG = "Game log:";
+	private static int LOGROWS=0;
 	
 	public static boolean HOST = false;
 
@@ -31,8 +33,26 @@ public class TWGame extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		this.addState(new TWMenuState(MAINMENUSTATE));
+		this.addState(new TWMapMenuState(MAPMENUSTATE));
 		this.addState(new TWGameClient(GAMESTATE));
 		this.addState(new TWEndState(ENDSTATE));
+	}
+	
+	public static void addtoGameLog(String message) {
+		if (LOGROWS >= 5) {
+			GAMELOG="";
+			LOGROWS = 0;
+		}
+		GAMELOG+= (System.getProperty("line.separator") + message);
+		LOGROWS+=1;
+	}
+
+	public static String getGAMELOG() {
+		return GAMELOG;
+	}
+	
+	public static boolean hasWon(TWPlayer player) {
+		return player.score==10;
 	}
 
 }

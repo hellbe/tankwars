@@ -67,10 +67,15 @@
     <property name="blocked" value="true"/>
    </properties>
   </tile>
+  <tile id="31">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Mark" width="40" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC8WXSVODQBSEUTEajQkKLge1OOX//0Rnquiqrq6ehUDw0KdZ+N46j6FpmjfRe9BT0GDWtlTkeA76Fe0nvu+gO7O+RLugh6DHir37iQ9ncO6VfBjXzyvyHYNOQQf6Jn/b8eFMVCc+dP5dg8+pa5bx7chG9nkqXjdBt5OQJx9Bnwl9Ffha2uP4jhSXl4LtfMelcWA+Zot2/5h7o+33wtUa28cZfLncZr6O4gG22F96iS/7jW1yinWGXtFn9tXywd7B3KlsqZjOUanXKB/s7cnvuEPZlvKxval7mO8gduS4ID1zCVstH+9zsUQdaH2gnh2n9iDI5bCLNfhQl653aH1q/wIv2+Y4nLi+1EfMx+up8ynlbFMbc/2Y3z340PG1ch49Jzcn5N6sGhv1Dn7DwMd+0BxAfx1n8tWy8ffZh8yXy4HS+5Tim9t/mBH9GN9N9aMt+ZhR+Vz8r83H8w3POfyercHn5oYSH2YQ/YfoV+Tj2cPNdanaYDadG5BntXz8Js/NpZTUZtfTlU9rJ+ertflc/iof71s6N+V0ruBD31Q+5FBtT13Lf1pf7v3YUu7/2uXXtfjGwrr+X6fy67/852Ls8gt8JXu3irHbE9f1jdlC+EcEY2rPHwftuM/AEgAA
+   H4sIAAAAAAAAA8WXSVODQBSEUTEajQkKLge1OOX//0Rnquiqrq6ehUDw0KdZ+N46j6FpmjfRe9BT0GDWtlTkeA76Fe0nvu+gO7O+RLugh6DHir37iQ9ncO6VfBjXzyvyHYNOQQf6Jn/b8eFMVCc+dP5dg8+pa5bx7chG9nkqXjdBt5OQJx9Bnwl9Ffha2uP4jhSXl4LtfMelcWA+Zot2/5h7o+33wtUa28cZfLncZr6O4gG22F96iS/7jW1yinWGXtFn9tXywd7B3KlsqZjOUanXKB/s7cnvuEPZlvKxval7mO8gduS4ID1zCVstH+9zsUQdaH2gnh2n9iDI5bCLNfhQl653aH1q/wIv2+Y4nLi+1EfMx+up8ynlbFMbc/2Y3z340PG1ch49Jzcn5N6sGhv1Dn7DwMd+0BxAfx1n8tWy8ffZh8yXy4HS+5Tim9t/mBH9GN9N9aMt+ZhR+Vz8r83H8w3POfyercHn5oYSH2YQ/YfoV+Tj2cPNdanaYDadG5BntXz8Js/NpZTUZtfTlU9rJ+ertflc/iof71s6N+V0ruBD31Q+5FBtT13Lf1pf7v3YUu7/2uXXtfjGwrr+X6fy67/852Ls8gt8JXu3irHbE9f1jdlC+EcEY2rPHwftuM/AEgAA
   </data>
  </layer>
 </map>

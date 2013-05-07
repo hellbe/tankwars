@@ -47,10 +47,15 @@
     <property name="blocked" value="true"/>
    </properties>
   </tile>
+  <tile id="31">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlzESgCAMBKNUaqX0/P+ZYkeRjAaIROeKbe92KDJcIqIEmpkycyWhcyaXt2TWBji/2sytsx+XZ+13KIiC367I0PhJ72HJXT/84Ac/ub+8BdK9sGR0PwBfpvyrSf+5kf3e7x/84OfF7+Lt/fa3feTNT7O1LPbbkzyg5wT/DnEg
+   eJztmLkOgzAMhmnpTW+kthOwtRO8/9s1DEiWZedwDijq8C0Yfv9JiIOpsiyrLPgY4hvFFrCz1E3FWXEBXIl7Ogudmrm+UCyF5Iw/qWZO+NsrDh5Q/qSaRWB/xQj+7g6UjL+bg4aLPyoeYn/oMOWn4k0Ef5ymqz+sM9Q3rq7Fmr/aEMf5ubxjrC/koXgqXgJ/3JqG9Df2/oC1oHTUbgP4M+XH57srJ+Tv6KmH9yIe/xSAa/D35+dvqB9S1kh75amHaxn8VqO+vygazfz3Y28tdWzyx65/jeH5X6/PXNw0bok/SnOu86cDzkNKfz2p+7e59UdT8+fSa8Xo37Ae9552mljM/Yvh/nNIwec3PDvfHrpfsy1edA==
   </data>
  </layer>
 </map>

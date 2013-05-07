@@ -53,8 +53,17 @@ public class TWGameClient extends BasicGameState {
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	
 		sendPlayerStatus();
+		
+		for (TWPlayer player : entities.getPlayers()) {
+			if (TWGame.hasWon(player)) {
+				//message to log is handled in TWNetworkClient disconnect() method due to synchronization issues.
+				game.enterState(TWGame.MAINMENUSTATE); 
+			}
+		}
 	}
+
 
 	@Override
 	public int getID() {

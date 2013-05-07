@@ -37,6 +37,16 @@ public class TWMenuState extends BasicGameState {
 	public int getID() {
 		return stateID;
 	}
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game)
+			throws SlickException {
+		super.enter(container, game);
+		hostGameScale = 1;
+		joinGameScale = 1;
+		exitScale = 1;
+	}
+	
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		background = new Image("data/tankwars-bg.jpg");
@@ -63,13 +73,11 @@ public class TWMenuState extends BasicGameState {
 		exitOption.draw(menuX, menuY+160, exitScale);
 		
 		//Draw log if possible
-		if (TWGame.GAMELOG != null) {
-			
+		if (TWGame.getGAMELOG() != null) {
 			g.setColor( new Color( 0, 0, 0, 0.3f) );
 			g.fillRect(290, 120, 460, 100);
 			g.setColor(Color.white);
-			g.drawString(TWGame.GAMELOG, 291, 120);
-			
+			g.drawString(TWGame.getGAMELOG(), 291, 120);
 		}
 	}
 
@@ -101,7 +109,7 @@ public class TWMenuState extends BasicGameState {
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.HOST = true;
-				sbg.enterState( TWGame.GAMESTATE );
+				sbg.enterState( TWGame.MAPMENUSTATE );
 			}
 		} 
 		else {
