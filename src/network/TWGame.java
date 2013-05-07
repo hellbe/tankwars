@@ -8,7 +8,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class TWGame extends StateBasedGame {
 	
 	public static final int MAINMENUSTATE = 0;
-	public static final int GAMESTATE = 1;
+	public static final int MAPMENUSTATE = 1;
+	public static final int GAMESTATE = 2;
 	public static final int ENDSTATE = 4;
 	
 	private static String GAMELOG = "Game log:";
@@ -32,6 +33,7 @@ public class TWGame extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		this.addState(new TWMenuState(MAINMENUSTATE));
+		this.addState(new TWMapMenuState(MAPMENUSTATE));
 		this.addState(new TWGameClient(GAMESTATE));
 		this.addState(new TWEndState(ENDSTATE));
 	}

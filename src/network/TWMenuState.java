@@ -109,7 +109,7 @@ public class TWMenuState extends BasicGameState {
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.HOST = true;
-				sbg.enterState( TWGame.GAMESTATE );
+				sbg.enterState( TWGame.MAPMENUSTATE );
 			}
 		} 
 		else {
