@@ -1,6 +1,7 @@
 package network;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWMap;
@@ -99,7 +100,13 @@ public class TWGameServer {
 					player.hp = player.hp - 20;
 					entities.remove(entity);
 					if ( player.hp == 0 ){
-						player.position.set(60,80); //ska vara random på kartan som inte är blockad
+						
+						Random random = new Random();
+						player.position.set(random.nextInt(map.getWidth()),random.nextInt(map.getHeight()));
+						while (isBlocked(player.position)) {
+							player.position.set(random.nextInt(map.getWidth()),random.nextInt(map.getHeight())); //ska vara random på kartan som inte är blockad
+						}
+
 						player.direction.set(0,1);
 						player.hp = 100;
 						entities.getPlayer( ((TWBullet) entity ).playerId ).score ++;
