@@ -6,11 +6,10 @@ import org.newdawn.slick.geom.Vector2f;
 
 public abstract class TWGameEntity {
 
-	Vector2f position;
-	Vector2f direction;
-	Vector2f size;
-	String imagePath;
-	float speed;
+	Vector2f position = new Vector2f(400,200);
+	Vector2f direction = new Vector2f(0);
+	Vector2f size = new Vector2f(1,1);
+	float speed = 0;
 	int	state = 0;
 	/**
 	 * 0 = standing still (normal)
@@ -20,10 +19,6 @@ public abstract class TWGameEntity {
 	 */
 
 	public TWGameEntity () {
-		direction = new Vector2f(45);
-		position = new Vector2f(400,200);
-		size = new Vector2f(86,40);
-		speed = 0;
 	}
 
 	public Vector2f getFutureMove ( float delta ){

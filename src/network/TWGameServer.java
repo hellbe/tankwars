@@ -95,7 +95,8 @@ public class TWGameServer {
 					player.hp = player.hp - 20;
 					entities.remove(entity);
 					if ( player.hp == 0 ){
-						player.position.set(50,50);
+						player.position.set(60,80);
+						player.direction.set(0,1);
 						player.hp = 100;
 						entities.getPlayer( ((TWBullet) entity ).playerId ).score ++;
 					}

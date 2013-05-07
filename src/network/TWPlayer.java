@@ -11,13 +11,12 @@ public class TWPlayer extends TWGameEntity {
 	long lastShot = 0;
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
 	
-	public TWPlayer() {
-		super();
-	}
+	public TWPlayer() {}
 	
 	public TWPlayer( Integer id ) {
-		super();
 		this.id = id;
+		size = new Vector2f(86,40);
+		direction = new Vector2f(45);
 	}
 	
 	@Override
