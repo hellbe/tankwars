@@ -5,7 +5,11 @@ import java.net.InetAddress;
 import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWMap;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
+
 import com.esotericsoftware.kryonet.*;
 
 
@@ -36,14 +40,14 @@ public class TWNetworkClient {
 			}
 
 			public void disconnected(Connection connection) { 
-				TWGame.addtoGameLog("the host has disconnected.");
+				TWGame.addtoGameLog("The host has disconnected.");
 				
 				for (TWPlayer player : gameClient.entities.getPlayers()) {
 					if (player.score == 10) {
 						TWGame.addtoGameLog("Player "+player.id+ " has won the game!");
 					}
 				}
-				gameClient.game.enterState(TWGame.MAINMENUSTATE);
+				gameClient.game.enterState(TWGame.MAINMENUSTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 1000));
 			}
 
 		});
