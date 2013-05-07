@@ -25,11 +25,6 @@ public class TWGameClient extends BasicGameState {
 	TWMessageContainer messages = new TWMessageContainer();
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
 	boolean typing = false;
-	
-	private int gameStateID = -1;
-	TWEntityContainer entities = new TWEntityContainer();
-	TWPlayerStatus playerStatus = new TWPlayerStatus();
-	TWMap mapInfo;
 
 	public TWGameClient( int gameStateID ) throws SlickException {
 		this.gameStateID = gameStateID;
