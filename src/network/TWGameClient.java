@@ -19,20 +19,17 @@ public class TWGameClient extends BasicGameState {
 	TWGameServer gameServer;
 	TWGameRenderer renderer;
 	StateBasedGame game;
-<<<<<<< HEAD
 
 	TWMap mapInfo;
 	TWEntityContainer entities = new TWEntityContainer();
 	TWMessageContainer messages = new TWMessageContainer();
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
 	boolean typing = false;
-=======
 	
 	private int gameStateID = -1;
 	TWEntityContainer entities = new TWEntityContainer();
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
 	TWMap mapInfo;
->>>>>>> Boom! MapMenu fixad
 
 	public TWGameClient( int gameStateID ) throws SlickException {
 		this.gameStateID = gameStateID;
