@@ -22,6 +22,7 @@ public class TWMapMenuState extends BasicGameState  {
 	 * the stateid
 	 */
 	int stateID = -1;
+	TWGame game;
 
 	/**
 	 * background image
@@ -86,8 +87,9 @@ public class TWMapMenuState extends BasicGameState  {
 	 * map menu constructor
 	 * @param stateID
 	 */
-	public TWMapMenuState( int stateID ){
+	public TWMapMenuState( int stateID, TWGame game ){
 		this.stateID = stateID;
+		this.game = game;
 	}
 
 	@Override
@@ -157,8 +159,8 @@ public class TWMapMenuState extends BasicGameState  {
 				map1Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.mapName = "data/TankWarsMap1.tmx";
-				TWGame.host = true;
+				game.mapName = "data/TankWarsMap1.tmx";
+				game.host = true;
 				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
@@ -172,8 +174,8 @@ public class TWMapMenuState extends BasicGameState  {
 				map2Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.mapName = "data/TankWarsMap2.tmx";
-				TWGame.host = true;
+				game.mapName = "data/TankWarsMap2.tmx";
+				game.host = true;
 				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
@@ -187,8 +189,8 @@ public class TWMapMenuState extends BasicGameState  {
 				map3Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.mapName = "data/TankWarsMap3.tmx";
-				TWGame.host = true;
+				game.mapName = "data/TankWarsMap3.tmx";
+				game.host = true;
 				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
@@ -202,8 +204,8 @@ public class TWMapMenuState extends BasicGameState  {
 				map4Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.mapName = "data/TankWarsMap4.tmx";
-				TWGame.host = true;
+				game.mapName = "data/TankWarsMap4.tmx";
+				game.host = true;
 				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {

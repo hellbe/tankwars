@@ -23,6 +23,7 @@ public class TWMenuState extends BasicGameState {
 	 * the state id
 	 */
 	int stateID = -1;
+	TWGame game;
 
 	/**
 	 * background image
@@ -71,8 +72,9 @@ public class TWMenuState extends BasicGameState {
 	 * menu state constructor
 	 * @param stateID
 	 */
-	public TWMenuState( int stateID )	{
+	public TWMenuState( int stateID, TWGame game )	{
 		this.stateID = stateID;
+		this.game = game;
 	}
 	
 	/**
@@ -120,11 +122,15 @@ public class TWMenuState extends BasicGameState {
 		exitOption.draw(menuX, menuY+160, exitScale);
 		
 		//Draw log if possible
-		if (TWGame.getGAMELOG() != null) {
+		if (game.getGameLog() != null || game.getGameLog().size() == 0) {
 			g.setColor( new Color( 0, 0, 0, 0.3f) );
 			g.fillRect(215, 160, 460, 100);
 			g.setColor(Color.white);
-			g.drawString(TWGame.getGAMELOG(), 218, 160);
+			int i = 0;
+			for ( String log : game.getGameLog() ){
+				g.drawString(log, 218, 160+i*13);
+				i++;
+			}
 		}
 	}
 
@@ -173,8 +179,8 @@ public class TWMenuState extends BasicGameState {
 				joinGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.host = false;
-				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
+				game.host = false;
+				sbg.enterState(TWGame.GAMESTATE);
 			}
 		} 
 		else {

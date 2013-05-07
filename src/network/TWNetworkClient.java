@@ -75,11 +75,11 @@ public class TWNetworkClient {
 			 * adds it to the GameLog if so. Redirects the Game back to the mainmenu
 			 */
 			public void disconnected(Connection connection) { 
-				TWGame.addtoGameLog("The host has disconnected.");
+				TWGame.gameLog.add("The host has disconnected.");
 				
 				for (TWPlayer player : gameClient.entities.getPlayers()) {
 					if (player.score == 10) {
-						TWGame.addtoGameLog("Player "+player.id+ " has won the game!");
+						TWGame.gameLog.add("Player " +player.id+ " has won the game!");
 					}
 				}
 				gameClient.game.enterState(TWGame.MAINMENUSTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
@@ -109,8 +109,7 @@ public class TWNetworkClient {
 			if ( address != null ){
 				ip = address.getHostName();
 			} else {
-				TWGame.addtoGameLog("Could not detect any active network server!");
-				gameClient.game.enterState(TWGame.MAINMENUSTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
+				gameClient.noServerFound();
 				return;
 			}
 		}

@@ -1,5 +1,7 @@
 package network;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -15,27 +17,26 @@ public class TWGame extends StateBasedGame {
 	 * the mainmenu gamestate
 	 */
 	public static final int MAINMENUSTATE = 0;
+	
 	/**
 	 * the choose map gamestate
 	 */
 	public static final int MAPMENUSTATE = 1;
+	
 	/**
 	 * the acutal gameplay state
 	 */
 	public static final int GAMESTATE = 2;
-	/**
-	 * The static log for main menu, should only be modified by the addtoGameLog-method
-	 */
-	private static String GAMELOG = "Game log:";
-	/**
-	 * number of rows currently saved in gamelog
-	 */
-	private static int LOGROWS = 0;
 	
 	/**
-	 * keeps track if the current client is a host or not
+	 * gamelog ArrayList
+	 */
+	 static ArrayList<String> gameLog = new ArrayList<String>();
+	/**
+	 * keeps track if the current game is a host or not
 	 */
 	public static boolean host = false;
+	
 	/**
 	 * name of the active map
 	 */
@@ -56,6 +57,7 @@ public class TWGame extends StateBasedGame {
 	 */
 	public static void main(String[] args) throws SlickException {
 		//Log.set( Log.LEVEL_DEBUG );
+		gameLog.add("Console log:");
 		System.setProperty("java.net.preferIPv4Stack" , "true"); // Fixes host discovery problems on OSX
 		AppGameContainer app = new AppGameContainer( new TWGame() );
 		app.setDisplayMode(900, 700, false);
@@ -65,40 +67,39 @@ public class TWGame extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
-		this.addState(new TWMenuState(MAINMENUSTATE));
-		this.addState(new TWMapMenuState(MAPMENUSTATE));
-		this.addState(new TWGameClient(GAMESTATE));
+		this.addState(new TWMenuState(MAINMENUSTATE, this));
+		this.addState(new TWMapMenuState(MAPMENUSTATE, this));
+		this.addState(new TWGameClient(GAMESTATE, this));
 	}
 	
 	/**
-	 * primitive static method to add messages to the game log, 
+	 * primitive method to add messages to the game log, 
 	 * messages should fit only one row in the main console in order for the method to work properly. 
 	 * @param message to add to the console
 	 */
-	public static void addtoGameLog(String message) {
-		if (LOGROWS >= 5) {
-			GAMELOG="";
-			LOGROWS = 0;
+	public void addtoGameLog(String message) {
+		if ( gameLog.size() > 5) {
+			gameLog.clear();
+			gameLog.add("Console log:");
 		}
-		GAMELOG+= (System.getProperty("line.separator") + message);
-		LOGROWS+=1;
+		gameLog.add(System.getProperty("line.separator") + message);
 	}
 
 	/**
-	 * get the static gamelog
-	 * @return TWGame.GAMELOG
+	 * get the gamelog
+	 * @return gameLog
 	 */
-	public static String getGAMELOG() {
-		return GAMELOG;
+	public ArrayList<String> getGameLog() {
+		return gameLog;
 	}
 	
 	/**
-	 * static method controlling the victory conditions
+	 * method controlling the victory conditions
 	 * @param player to check
 	 * @return true if player has won
 	 */
-	public static boolean hasWon(TWPlayer player) {
-		return player.score==10;
+	public boolean hasWon(TWPlayer player) {
+		return player.score == 10;
 	}
 
 }
