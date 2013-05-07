@@ -23,7 +23,6 @@ public class TWGame extends StateBasedGame {
 	 * the acutal gameplay state
 	 */
 	public static final int GAMESTATE = 2;
-
 	/**
 	 * The static log for main menu, should only be modified by the addtoGameLog-method
 	 */
