@@ -14,23 +14,49 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import com.esotericsoftware.kryonet.*;
 
-
+/**
+ * The clientside network handler; sends messages to the networkserver and the gameclient. Also recieves updates.
+ * 
+ * @author Ludde
+ *
+ */
 public class TWNetworkClient {
+	/**
+	 * the client used
+	 */
 	private Client client;
+	/**
+	 * the gameclient to update
+	 */
 	private TWGameClient gameClient;
+	/**
+	 * NWClient id
+	 */
 	public int id;
 
+	/**
+	 * TWNetworkClient constructor
+	 * @param gameClient the gameClient to handle
+	 * @throws SlickException
+	 */
 	public TWNetworkClient( final TWGameClient gameClient ) throws SlickException {
+		
+		//initiate network
 		this.gameClient = gameClient;
 		client = new Client();
 		TWNetwork.register( client );
-
+		//add a network listener
 		client.addListener( new Listener() {
 
+			/**
+			 * method invoked when connected to the network
+			 */
 			public void connected(Connection connection) {
 				id = connection.getID();
 			}
-			
+			/**
+			 * method invoked when recieved an object, synchronizes information
+			 */
 			public void received(Connection connection, Object object) {
 				
 				if ( object instanceof TWEntityContainer ){
@@ -44,7 +70,10 @@ public class TWNetworkClient {
 					gameClient.messages = (TWMessageContainer) object;
 				}
 			}
-
+			/**
+			 * method invoked when disconnected from the server, checks if someone has won the game and
+			 * adds it to the GameLog if so. Redirects the Game back to the mainmenu
+			 */
 			public void disconnected(Connection connection) { 
 				TWGame.addtoGameLog("The host has disconnected.");
 				
@@ -60,10 +89,18 @@ public class TWNetworkClient {
 
 	}
 
+	/**
+	 * method for sending objects
+	 * @param data the object to send
+	 */
 	public void send( Object data ){
 		client.sendTCP( data );
 	}
 	
+	/**
+	 * connect to a server automatically on the local area network on a preset port
+	 * @param localServer
+	 */
 	public void connect( boolean localServer ){
 		String ip = "127.0.0.1";
 		client.start();
@@ -84,6 +121,9 @@ public class TWNetworkClient {
 		}
 	}
 
+	/**
+	 * disconnect from the server.
+	 */
 	public void disconnect() {
 		client.stop();
 	}
