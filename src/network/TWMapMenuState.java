@@ -28,6 +28,8 @@ public class TWMapMenuState extends BasicGameState  {
 	float map4Scale = 1;
 	float backScale = 1;
 	float scaleStep = 0.0001f;
+	
+	String map;
 
 	public TWMapMenuState( int stateID ){
 		this.stateID = stateID;
@@ -97,6 +99,7 @@ public class TWMapMenuState extends BasicGameState  {
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				//Skicka in kartan här och gå in i gamestate
+				map = "data/TankWarsMap1.tmx";
 			}
 		} else {
 			if(map1Scale > 1.0f) {
@@ -110,6 +113,7 @@ public class TWMapMenuState extends BasicGameState  {
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				//Skicka in kartan här och gå in i gamestate
+				map = "data/TankWarsMap2.tmx";
 
 			}
 		} else {
@@ -124,6 +128,7 @@ public class TWMapMenuState extends BasicGameState  {
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				//Skicka in kartan här och gå in i gamestate
+				map = "data/TankWarsMap3.tmx";
 
 			}
 		} else {
@@ -138,6 +143,7 @@ public class TWMapMenuState extends BasicGameState  {
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				//Skicka in kartan här och gå in i gamestate
+				map = "data/TankWarsMap4.tmx";
 			}
 		} else {
 			if(map4Scale > 1.0f) {
