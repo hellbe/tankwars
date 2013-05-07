@@ -216,7 +216,7 @@ public class TWMapMenuState extends BasicGameState  {
 				backScale += scaleStep * delta;
 			}
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-				sbg.enterState( TWGame.MAINMENUSTATE);
+				sbg.enterState( TWGame.MAINMENUSTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.black, 1000));
 			}
 		} else {
 			if (backScale > 1.0f) {
