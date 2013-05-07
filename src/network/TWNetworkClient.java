@@ -36,8 +36,7 @@ public class TWNetworkClient {
 			}
 
 			public void disconnected(Connection connection) { 
-				System.out.println("player disconnected");
-				TWGame.GAMELOG += "\n the host has disconnected";
+				TWGame.addtoGameLog("the host has disconnected.");
 				gameClient.game.enterState(TWGame.MAINMENUSTATE);
 			}
 

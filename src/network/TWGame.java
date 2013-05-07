@@ -11,7 +11,8 @@ public class TWGame extends StateBasedGame {
 	public static final int GAMESTATE = 1;
 	public static final int ENDSTATE = 4;
 	
-	public static String GAMELOG = "Game log:";
+	private static String GAMELOG = "Game log:";
+	private static int LOGROWS=0;
 	
 	public static boolean HOST = false;
 
@@ -33,6 +34,19 @@ public class TWGame extends StateBasedGame {
 		this.addState(new TWMenuState(MAINMENUSTATE));
 		this.addState(new TWGameClient(GAMESTATE));
 		this.addState(new TWEndState(ENDSTATE));
+	}
+	
+	public static void addtoGameLog(String message) {
+		if (LOGROWS >= 7) {
+			GAMELOG="";
+			LOGROWS = 0;
+		}
+		GAMELOG+= ("/n" + message);
+		LOGROWS+=1;
+	}
+
+	public static String getGAMELOG() {
+		return GAMELOG;
 	}
 
 }

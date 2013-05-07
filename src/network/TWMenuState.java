@@ -63,13 +63,11 @@ public class TWMenuState extends BasicGameState {
 		exitOption.draw(menuX, menuY+160, exitScale);
 		
 		//Draw log if possible
-		if (TWGame.GAMELOG != null) {
-			
+		if (TWGame.getGAMELOG() != null) {
 			g.setColor( new Color( 0, 0, 0, 0.3f) );
 			g.fillRect(290, 120, 460, 100);
 			g.setColor(Color.white);
-			g.drawString(TWGame.GAMELOG, 291, 120);
-			
+			g.drawString(TWGame.getGAMELOG(), 291, 120);
 		}
 	}
 
