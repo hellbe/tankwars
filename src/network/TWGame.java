@@ -24,6 +24,7 @@ public class TWGame extends StateBasedGame {
 
 	public static void main(String[] args) throws SlickException {
 		//Log.set( Log.LEVEL_DEBUG );
+		System.setProperty("java.net.preferIPv4Stack" , "true"); // Fixes host discovery problems on OSX
 		AppGameContainer app = new AppGameContainer( new TWGame() );
 		app.setDisplayMode(800, 600, false);
 		app.setAlwaysRender(true);
