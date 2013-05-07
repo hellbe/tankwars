@@ -22,12 +22,12 @@ public class TWGameServer {
 	TWMessageContainer messages = new TWMessageContainer();
 	int lastMessageUpdate = 0;
 	
-	public TWGameServer() throws SlickException {
+	public TWGameServer( String mapName ) throws SlickException {
 		// Start network server
 		networkServer = new TWNetworkServer( this );
 		
 		// Load map data
-		mapInfo = new TWMap("data/TankWarsMap2.tmx","data");
+		mapInfo = new TWMap(mapName,"data");
 		map = new TiledMap( mapInfo.path , mapInfo.folder );
 		loadMapBlockData();	
 		
@@ -107,7 +107,7 @@ public class TWGameServer {
 						Random random = new Random();
 						player.position.set(random.nextInt(map.getWidth()),random.nextInt(map.getHeight()));
 						while (isBlocked(player.position)) {
-							player.position.set(random.nextInt(map.getWidth()),random.nextInt(map.getHeight())); //ska vara random på kartan som inte är blockad
+							player.position.set(random.nextInt(map.getWidth()),random.nextInt(map.getHeight())); //ska vara random p�� kartan som inte ��r blockad
 						}
 
 						player.direction.set(0,1);

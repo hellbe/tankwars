@@ -10,12 +10,13 @@ public class TWGame extends StateBasedGame {
 	public static final int MAINMENUSTATE = 0;
 	public static final int MAPMENUSTATE = 1;
 	public static final int GAMESTATE = 2;
-	public static final int ENDSTATE = 4;
+	public static final int ENDSTATE = 3;
 	
 	private static String GAMELOG = "Game log:";
-	private static int LOGROWS=0;
+	private static int LOGROWS = 0;
 	
-	public static boolean HOST = false;
+	public static boolean host = false;
+	static String mapName;
 
 	public TWGame() throws SlickException {
 		super("TankWars");

@@ -19,12 +19,20 @@ public class TWGameClient extends BasicGameState {
 	TWGameServer gameServer;
 	TWGameRenderer renderer;
 	StateBasedGame game;
+<<<<<<< HEAD
 
 	TWMap mapInfo;
 	TWEntityContainer entities = new TWEntityContainer();
 	TWMessageContainer messages = new TWMessageContainer();
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
 	boolean typing = false;
+=======
+	
+	private int gameStateID = -1;
+	TWEntityContainer entities = new TWEntityContainer();
+	TWPlayerStatus playerStatus = new TWPlayerStatus();
+	TWMap mapInfo;
+>>>>>>> Boom! MapMenu fixad
 
 	public TWGameClient( int gameStateID ) throws SlickException {
 		this.gameStateID = gameStateID;
@@ -72,15 +80,15 @@ public class TWGameClient extends BasicGameState {
 
 	public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
 		System.out.println("Entering state " + getID());
-		if ( TWGame.HOST ){
-			gameServer = new TWGameServer();
+		if ( TWGame.host ){
+			gameServer = new TWGameServer( TWGame.mapName );
 		}
-		networkClient.connect( TWGame.HOST );
+		networkClient.connect( TWGame.host );
 	}
 
 	public void leave(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
 		System.out.println("Leaving state " + getID());
-		if ( TWGame.HOST ){
+		if ( TWGame.host ){
 			gameServer.endGame();
 		}
 		this.networkClient.disconnect();
