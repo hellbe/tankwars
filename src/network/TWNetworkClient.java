@@ -47,12 +47,17 @@ public class TWNetworkClient {
 		client.sendTCP( data );
 	}
 	
-	public void connect(){
+	public void connect( boolean localServer ){
+		String ip = "127.0.0.1";
 		client.start();
-		InetAddress address = client.discoverHost(55555,55556);
-		System.out.println("Scanned for servers and found"+address);
+		if ( ! localServer ){
+			ip = client.discoverHost(55556,5000).getHostAddress();
+			if ( ip == null ){
+				throw new RuntimeException("Could not discover any network server");
+			}
+		}
 		try {
-			client.connect(5000, "127.0.0.1", 55555);
+			client.connect(5000, ip, 55555, 55556);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

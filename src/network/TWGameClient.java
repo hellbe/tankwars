@@ -60,7 +60,7 @@ public class TWGameClient extends BasicGameState {
 		if ( TWGame.HOST ){
 			gameServer = new TWGameServer();
 		}
-		networkClient.connect();
+		networkClient.connect( TWGame.HOST );
 	}
 
 	public void leave(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
