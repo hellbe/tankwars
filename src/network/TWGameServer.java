@@ -20,7 +20,7 @@ public class TWGameServer {
 	Thread thread;
 	TWEntityContainer entities = new TWEntityContainer();
 	TWMessageContainer messages = new TWMessageContainer();
-	int lastMessageUpdate = 0;
+	long lastMessageUpdate = 0;
 	
 	public TWGameServer() throws SlickException {
 		// Start network server
@@ -105,10 +105,9 @@ public class TWGameServer {
 					if ( player.hp == 0 ){
 						
 						Random random = new Random();
-						player.position.set(random.nextInt(map.getWidth()),random.nextInt(map.getHeight()));
-						while (isBlocked(player.position)) {
-							player.position.set(random.nextInt(map.getWidth()),random.nextInt(map.getHeight())); //ska vara random på kartan som inte är blockad
-						}
+						do {
+							player.position.set(random.nextInt( map.getWidth()), random.nextInt(map.getHeight()));
+						} while ( isBlocked( player.position ));
 
 						player.direction.set(0,1);
 						player.hp = 100;
@@ -122,7 +121,9 @@ public class TWGameServer {
 		networkServer.updateClients( entities );
 		
 		// Update the client messages
-		networkServer.updateClients( messages );
+		if ( System.currentTimeMillis() - lastMessageUpdate > 1000 ){
+			networkServer.updateClients( messages );
+		}
 		
 	}
 
