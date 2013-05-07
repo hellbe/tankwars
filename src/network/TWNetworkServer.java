@@ -22,14 +22,13 @@ public class TWNetworkServer {
 		server.start();
 
 		try {
-			server.bind(55555);
+			server.bind(55555,55556);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		server.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
-				System.out.println("Server: got an object");
 				handleReceived( connection, object );
 			}
 

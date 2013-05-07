@@ -1,5 +1,6 @@
 package network;
 import java.io.IOException;
+import java.net.InetAddress;
 
 import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWMap;
@@ -48,6 +49,8 @@ public class TWNetworkClient {
 	
 	public void connect(){
 		client.start();
+		InetAddress address = client.discoverHost(55555,55556);
+		System.out.println("Scanned for servers and found"+address);
 		try {
 			client.connect(5000, "127.0.0.1", 55555);
 		} catch (IOException e) {
