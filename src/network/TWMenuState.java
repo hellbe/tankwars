@@ -37,6 +37,16 @@ public class TWMenuState extends BasicGameState {
 	public int getID() {
 		return stateID;
 	}
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game)
+			throws SlickException {
+		super.enter(container, game);
+		hostGameScale = 1;
+		joinGameScale = 1;
+		exitScale = 1;
+	}
+	
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		background = new Image("data/tankwars-bg.jpg");

@@ -37,11 +37,11 @@ public class TWGame extends StateBasedGame {
 	}
 	
 	public static void addtoGameLog(String message) {
-		if (LOGROWS >= 7) {
+		if (LOGROWS >= 5) {
 			GAMELOG="";
 			LOGROWS = 0;
 		}
-		GAMELOG+= ("/n" + message);
+		GAMELOG+= (System.getProperty("line.separator") + message);
 		LOGROWS+=1;
 	}
 

@@ -56,7 +56,9 @@ public class TWNetworkClient {
 			if ( address != null ){
 				ip = address.getHostName();
 			} else {
-				throw new RuntimeException("Could not discover any network server");
+				TWGame.addtoGameLog("Could not detect any active network server!");
+				gameClient.game.enterState(TWGame.MAINMENUSTATE);
+				return;
 			}
 		}
 		try {
