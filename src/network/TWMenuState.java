@@ -12,27 +12,74 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+/**
+ * Menu state GameState; the main menu containing a gamelog and the main menu options 
+ * @author Ludde
+ *
+ */
 public class TWMenuState extends BasicGameState {
 
+	/**
+	 * the state id
+	 */
 	int stateID = -1;
+	TWGame game;
 
+	/**
+	 * background image
+	 */
 	Image background = null;
+	/**
+	 * host game menu option image
+	 */
 	Image hostGameOption = null;
+	/**
+	 * join game menu option image
+	 */
 	Image joinGameOption = null;
+	/**
+	 * exit game menu option image
+	 */
 	Image exitOption = null;
 
+	/**
+	 * x-offset for menuoption
+	 */
 	private static int menuX = 250;
+	/**
+	 * y-offset for menuoption
+	 */
 	private static int menuY = 350;
 
+	/**
+	 * imagescale for hostgame option
+	 */
 	float hostGameScale = 1;
+	/**
+	 * imagescale for joingame option
+	 */
 	float joinGameScale = 1;
+	/**
+	 * imagescale for the exitgame optio
+	 */
 	float exitScale = 1;
+	/**
+	 * float used when animating the different menuoptions
+	 */
 	float scaleStep = 0.0001f;
 
-	public TWMenuState( int stateID )	{
+	/**
+	 * menu state constructor
+	 * @param stateID
+	 */
+	public TWMenuState( int stateID, TWGame game )	{
 		this.stateID = stateID;
+		this.game = game;
 	}
 	
+	/**
+	 * the music for the menu
+	 */
 	Music menuMusic;
 
 	@Override
@@ -75,11 +122,15 @@ public class TWMenuState extends BasicGameState {
 		exitOption.draw(menuX, menuY+160, exitScale);
 		
 		//Draw log if possible
-		if (TWGame.getGAMELOG() != null) {
+		if (game.getGameLog() != null || game.getGameLog().size() == 0) {
 			g.setColor( new Color( 0, 0, 0, 0.3f) );
 			g.fillRect(215, 160, 460, 100);
 			g.setColor(Color.white);
-			g.drawString(TWGame.getGAMELOG(), 218, 160);
+			int i = 0;
+			for ( String log : game.getGameLog() ){
+				g.drawString(log, 218, 160+i*13);
+				i++;
+			}
 		}
 	}
 
@@ -87,13 +138,16 @@ public class TWMenuState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
 
+		//get mouse offset
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
 
+		//variables to check if we are inside any menuoptions
 		boolean insideHostGame = false;
 		boolean insideJoinGame = false;
 		boolean insideExit = false;
 
+		//update if mouse is inside any menuoption
 		if ( ( mouseX >= menuX && mouseX <= menuX + hostGameOption.getWidth()) && ( mouseY >= menuY && mouseY <= menuY + hostGameOption.getHeight()) ) {
 			insideHostGame = true;
 		} 
@@ -105,6 +159,7 @@ public class TWMenuState extends BasicGameState {
 		}
 
 
+		//animate if inside a menuoption and enter gamestate if clicked
 		if(insideHostGame){
 			if(hostGameScale < 1.05f) {
 				hostGameScale += scaleStep * delta;
@@ -124,8 +179,8 @@ public class TWMenuState extends BasicGameState {
 				joinGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.host = false;
-				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
+				game.host = false;
+				sbg.enterState(TWGame.GAMESTATE);
 			}
 		} 
 		else {

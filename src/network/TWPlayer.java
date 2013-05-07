@@ -4,22 +4,39 @@ import network.TWNetwork.TWPlayerStatus;
 import org.newdawn.slick.geom.Vector2f;
 
 /**
- * A player game entity with information about the player's life and belonging
- * @author Simon
+ * Playerclass, contains useful information about every player
+ * @author Ludde
  */
 public class TWPlayer extends TWGameEntity {
 
+	/**
+	 * player id
+	 */
 	int id;
+	/**
+	 * player hp
+	 */
 	int hp = 100;
+	/**
+	 * player score
+	 */
 	int score = 0;
+	/**
+	 * the time of the last shot, used when calculating next possible shot
+	 */
 	long lastShot = 0;
+	/** status container
+	 */
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
 	
+	/**
+	 * TWPlayer constructor
+	 */
 	public TWPlayer() {}
 	
 	/**
-	 * Create a player 
-	 * @param id of the player's connection
+	 * TWPlayer constructor, also sets the player size
+	 * @param id the player id
 	 */
 	public TWPlayer( Integer id ) {
 		this.id = id;

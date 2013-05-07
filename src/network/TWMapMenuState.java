@@ -11,29 +11,85 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+/**
+ * the state where you choose the desired map
+ * @author Ludde
+ *
+ */
 public class TWMapMenuState extends BasicGameState  {
 
+	/**
+	 * the stateid
+	 */
 	int stateID = -1;
+	TWGame game;
 
+	/**
+	 * background image
+	 */
 	Image background = null;
+	/**
+	 * map 1 thumbnail image
+	 */
 	Image map1option = null;
+	/**
+	 * map 2 thumbnail image
+	 */
 	Image map2option = null;
+	/**
+	 * map 3 thumbnail image
+	 */
 	Image map3option = null;
+	/**
+	 * map 4 thumbnail image
+	 */
 	Image map4option = null;
+	/**
+	 * image for menuchoice "back"
+	 */
 	Image back = null;
 
+	/**
+	 * x position of the menuchoice
+	 */
 	private static int menuX = 250;
+	/**
+	 *  y position of the menuchoice
+	 */
 	private static int menuY = 170;
 
+	/**
+	 * scale of the map thumbnail
+	 */
 	float map1Scale = 1;
+	/**
+	 * scale of the map thumbnail
+	 */
 	float map2Scale = 1;
+	/**
+	 * scale of the map thumbnail
+	 */
 	float map3Scale = 1;
+	/**
+	 * scale of the map thumbnail
+	 */
 	float map4Scale = 1;
+	/**
+	 * scale of the map thumbnail
+	 */
 	float backScale = 1;
+	/**
+	 * step value used when animating the menu options
+	 */
 	float scaleStep = 0.0001f;
 	
-	public TWMapMenuState( int stateID ){
+	/**
+	 * map menu constructor
+	 * @param stateID
+	 */
+	public TWMapMenuState( int stateID, TWGame game ){
 		this.stateID = stateID;
+		this.game = game;
 	}
 
 	@Override
@@ -73,15 +129,18 @@ public class TWMapMenuState extends BasicGameState  {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
 
+		//get mouse positions
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
 
+		//checks wheter the mousepointer is inside a menu option
 		boolean insideMap1 = false;
 		boolean insideMap2 = false;
 		boolean insideMap3 = false;
 		boolean insideMap4 = false;
 		boolean insideBack = false;
 		
+		//checks wheter the mousepointer is inside a menu option and updates values accordingly
 		if ( ( mouseX >= menuX && mouseX <= menuX + map1option.getWidth()) && ( mouseY >= menuY && mouseY <= menuY + map1option.getHeight()) ) {
 			insideMap1 = true;
 		} else if ( ( mouseX >= menuX + 250 && mouseX <= menuX + 250 + map2option.getWidth()) && ( mouseY >= menuY && mouseY <= menuY + map2option.getHeight()) ) {
@@ -94,13 +153,14 @@ public class TWMapMenuState extends BasicGameState  {
 			insideBack = true;
 		}
 
+		//animate and activate menu options
 		if(insideMap1){
 			if(map1Scale < 1.05f) {
 				map1Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.mapName = "data/TankWarsMap1.tmx";
-				TWGame.host = true;
+				game.mapName = "data/TankWarsMap1.tmx";
+				game.host = true;
 				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
@@ -114,8 +174,8 @@ public class TWMapMenuState extends BasicGameState  {
 				map2Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.mapName = "data/TankWarsMap2.tmx";
-				TWGame.host = true;
+				game.mapName = "data/TankWarsMap2.tmx";
+				game.host = true;
 				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
@@ -129,8 +189,8 @@ public class TWMapMenuState extends BasicGameState  {
 				map3Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.mapName = "data/TankWarsMap3.tmx";
-				TWGame.host = true;
+				game.mapName = "data/TankWarsMap3.tmx";
+				game.host = true;
 				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
@@ -144,8 +204,8 @@ public class TWMapMenuState extends BasicGameState  {
 				map4Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.mapName = "data/TankWarsMap4.tmx";
-				TWGame.host = true;
+				game.mapName = "data/TankWarsMap4.tmx";
+				game.host = true;
 				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 1000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {

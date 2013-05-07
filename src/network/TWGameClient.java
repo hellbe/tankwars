@@ -39,7 +39,7 @@ public class TWGameClient extends BasicGameState {
 	/**
 	 * the active game
 	 */
-	StateBasedGame game;
+	TWGame game;
 
 	/**
 	 * contains information about the active map
@@ -67,14 +67,14 @@ public class TWGameClient extends BasicGameState {
 	 * @param gameStateID the ID for this state (stored in TWGame)
 	 * @throws SlickException
 	 */
-	public TWGameClient( int gameStateID ) throws SlickException {
+	public TWGameClient( int gameStateID, TWGame game ) throws SlickException {
 		this.gameStateID = gameStateID;
+		this.game = game;
 	}
 
 	
 	@Override
 	public void init( GameContainer gc, StateBasedGame game ) throws SlickException {
-		this.game = game;
 		renderer = new TWGameRenderer( this, gc );
 		networkClient = new TWNetworkClient( this );
 	}
@@ -94,12 +94,12 @@ public class TWGameClient extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame stateBasedgame, int delta) throws SlickException {
 	
 		sendPlayerStatus();
 		
 		for (TWPlayer player : entities.getPlayers()) {
-			if (TWGame.hasWon(player)) {
+			if (game.hasWon(player)) {
 				//message to log is handled in TWNetworkClient disconnect() method due to synchronization issues.
 				game.enterState(TWGame.MAINMENUSTATE); 
 			}
@@ -259,6 +259,12 @@ public class TWGameClient extends BasicGameState {
 	
 	public int getPlayerId(){
 		return networkClient.id;
+	}
+
+
+	public void noServerFound() {
+		game.gameLog.add("Could not detect any active network server!");
+		game.enterState(TWGame.MAINMENUSTATE);
 	}
 
 }
