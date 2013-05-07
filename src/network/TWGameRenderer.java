@@ -18,7 +18,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 /**
  * Client painter, draws everything on the client window
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public class TWGameRenderer {

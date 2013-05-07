@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 /**
  * main class of TankWars game; contains each gamestate and some static variables and methods
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public class TWGame extends StateBasedGame {

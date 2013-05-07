@@ -13,7 +13,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 /**
  * Game server class. Handles almost every game calculations based on the NetworkServer input.
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public class TWGameServer {
