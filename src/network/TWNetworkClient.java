@@ -51,8 +51,10 @@ public class TWNetworkClient {
 		String ip = "127.0.0.1";
 		client.start();
 		if ( ! localServer ){
-			ip = client.discoverHost(55556,5000).getHostAddress();
-			if ( ip == null ){
+			InetAddress address = client.discoverHost(55556,5000);
+			if ( address != null ){
+				ip = address.getHostName();
+			} else {
 				throw new RuntimeException("Could not discover any network server");
 			}
 		}
