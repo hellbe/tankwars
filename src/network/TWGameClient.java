@@ -51,8 +51,17 @@ public class TWGameClient extends BasicGameState {
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	
 		sendPlayerStatus();
+	
+		for (TWPlayer player : entities.getPlayers()) {
+			if (player.score == 10) {
+				//message to log is handled in TWNetworkClient disconnect() method due to synchronization issues.
+				game.enterState(TWGame.MAINMENUSTATE); 
+			}
+		}
 	}
+
 
 	@Override
 	public int getID() {
@@ -152,7 +161,7 @@ public class TWGameClient extends BasicGameState {
 		}
 		return new Vector2f();
 	}
-
+	
 
 }
 

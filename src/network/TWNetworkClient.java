@@ -37,6 +37,12 @@ public class TWNetworkClient {
 
 			public void disconnected(Connection connection) { 
 				TWGame.addtoGameLog("the host has disconnected.");
+				
+				for (TWPlayer player : gameClient.entities.getPlayers()) {
+					if (player.score == 10) {
+						TWGame.addtoGameLog("Player "+player.id+ " has won the game!");
+					}
+				}
 				gameClient.game.enterState(TWGame.MAINMENUSTATE);
 			}
 

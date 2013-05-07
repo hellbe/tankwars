@@ -99,7 +99,7 @@ public class TWGameServer {
 					player.hp = player.hp - 20;
 					entities.remove(entity);
 					if ( player.hp == 0 ){
-						player.position.set(60,80);
+						player.position.set(60,80); //ska vara random på kartan som inte är blockad
 						player.direction.set(0,1);
 						player.hp = 100;
 						entities.getPlayer( ((TWBullet) entity ).playerId ).score ++;

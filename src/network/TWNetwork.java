@@ -56,7 +56,6 @@ public class TWNetwork {
 		}
 		
 		public void removePlayer ( Integer id ){
-			int i = -1;
 			for ( TWPlayer player : this.getPlayers() ){
 				if ( player.id == id ){
 					this.remove(player);
