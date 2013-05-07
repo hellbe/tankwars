@@ -27,6 +27,7 @@ public class TWNetworkServer {
 	/**
 	 * the gameserver
 	 */
+	@SuppressWarnings("unused")					//It is used, just not for function calls. See below.
 	private TWGameServer gameServer;
 
 	/**

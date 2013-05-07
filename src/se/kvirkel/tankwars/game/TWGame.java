@@ -27,21 +27,22 @@ public class TWGame extends StateBasedGame {
 	/**
 	 * gamelog ArrayList
 	 */
-	 public static ArrayList<String> gameLog = new ArrayList<String>();
+	public ArrayList<String> gameLog = new ArrayList<String>();
 	/**
 	 * keeps track if the current game is a host or not
 	 */
-	public static boolean host = false;
+	public boolean host = false;
 	/**
 	 * name of the active map
 	 */
-	static String mapName;
+	public String mapName;
 	/**
 	 * game constructor
 	 * @throws SlickException
 	 */
 	public TWGame() throws SlickException {
 		super("TankWars");
+		gameLog.add("Console log:");
 	}
 
 	/**
@@ -51,7 +52,6 @@ public class TWGame extends StateBasedGame {
 	 */
 	public static void main(String[] args) throws SlickException {
 		//Log.set( Log.LEVEL_DEBUG );
-		gameLog.add("Console log:");
 		System.setProperty("java.net.preferIPv4Stack" , "true"); // Fixes host discovery problems on OSX
 		AppGameContainer app = new AppGameContainer( new TWGame() );
 		app.setDisplayMode(900, 700, false);
@@ -65,7 +65,7 @@ public class TWGame extends StateBasedGame {
 		this.addState(new TWMapMenuState(MAPMENUSTATE, this));
 		this.addState(new TWGameClient(GAMESTATE, this));
 	}
-	
+
 	/**
 	 * primitive method to add messages to the game log, 
 	 * messages should fit only one row in the main console in order for the method to work properly. 
@@ -86,7 +86,7 @@ public class TWGame extends StateBasedGame {
 	public ArrayList<String> getGameLog() {
 		return gameLog;
 	}
-	
+
 	/**
 	 * method controlling the victory conditions
 	 * @param player to check

@@ -1,5 +1,6 @@
 package se.kvirkel.tankwars.game;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -7,6 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import se.kvirkel.tankwars.network.TWNetworkClient;
 import se.kvirkel.tankwars.network.TWNetwork.TWEntityContainer;
@@ -135,10 +138,10 @@ public class TWGameClient extends BasicGameState {
 	 * waits for the server to send a map and then loads the map
 	 */
 	public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
-		if ( TWGame.host ){
-			gameServer = new TWGameServer( TWGame.mapName );
+		if ( game.host ){
+			gameServer = new TWGameServer( game.mapName );
 		}
-		if ( ! networkClient.connect( TWGame.host )){
+		if ( ! networkClient.connect( game.host )){
 			noServerFound();
 			return;
 		}
@@ -157,7 +160,7 @@ public class TWGameClient extends BasicGameState {
 	 * Closes the gameServer properly and disconnects the client
 	 */
 	public void leave(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
-		if ( TWGame.host ){
+		if ( game.host ){
 			gameServer.endGame();
 		}
 		this.networkClient.disconnect();
@@ -295,6 +298,17 @@ public class TWGameClient extends BasicGameState {
 	public void noServerFound() {
 		game.gameLog.add("Could not detect any active network server!");
 		game.enterState(TWGame.MAINMENUSTATE);
+	}
+
+	public void gameEnded() {
+		game.gameLog.add("The host has disconnected.");
+
+		for (TWPlayer player : entities.getPlayers()) {
+			if (player.score == 10) {
+				game.gameLog.add("Player " +player.id+ " has won the game!");
+			}
+		}
+		game.enterState(TWGame.MAINMENUSTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 	}
 
 }
