@@ -11,15 +11,43 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
+/**
+ * Game server class. Handles almost every game calculations based on the NetworkServer input.
+ * @author Ludde
+ *
+ */
 public class TWGameServer {
+	/**
+	 * the active map
+	 */
 	TiledMap map;
+	/**
+	 * information about the current map
+	 */
 	TWMap mapInfo;
+	/**
+	 * contains information about what tile is blocked and what's not
+	 */
 	boolean[][] mapBlockData;
+	/**
+	 * the network server
+	 */
 	TWNetworkServer networkServer;
+	/**
+	 * the server updater
+	 */
 	TWServerUpdater updater;
-	Thread thread;
+	/**
+	 * container for every entity on the map
+	 */
 	TWEntityContainer entities = new TWEntityContainer();
+	/**
+	 * container for chat messages
+	 */
 	TWMessageContainer messages = new TWMessageContainer();
+	/**
+	 * constaints the message sending so we dont update the chat more than nessesary
+	 */
 	long lastMessageUpdate = 0;
 	
 	public TWGameServer( String mapName ) throws SlickException {
@@ -33,15 +61,23 @@ public class TWGameServer {
 		
 		// Start the server updater thread
 		updater = new TWServerUpdater( this );
-		thread = new Thread( updater );
-		thread.start();
+		new Thread( updater ).start();
 		
 	}
 
+	/**
+	 * update the status for the specific play
+	 * @param id the player to update
+	 * @param playerStatus the status to set on the player
+	 */
 	public void updatePlayerStatus( Integer id, TWPlayerStatus playerStatus ) {
 		entities.getPlayer( id ).playerStatus = playerStatus;
 	}
 
+	/**
+	 * Load map properties. Sets each tile blocked or not
+	 * @throws SlickException
+	 */
 	public void loadMapBlockData() throws SlickException{
 		mapBlockData = new boolean[ map.getWidth() ][ map.getHeight() ];
 		for ( int xAxis=0; xAxis < map.getWidth(); xAxis ++ ) {
@@ -55,6 +91,11 @@ public class TWGameServer {
 		}
 	}
 
+	/**
+	 * A method to check if the position is currently blocked on the map
+	 * @param position the position to check
+	 * @return true if position is blocked
+	 */
 	public boolean isBlocked( Vector2f position ) {
 		if( position.x > map.getWidth() * map.getTileWidth() 
 				|| position.y > map.getHeight() * map.getTileHeight() 
@@ -66,7 +107,10 @@ public class TWGameServer {
 		int yBlock = (int) ( position.y / map.getTileHeight() );
 		return mapBlockData[xBlock][yBlock];
 	}
-	
+	/**
+	 * updates every entity on the map based on speed, shots and hits; then sends the updated list to NetworkServer
+	 * @param delta
+	 */
 	public void updateEntities(float delta) {
 		ArrayList<TWPlayer> players = entities.getPlayers();
 		ArrayList<TWBullet> bullets = entities.getBullets();
@@ -124,19 +168,17 @@ public class TWGameServer {
 		
 	}
 
-	private boolean playersCollide( TWPlayer player , ArrayList<TWPlayer> players) {
-		for ( TWPlayer other : players ){
-			if( player.id != other.id && player.collides( other) ){
-				return true;
-			}
-		}
-		return false;
-	}
-
+	/**
+	 * end the game and server.
+	 */
 	public void endGame() {
 		networkServer.stop();
 	}
 	
+	/**
+	 * method used for getting a random non-blocked position
+	 * @return random valid position
+	 */
 	public Vector2f getRandomNotBlockedPosition(){
 		Random random = new Random();
 		Vector2f position = new Vector2f();
@@ -146,11 +188,19 @@ public class TWGameServer {
 		return position;
 	}
 	
+	/**
+	 * returns a random angle (rotation)
+	 * @return random angle
+	 */
 	public int getRandomAngle(){
 		Random random = new Random();
 		return random.nextInt(359);
 	}
 	
+	/**
+	 * add a player to the game
+	 * @param id unique id of the player to add
+	 */
 	public void addPlayer(int id) {
 		TWPlayer player = new TWPlayer( id );
 		player.position = getRandomNotBlockedPosition();
