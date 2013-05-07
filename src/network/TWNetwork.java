@@ -46,37 +46,40 @@ public class TWNetwork {
 			super();
 		}
 		
-		public void addPlayer( Integer id ){
-			add( new TWPlayer( id ));
-		}
-		
 		public TWPlayer getPlayer ( Integer id ){
-			for ( TWGameEntity entity : this ){
-				if ( entity instanceof TWPlayer && ( (TWPlayer) entity).id == id ){
-					return (TWPlayer) entity;
+			for ( TWPlayer player : this.getPlayers() ){
+				if ( player.id == id ){
+					return player;
 				}
 			}
 			return null;
 		}
 		
 		public void removePlayer ( Integer id ){
-			int toRemove = -1;
-			for ( TWGameEntity entity : this ){
-				if ( entity instanceof TWPlayer && ( (TWPlayer) entity).id == id ){
-					toRemove = indexOf(entity);
-					break;
+			int i = -1;
+			for ( TWPlayer player : this.getPlayers() ){
+				if ( player.id == id ){
+					this.remove(player);
 				}
 			}
-			if ( toRemove != -1 ){
-				remove( toRemove );
-			}
+			
 		}
-
+		
 		public ArrayList<TWPlayer> getPlayers() {
 			ArrayList<TWPlayer> toReturn = new ArrayList<TWPlayer>();
 			for ( TWGameEntity entity : this ){
 				if ( entity instanceof TWPlayer ){
 					toReturn.add ( (TWPlayer) entity );
+				}
+			}
+			return toReturn;
+		}
+		
+		public ArrayList<TWBullet> getBullets() {
+			ArrayList<TWBullet> toReturn = new ArrayList<TWBullet>();
+			for ( TWGameEntity entity : this ){
+				if ( entity instanceof TWBullet ){
+					toReturn.add ( (TWBullet) entity );
 				}
 			}
 			return toReturn;

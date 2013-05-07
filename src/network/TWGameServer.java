@@ -65,24 +65,28 @@ public class TWGameServer {
 	
 	public void updateEntities(float delta) {
 		ArrayList<TWPlayer> players = entities.getPlayers();
+		ArrayList<TWBullet> bullets = entities.getBullets();
 		
-		// Make movements
-		for( TWGameEntity entity : entities ){
-			boolean move = true;
-			if ( isBlocked( entity.getFutureMove( delta ))){
-				move = false;
+		// Tank movement
+		for( TWPlayer player : players ){
+			if ( ! isBlocked( player.getFutureMove( delta ))){
+				player.move(delta);
+			} 
+		}
+		
+		// Bullet movement
+		for ( TWBullet bullet : bullets ){
+			if ( ! isBlocked( bullet.getFutureMove( delta ))){
+				bullet.move(delta);
 			}
-//			if ( entity instanceof TWPlayer && playersCollide( (TWPlayer) entity, players )){
-//				move = false;
-//			} 
-			if ( move ){
-				entity.move(delta);
+			else {
+				entities.remove(bullet);
 			}
 		}
 		
 		// Shoot!
 		for ( TWPlayer player : entities.getPlayers() ){
-			if ( player.playerStatus.shoot && System.currentTimeMillis() - player.lastShot > 500 ){
+			if ( player.playerStatus.shoot && System.currentTimeMillis() - player.lastShot > 300 ){
 				entities.add( new TWBullet( player.id, player.position.copy().add( player.direction.copy().scale( 50)), player.direction.copy() ) );
 				player.lastShot = System.currentTimeMillis();
 			}

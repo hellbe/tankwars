@@ -30,7 +30,7 @@ public class TWNetworkServer {
 			}
 
 			public void connected(Connection connection){
-				gameServer.entities.addPlayer( connection.getID() );
+				gameServer.entities.add( new TWPlayer(connection.getID()) );
 				server.sendToTCP( connection.getID(),  gameServer.mapInfo );
 			}
 			
