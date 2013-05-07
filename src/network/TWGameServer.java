@@ -23,7 +23,7 @@ public class TWGameServer {
 		networkServer = new TWNetworkServer( this );
 		
 		// Load map data
-		mapInfo = new TWMap("data/TankWars.tmx","data");
+		mapInfo = new TWMap("data/TankWarsGrass.tmx","data");
 		map = new TiledMap( mapInfo.path , mapInfo.folder );
 		loadMapBlockData();	
 		
