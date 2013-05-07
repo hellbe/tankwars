@@ -6,8 +6,6 @@ import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWMap;
 
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.tiled.TiledMap;
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.*;
 
 

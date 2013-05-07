@@ -1,6 +1,5 @@
 package network;
 
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
 public class TWBullet extends TWGameEntity {

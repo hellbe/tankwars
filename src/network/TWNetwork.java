@@ -3,7 +3,6 @@ package network;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -41,6 +40,7 @@ public class TWNetwork {
 		
 	}
 	
+	@SuppressWarnings("serial")
 	static public class TWEntityContainer extends CopyOnWriteArrayList<TWGameEntity>{
 		public TWEntityContainer(){
 			super();

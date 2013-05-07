@@ -1,7 +1,5 @@
 package network;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
 public abstract class TWGameEntity {

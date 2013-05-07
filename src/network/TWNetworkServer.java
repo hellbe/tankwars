@@ -1,12 +1,9 @@
 package network;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWPlayerStatus;
 import org.newdawn.slick.SlickException;
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;

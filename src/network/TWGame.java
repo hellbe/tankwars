@@ -5,11 +5,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import client.EndState;
-import client.MenuState;
-
-import com.esotericsoftware.minlog.Log;
-
 public class TWGame extends StateBasedGame {
 	
 	public static final int MAINMENUSTATE = 0;
