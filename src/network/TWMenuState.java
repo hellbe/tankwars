@@ -12,27 +12,72 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+/**
+ * Menu state GameState; the main menu containing a gamelog and the main menu options 
+ * @author Ludde
+ *
+ */
 public class TWMenuState extends BasicGameState {
 
+	/**
+	 * the state id
+	 */
 	int stateID = -1;
 
+	/**
+	 * background image
+	 */
 	Image background = null;
+	/**
+	 * host game menu option image
+	 */
 	Image hostGameOption = null;
+	/**
+	 * join game menu option image
+	 */
 	Image joinGameOption = null;
+	/**
+	 * exit game menu option image
+	 */
 	Image exitOption = null;
 
+	/**
+	 * x-offset for menuoption
+	 */
 	private static int menuX = 250;
+	/**
+	 * y-offset for menuoption
+	 */
 	private static int menuY = 350;
 
+	/**
+	 * imagescale for hostgame option
+	 */
 	float hostGameScale = 1;
+	/**
+	 * imagescale for joingame option
+	 */
 	float joinGameScale = 1;
+	/**
+	 * imagescale for the exitgame optio
+	 */
 	float exitScale = 1;
+	/**
+	 * float used when animating the different menuoptions
+	 */
 	float scaleStep = 0.0001f;
 
+	/**
+	 * menu state constructor
+	 * @param stateID
+	 */
 	public TWMenuState( int stateID )	{
 		this.stateID = stateID;
 	}
 	
+	/**
+	 * the music for the menu
+	 */
 	Music menuMusic;
 
 	@Override
@@ -87,13 +132,16 @@ public class TWMenuState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
 
+		//get mouse offset
 		int mouseX = input.getMouseX();
 		int mouseY = input.getMouseY();
 
+		//variables to check if we are inside any menuoptions
 		boolean insideHostGame = false;
 		boolean insideJoinGame = false;
 		boolean insideExit = false;
 
+		//update if mouse is inside any menuoption
 		if ( ( mouseX >= menuX && mouseX <= menuX + hostGameOption.getWidth()) && ( mouseY >= menuY && mouseY <= menuY + hostGameOption.getHeight()) ) {
 			insideHostGame = true;
 		} 
@@ -105,6 +153,7 @@ public class TWMenuState extends BasicGameState {
 		}
 
 
+		//animate if inside a menuoption and enter gamestate if clicked
 		if(insideHostGame){
 			if(hostGameScale < 1.05f) {
 				hostGameScale += scaleStep * delta;
