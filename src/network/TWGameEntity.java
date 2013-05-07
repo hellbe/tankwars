@@ -16,8 +16,7 @@ public abstract class TWGameEntity {
 	 * 3 = exploding/dying/dissolving
 	 */
 
-	public TWGameEntity () {
-	}
+	public TWGameEntity () { }
 
 	public Vector2f getFutureMove ( float delta ){
 		return position.copy().add( direction.copy().scale( delta * speed ));
