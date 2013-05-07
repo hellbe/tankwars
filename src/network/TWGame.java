@@ -12,22 +12,18 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  */
 public class TWGame extends StateBasedGame {
-	
 	/**
 	 * the mainmenu gamestate
 	 */
 	public static final int MAINMENUSTATE = 0;
-	
 	/**
 	 * the choose map gamestate
 	 */
 	public static final int MAPMENUSTATE = 1;
-	
 	/**
 	 * the acutal gameplay state
 	 */
 	public static final int GAMESTATE = 2;
-	
 	/**
 	 * gamelog ArrayList
 	 */
@@ -36,12 +32,10 @@ public class TWGame extends StateBasedGame {
 	 * keeps track if the current game is a host or not
 	 */
 	public static boolean host = false;
-	
 	/**
 	 * name of the active map
 	 */
 	static String mapName;
-
 	/**
 	 * game constructor
 	 * @throws SlickException
