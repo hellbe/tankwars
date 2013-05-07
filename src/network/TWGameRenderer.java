@@ -27,7 +27,7 @@ public class TWGameRenderer {
 		this.gameClient = gameClient;
 		offset = new Vector2f();
 		try {
-			tankImage = new Image("data/tank.png");
+			tankImage = new Image("data/fastTank.png");
 			bulletImage = new Image("data/bullet2.png");
 		}
 		catch (SlickException e) {

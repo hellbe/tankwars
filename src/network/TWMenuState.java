@@ -21,8 +21,8 @@ public class TWMenuState extends BasicGameState {
 	Image joinGameOption = null;
 	Image exitOption = null;
 
-	private static int menuX = 200;
-	private static int menuY = 250;
+	private static int menuX = 250;
+	private static int menuY = 350;
 
 	float hostGameScale = 1;
 	float joinGameScale = 1;
@@ -77,9 +77,9 @@ public class TWMenuState extends BasicGameState {
 		//Draw log if possible
 		if (TWGame.getGAMELOG() != null) {
 			g.setColor( new Color( 0, 0, 0, 0.3f) );
-			g.fillRect(290, 120, 460, 100);
+			g.fillRect(215, 160, 460, 100);
 			g.setColor(Color.white);
-			g.drawString(TWGame.getGAMELOG(), 291, 120);
+			g.drawString(TWGame.getGAMELOG(), 218, 160);
 		}
 	}
 
