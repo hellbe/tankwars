@@ -68,7 +68,7 @@ public class TWMenuState extends BasicGameState {
 			g.setColor( new Color( 0, 0, 0, 0.3f) );
 			g.fillRect(290, 120, 460, 100);
 			g.setColor(Color.white);
-			g.drawString(TWGame.GAMELOG, 293, 123);
+			g.drawString(TWGame.GAMELOG, 291, 120);
 			
 		}
 	}
