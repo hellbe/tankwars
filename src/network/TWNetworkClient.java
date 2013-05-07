@@ -34,7 +34,7 @@ public class TWNetworkClient {
 	/**
 	 * TWClient id
 	 */
-	public int id;
+	public Integer id;
 
 	/**
 	 * TWNetworkClient constructor
@@ -97,7 +97,7 @@ public class TWNetworkClient {
 	 * connect to a server automatically on the local area network on a preset port
 	 * @param localServer
 	 */
-	public void connect( boolean localServer ){
+	public boolean connect( boolean localServer ){
 		String ip = "127.0.0.1";
 		client.start();
 		if ( ! localServer ){
@@ -105,8 +105,7 @@ public class TWNetworkClient {
 			if ( address != null ){
 				ip = address.getHostName();
 			} else {
-				gameClient.noServerFound();
-				return;
+				return false;
 			}
 		}
 		try {
@@ -114,6 +113,7 @@ public class TWNetworkClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 
 	/**

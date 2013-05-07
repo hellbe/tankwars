@@ -84,17 +84,27 @@ public class TWGameClient extends BasicGameState {
 	 */
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
+		/**
+		 * Prevent render from running before enter() has been called and network connection
+		 * is surely established
+		 */
+		if ( networkClient.id == null ){
+			return;
+		}
+		/**
+		 * Render the different layers of content
+		 */
 		renderer.updateOffset();
 		renderer.renderMap();
 		renderer.renderEntities( entities );
 		renderer.renderHealthBars( entities.getPlayers(), g);
 		renderer.renderMessages( g, messages );
 		if ( typing ){
-			renderer.renderMessageField( gc, g, "test" );
+			renderer.renderMessageField( gc, g );
 		}
 		renderer.renderScore(g);
 	}
-	
+
 	/**
 	 * Part of the client's game loop
 	 * Called when the client want to update the world, which is does by
@@ -117,7 +127,7 @@ public class TWGameClient extends BasicGameState {
 	public int getID() {
 		return gameStateID;
 	}
-	
+
 	/**
 	 * Executes when the users enter the state. Connects to the network server,
 	 * waits for the server to send a map and then loads the map
@@ -126,7 +136,10 @@ public class TWGameClient extends BasicGameState {
 		if ( TWGame.host ){
 			gameServer = new TWGameServer( TWGame.mapName );
 		}
-		networkClient.connect( TWGame.host );
+		if ( ! networkClient.connect( TWGame.host )){
+			noServerFound();
+			return;
+		}
 		while ( mapInfo == null ){
 			try {
 				Thread.sleep(20);
@@ -136,7 +149,7 @@ public class TWGameClient extends BasicGameState {
 		}
 		renderer.loadMap(mapInfo);
 	}
-	
+
 	/**
 	 * Executes when the client leaves the state
 	 * Closes the gameServer properly and disconnects the client
@@ -253,7 +266,7 @@ public class TWGameClient extends BasicGameState {
 		}
 		typing = false;
 	}
-	
+
 	/**
 	 * gets the local player's position from the entitylist
 	 * @return
@@ -265,7 +278,7 @@ public class TWGameClient extends BasicGameState {
 		}
 		return new Vector2f();
 	}
-	
+
 	/**
 	 * Returns the client's player id 
 	 * @return the player id

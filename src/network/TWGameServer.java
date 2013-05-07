@@ -199,5 +199,14 @@ public class TWGameServer {
 		player.direction = new Vector2f( getRandomAngle() );
 		entities.add(player);
 	}
+	
+	/**
+	 * method controlling the victory conditions
+	 * @param player to check
+	 * @return true if player has won
+	 */
+	public boolean hasWon(TWPlayer player) {
+		return player.score == 10;
+	}
 
 }

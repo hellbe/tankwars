@@ -111,7 +111,11 @@ public class TWGameRenderer {
 	 * updates the offset so that that the view follows the tank
 	 */
 	public void updateOffset(){
-		Vector2f position = gameClient.entities.getPlayer( gameClient.getPlayerId() ).position;
+		Vector2f position = new Vector2f();
+		TWPlayer player = gameClient.entities.getPlayer( gameClient.getPlayerId() );
+		if ( player != null ){
+			position = player.position;
+		}
 
 		// Set x-axis offset
 		if( position.x > windowWidth / 2 ){
@@ -244,7 +248,7 @@ public class TWGameRenderer {
  * @param g the graphics
  * @param string 
  */
-	public void renderMessageField( GameContainer gc, Graphics g, String string ) {
+	public void renderMessageField(GameContainer gc, Graphics g) {
 		messageField.render(gc,g);
 		messageField.setFocus(true);
 	}
