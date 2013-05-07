@@ -24,10 +24,10 @@ public class TWClient extends StateBasedGame {
     }
  
     public void initStatesList(GameContainer gameContainer) throws SlickException {
-    	this.addState(new MapMenuState(1));
-//    	this.addState(new MenuState(MAINMENUSTATE));
-//    	this.addState(new PlayState(HOSTGAMEPLAYSTATE));
-//    	this.addState(new PlayState(JOINGAMEPLAYSTATE));
-//    	this.addState(new EndState(ENDGAMESTATE));
+    	//this.addState(new MapMenuState(1));
+    	this.addState(new MenuState(MAINMENUSTATE));
+    	this.addState(new PlayState(HOSTGAMEPLAYSTATE));
+    	this.addState(new PlayState(JOINGAMEPLAYSTATE));
+    	this.addState(new EndState(ENDGAMESTATE));
     }
 }
