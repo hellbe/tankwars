@@ -11,6 +11,8 @@ public class TWGame extends StateBasedGame {
 	public static final int GAMESTATE = 1;
 	public static final int ENDSTATE = 4;
 	
+	public static String GAMELOG = "";
+	
 	public static boolean HOST = false;
 
 	public TWGame() throws SlickException {

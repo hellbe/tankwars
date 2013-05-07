@@ -1,5 +1,6 @@
 package network;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -29,7 +30,7 @@ public class TWMenuState extends BasicGameState {
 	public TWMenuState( int stateID )	{
 		this.stateID = stateID;
 	}
-
+	
 	Music menuMusic;
 
 	@Override
@@ -60,6 +61,16 @@ public class TWMenuState extends BasicGameState {
 		hostGameOption.draw(menuX, menuY, hostGameScale);
 		joinGameOption.draw(menuX, menuY+80, joinGameScale);
 		exitOption.draw(menuX, menuY+160, exitScale);
+		
+		//Draw log if possible
+		if (TWGame.GAMELOG != null) {
+			
+			g.setColor( new Color( 0, 0, 0, 0.3f) );
+			g.fillRect(290, 120, 460, 100);
+			g.setColor(Color.white);
+			g.drawString(TWGame.GAMELOG, 293, 123);
+			
+		}
 	}
 
 

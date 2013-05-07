@@ -24,7 +24,7 @@ public class TWNetworkClient {
 			public void connected(Connection connection) {
 				id = connection.getID();
 			}
-
+			
 			public void received(Connection connection, Object object) {
 				
 				if ( object instanceof TWEntityContainer ){
@@ -35,7 +35,11 @@ public class TWNetworkClient {
 				}
 			}
 
-			public void disconnected(Connection connection) { }
+			public void disconnected(Connection connection) { 
+				System.out.println("player disconnected");
+				TWGame.GAMELOG += "\n the host has disconnected";
+				gameClient.game.enterState(TWGame.MAINMENUSTATE);
+			}
 
 		});
 

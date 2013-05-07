@@ -16,6 +16,7 @@ public class TWGameClient extends BasicGameState {
 	TWNetworkClient networkClient;
 	TWGameServer gameServer;
 	TWGameRenderer renderer;
+	StateBasedGame game;
 	
 	private int gameStateID = -1;
 	TWEntityContainer entities = new TWEntityContainer();
@@ -31,6 +32,7 @@ public class TWGameClient extends BasicGameState {
 	public void init( GameContainer container, StateBasedGame game ) throws SlickException {
 		renderer = new TWGameRenderer( this );
 		networkClient = new TWNetworkClient( this );
+		this.game=game;
 	}
 
 
