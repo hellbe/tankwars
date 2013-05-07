@@ -50,5 +50,9 @@ public class TWGame extends StateBasedGame {
 	public static String getGAMELOG() {
 		return GAMELOG;
 	}
+	
+	public static boolean hasWon(TWPlayer player) {
+		return player.score==10;
+	}
 
 }
