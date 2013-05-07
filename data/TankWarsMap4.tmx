@@ -2,6 +2,21 @@
 <map version="1.0" orientation="orthogonal" width="40" height="30" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="tmw_grass_spacing" tilewidth="32" tileheight="32">
   <image source="tmw_grass_spacing.png" width="629" height="679"/>
+  <tile id="33">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
   <tile id="230">
    <properties>
     <property name="blocked" value="true"/>
