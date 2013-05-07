@@ -19,7 +19,6 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  */
 public class TWGameClient extends BasicGameState {
-
 	/**
 	 * stateID
 	 */
@@ -40,7 +39,6 @@ public class TWGameClient extends BasicGameState {
 	 * the active game
 	 */
 	TWGame game;
-
 	/**
 	 * contains information about the active map
 	 */
@@ -61,7 +59,6 @@ public class TWGameClient extends BasicGameState {
 	 * true if player is currently typing a message
 	 */
 	boolean typing = false;
-
 	/**
 	 * gameclient constructor
 	 * @param gameStateID the ID for this state (stored in TWGame)
@@ -72,14 +69,19 @@ public class TWGameClient extends BasicGameState {
 		this.game = game;
 	}
 
-	
+	/**
+	 * Called when the state is initialized, loads resources for future use
+	 */
 	@Override
 	public void init( GameContainer gc, StateBasedGame game ) throws SlickException {
 		renderer = new TWGameRenderer( this, gc );
 		networkClient = new TWNetworkClient( this );
 	}
 
-
+	/**
+	 * Part of the clients game loop
+	 * Called when the client wants to paint the content of the game 
+	 */
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		renderer.updateOffset();
@@ -92,42 +94,53 @@ public class TWGameClient extends BasicGameState {
 		}
 		renderer.renderScore(g);
 	}
-
+	
+	/**
+	 * Part of the client's game loop
+	 * Called when the client want to update the world, which is does by
+	 * sending it's player status to the server
+	 */
 	@Override
 	public void update(GameContainer container, StateBasedGame stateBasedgame, int delta) throws SlickException {
-	
 		sendPlayerStatus();
-		
 		for (TWPlayer player : entities.getPlayers()) {
 			if (game.hasWon(player)) {
-				//message to log is handled in TWNetworkClient disconnect() method due to synchronization issues.
 				game.enterState(TWGame.MAINMENUSTATE); 
 			}
 		}
 	}
 
-
+	/**
+	 * Returns the game state ID to be able to navigate between states
+	 */
 	@Override
 	public int getID() {
 		return gameStateID;
 	}
-
+	
+	/**
+	 * Executes when the users enter the state. Connects to the network server,
+	 * waits for the server to send a map and then loads the map
+	 */
 	public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
-		System.out.println("Entering state " + getID());
 		if ( TWGame.host ){
 			gameServer = new TWGameServer( TWGame.mapName );
 		}
 		networkClient.connect( TWGame.host );
 		while ( mapInfo == null ){
 			try {
-				Thread.sleep(50);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		renderer.loadMap(mapInfo);
 	}
-
+	
+	/**
+	 * Executes when the client leaves the state
+	 * Closes the gameServer properly and disconnects the client
+	 */
 	public void leave(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
 		System.out.println("Leaving state " + getID());
 		if ( TWGame.host ){
@@ -136,10 +149,16 @@ public class TWGameClient extends BasicGameState {
 		this.networkClient.disconnect();
 	}
 
+	/**
+	 * Called when a key is pressed down
+	 */
 	public void keyPressed( int key, char c ){
 		handleKeyPress( key, true );
 	}
 
+	/**
+	 * Called when a key is released
+	 */
 	public void keyReleased(int key, char c){
 		handleKeyPress( key, false );
 	}
@@ -151,13 +170,12 @@ public class TWGameClient extends BasicGameState {
 	 * @param pressed true if the key is down
 	 */
 	public void handleKeyPress( int key, boolean pressed ){
-		if( key == Input.KEY_ENTER && pressed){
+		if (key == Input.KEY_ENTER && pressed) {
 			typing = true;
 		}
-		if( ! typing ){
+		if ( ! typing) {
 			updatePlayerStatus(key,pressed);
 		}
-
 	}
 
 	/**
@@ -183,44 +201,35 @@ public class TWGameClient extends BasicGameState {
 			playerStatus.shoot = pressed;
 			break;
 		}
-
-		// handle the turn/move status to be sent to the server
-		// right and forward = 1
-		// left and back = -1
-		// no change = 0
 		if ( ! playerStatus.up && playerStatus.down ){
 			playerStatus.move = -1;
-
-			//Set reversed turn when going backwards
+			/**
+			 * Set reversed turn when going backwards
+			 */
 			if ( playerStatus.right && ! playerStatus.left ){
 				playerStatus.turn = -1;
-			}
-			else if ( ! playerStatus.right && playerStatus.left ){
+			} else if ( ! playerStatus.right && playerStatus.left ){
 				playerStatus.turn = 1;
-			} 
-			else {
+			} else {
 				playerStatus.turn = 0;
 			}
-		} 
-		else {
+		} else {
 			if ( playerStatus.up && ! playerStatus.down ){
 				playerStatus.move = 1;
 			} else {
 				playerStatus.move = 0;
 			}
-
-			//Set normal turn
+			/**
+			 * Set normal movement
+			 */
 			if ( playerStatus.right && ! playerStatus.left ){
 				playerStatus.turn = 1;
-			}
-			else if ( ! playerStatus.right && playerStatus.left ){
+			} else if ( ! playerStatus.right && playerStatus.left ){
 				playerStatus.turn = -1;
-			} 
-			else {
+			} else {
 				playerStatus.turn = 0;
 			}
 		}
-
 		playerStatus.change = true;
 	}
 
@@ -228,7 +237,7 @@ public class TWGameClient extends BasicGameState {
 	 * send the desired playermoves contained in playerStatus to the networkClient if it has any changes
 	 */
 	public void sendPlayerStatus() {
-		if( playerStatus.change ){
+		if (playerStatus.change) {
 			networkClient.send( playerStatus );
 			playerStatus.change = false;
 		}
@@ -244,7 +253,7 @@ public class TWGameClient extends BasicGameState {
 		}
 		typing = false;
 	}
-
+	
 	/**
 	 * gets the local player's position from the entitylist
 	 * @return
@@ -257,11 +266,18 @@ public class TWGameClient extends BasicGameState {
 		return new Vector2f();
 	}
 	
+	/**
+	 * Returns the client's player id 
+	 * @return the player id
+	 */
 	public int getPlayerId(){
 		return networkClient.id;
 	}
 
-
+	/**
+	 * Called if no network server was found, return to main menu and
+	 * inform the user
+	 */
 	public void noServerFound() {
 		game.gameLog.add("Could not detect any active network server!");
 		game.enterState(TWGame.MAINMENUSTATE);
