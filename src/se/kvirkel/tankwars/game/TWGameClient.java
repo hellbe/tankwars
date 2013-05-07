@@ -273,7 +273,7 @@ public class TWGameClient extends BasicGameState {
 
 	/**
 	 * gets the local player's position from the entitylist
-	 * @return
+	 * @return player position or (0,0) if not found
 	 */
 	public Vector2f getPlayerEntityPosition(){
 		TWPlayer player = entities.getPlayer( networkClient.id );

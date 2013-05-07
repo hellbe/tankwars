@@ -82,14 +82,8 @@ public class TWNetwork {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * Synchronized entity list containing the entities and methods for returning 
 	 * different items in the list
-=======
-	 * synchronized entitylist containing the entities and methods for returning different items in the list
-	 * @author Ludwig, Peter, Simon
-	 *
->>>>>>> Fixat till lite Javadoc
 	 */
 	static public class TWEntityContainer extends CopyOnWriteArrayList<TWGameEntity>{
 	
