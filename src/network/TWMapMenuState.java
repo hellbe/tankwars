@@ -1,5 +1,6 @@
 package network;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -7,6 +8,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class TWMapMenuState extends BasicGameState  {
 
@@ -98,7 +101,7 @@ public class TWMapMenuState extends BasicGameState  {
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.mapName = "data/TankWarsMap1.tmx";
 				TWGame.host = true;
-				sbg.enterState(TWGame.GAMESTATE);
+				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
 			if(map1Scale > 1.0f) {
@@ -113,7 +116,7 @@ public class TWMapMenuState extends BasicGameState  {
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.mapName = "data/TankWarsMap2.tmx";
 				TWGame.host = true;
-				sbg.enterState(TWGame.GAMESTATE);
+				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
 			if(map2Scale > 1.0f) {
@@ -128,7 +131,7 @@ public class TWMapMenuState extends BasicGameState  {
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.mapName = "data/TankWarsMap3.tmx";
 				TWGame.host = true;
-				sbg.enterState(TWGame.GAMESTATE);
+				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
 			if(map3Scale > 1.0f) {
@@ -143,7 +146,7 @@ public class TWMapMenuState extends BasicGameState  {
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.mapName = "data/TankWarsMap4.tmx";
 				TWGame.host = true;
-				sbg.enterState(TWGame.GAMESTATE);
+				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 			}
 		} else {
 			if(map4Scale > 1.0f) {

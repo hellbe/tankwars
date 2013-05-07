@@ -9,6 +9,8 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class TWMenuState extends BasicGameState {
 
@@ -123,7 +125,7 @@ public class TWMenuState extends BasicGameState {
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
 				TWGame.host = false;
-				sbg.enterState(TWGame.GAMESTATE);
+				sbg.enterState(TWGame.GAMESTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 			}
 		} 
 		else {

@@ -53,7 +53,7 @@ public class TWNetworkClient {
 						TWGame.addtoGameLog("Player "+player.id+ " has won the game!");
 					}
 				}
-				gameClient.game.enterState(TWGame.MAINMENUSTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 1000));
+				gameClient.game.enterState(TWGame.MAINMENUSTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 			}
 
 		});
@@ -73,7 +73,7 @@ public class TWNetworkClient {
 				ip = address.getHostName();
 			} else {
 				TWGame.addtoGameLog("Could not detect any active network server!");
-				gameClient.game.enterState(TWGame.MAINMENUSTATE);
+				gameClient.game.enterState(TWGame.MAINMENUSTATE, new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.white, 2000));
 				return;
 			}
 		}
