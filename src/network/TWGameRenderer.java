@@ -16,22 +16,74 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.tiled.TiledMap;
 
+/**
+ * Client painter, draws everything on the client window
+ * @author Ludde
+ *
+ */
 public class TWGameRenderer {
+	/**
+	 * game client
+	 */
 	TWGameClient gameClient;
+	/**
+	 * bullet image
+	 */
 	Image bulletImage;
+	/**
+	 * Tank image
+	 */
 	Image tankImage;
+	/**
+	 * player offset
+	 */
 	Vector2f offset = new Vector2f();
+	/**
+	 * the active map
+	 */
 	TiledMap map;
+	/**
+	 * chat field
+	 */
 	TextField messageField;
+	/**
+	 * background color (0.3 opacity)
+	 */
 	Color bgColor = new Color( 0f, 0f, 0f, 0.3f );
+	/**
+	 * transparent color
+	 */
 	Color transparent = new Color( 0f, 0f, 0f, 0f );
+	/**
+	 * gamewindow height
+	 */
 	int windowHeight;
+	/**
+	 * gamewindow width
+	 */
 	int windowWidth;
+	/**
+	 * map height in pixels, null if not set
+	 */
 	int mapHeight;
+	/**
+	 * map width in pixels, null if not set
+	 */
 	int mapWidth;
+	/**
+	 * map margin (in pixels)
+	 */
 	int margin = 5;
+	/**
+	 * text height (in pixels)
+	 */
 	int textHeight = 20;
 
+	/**
+	 * Game renderer constructor
+	 * @param gameClient local gameClient
+	 * @param gc gameContainer
+	 */
 	public TWGameRenderer( final TWGameClient gameClient, GameContainer gc ){
 		this.gameClient = gameClient;
 		this.windowHeight = gc.getHeight();
@@ -55,6 +107,9 @@ public class TWGameRenderer {
 		});
 	}
 
+	/**
+	 * updates the offset so that that the view follows the tank
+	 */
 	public void updateOffset(){
 		Vector2f position = gameClient.entities.getPlayer( gameClient.getPlayerId() ).position;
 
@@ -81,6 +136,11 @@ public class TWGameRenderer {
 		}
 	}
 
+	/**
+	 * paint/render every entity on the map
+	 * @param entities the entity container
+	 * @throws SlickException
+	 */
 	public void renderEntities(TWEntityContainer entities ) throws SlickException {
 		Image image;
 		for ( TWGameEntity entity : entities ){
@@ -98,16 +158,28 @@ public class TWGameRenderer {
 		}
 	}
 
+	/**
+	 * load the map properties
+	 * @param mapInfo
+	 * @throws SlickException
+	 */
 	public void loadMap(TWMap mapInfo) throws SlickException {
 		map = new TiledMap( mapInfo.path, mapInfo.folder );
 		mapWidth = map.getWidth() * map.getTileWidth();
 		mapHeight = map.getHeight() * map.getTileHeight();
 	}
 	
+	/**
+	 * render the map based on the current offset 
+	 * @throws SlickException
+	 */
 	public void renderMap() throws SlickException {
 		map.render( - (int) offset.x, - (int) offset.y );
 	}
-
+/**
+ * draw the scoreboard
+ * @param g
+ */
 	public void renderScore(Graphics g){
 		ArrayList<TWPlayer> players = gameClient.entities.getPlayers();
 		g.setColor( bgColor );
@@ -129,7 +201,11 @@ public class TWGameRenderer {
 			y = y + textHeight;
 		}
 	}
-
+/**
+ * render the tank healthbars
+ * @param players
+ * @param g
+ */
 	public void renderHealthBars( ArrayList<TWPlayer> players, Graphics g ){
 		for( TWPlayer player : players ){
 			if ( player.hp > 50 ){
@@ -146,7 +222,11 @@ public class TWGameRenderer {
 			g.drawRect( player.position.x - offset.x - 25f , player.position.y - 45f - offset.y, 50, 10 );
 		}
 	}
-
+/**
+ * render the chat
+ * @param g
+ * @param messages the messagecontainer of all the chatmessages
+ */
 	public void renderMessages( Graphics g, TWMessageContainer messages ) {
 		int boxHeight = 2 * margin + textHeight + messages.size() * 20;
 		g.setColor( bgColor );
@@ -158,7 +238,12 @@ public class TWGameRenderer {
 			y = y + textHeight;
 		}
 	}
-
+/**
+ * render the messagefield
+ * @param gc the gamecontainer
+ * @param g the graphics
+ * @param string 
+ */
 	public void renderMessageField( GameContainer gc, Graphics g, String string ) {
 		messageField.render(gc,g);
 		messageField.setFocus(true);
