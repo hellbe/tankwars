@@ -88,7 +88,7 @@ public class TWGameClient extends BasicGameState {
 		renderer.renderHealthBars( entities.getPlayers(), g);
 		renderer.renderMessages( g, messages );
 		if ( typing ){
-			renderer.renderMessageBox( gc, g, "test" );
+			renderer.renderMessageField( gc, g, "test" );
 		}
 		renderer.renderScore(g);
 	}
@@ -118,6 +118,14 @@ public class TWGameClient extends BasicGameState {
 			gameServer = new TWGameServer( TWGame.mapName );
 		}
 		networkClient.connect( TWGame.host );
+		while ( mapInfo == null ){
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		renderer.loadMap(mapInfo);
 	}
 
 	public void leave(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
@@ -247,6 +255,10 @@ public class TWGameClient extends BasicGameState {
 			return player.position;
 		}
 		return new Vector2f();
+	}
+	
+	public int getPlayerId(){
+		return networkClient.id;
 	}
 
 }
