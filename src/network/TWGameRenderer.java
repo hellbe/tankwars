@@ -22,24 +22,35 @@ public class TWGameRenderer {
 		try {
 			tankImage = new Image("data/tank.png");
 			bulletImage = new Image("data/bullet2.png");
-		} catch (SlickException e) {
+		}
+		catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void updateOffset(){
 		Vector2f position = gameClient.getPlayerEntityPosition();
+		
+		// Set x-axis offset
 		if( position.x > 400 ){
 			offset.x = position.x - 400f;
 			if ( position.x > map.getWidth() * map.getTileWidth() - 400 ){
 				offset.x = map.getWidth() * map.getTileWidth() - 800;
 			}
+		} 
+		else {
+			offset.x = 0;
 		}
+		
+		// Set y-axis offset
 		if( position.y > 300  ){
 			offset.y = position.y - 300f;
 			if ( position.y > map.getHeight() * map.getTileHeight() - 300 ){
 				offset.y = map.getHeight() * map.getTileHeight() - 600;
 			}
+		}
+		else {
+			offset.y = 0;
 		}
 	}
 

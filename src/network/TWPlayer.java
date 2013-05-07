@@ -31,7 +31,7 @@ public class TWPlayer extends TWGameEntity {
 			speed = playerStatus.move * 30 * delta;
 		}
 		if ( playerStatus.turn == 1 || playerStatus.turn == -1 || playerStatus.turn == 0 ){
-			direction.add( playerStatus.turn * delta * 7);
+			direction.add( playerStatus.turn * delta * 5);
 		}
 		return position.copy().add( direction.copy().scale( delta * speed ));
 	}

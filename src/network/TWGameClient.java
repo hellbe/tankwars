@@ -98,25 +98,10 @@ public class TWGameClient extends BasicGameState {
 			break;
 		}
 
-		if ( playerStatus.up && ! playerStatus.down ){
-			playerStatus.move = 1;
-
-			//Set turn
-			if ( playerStatus.right && ! playerStatus.left ){
-				playerStatus.turn = 1;
-			}
-			else if ( ! playerStatus.right && playerStatus.left ){
-				playerStatus.turn = -1;
-			} 
-			else {
-				playerStatus.turn = 0;
-			}
-
-		}
-		else if ( ! playerStatus.up && playerStatus.down ){
+		if ( ! playerStatus.up && playerStatus.down ){
 			playerStatus.move = -1;
 
-			//Set turn
+			//Set reversed turn when going backwards
 			if ( playerStatus.right && ! playerStatus.left ){
 				playerStatus.turn = -1;
 			}
@@ -128,9 +113,13 @@ public class TWGameClient extends BasicGameState {
 			}
 		} 
 		else {
-			playerStatus.move = 0;
+			if ( playerStatus.up && ! playerStatus.down ){
+				playerStatus.move = 1;
+			} else {
+				playerStatus.move = 0;
+			}
 
-			//Set turn
+			//Set normal turn
 			if ( playerStatus.right && ! playerStatus.left ){
 				playerStatus.turn = 1;
 			}
