@@ -2,22 +2,19 @@ package network;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.newdawn.slick.geom.Vector2f;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
 /**
  * network class, registers and contains the classes we want to send over the network
  * @author Ludde
- *
  */
 public class TWNetwork {
 
 	/**
 	 * register the classes we want to send over the network
-	 * @param endPoint server or client (handled by cryonet)
+	 * @param endPoint server or client (handled by kryonet)
 	 */
 	static public void register(EndPoint endPoint) {
 		Kryo kryo = endPoint.getKryo();
@@ -36,28 +33,57 @@ public class TWNetwork {
 	 * All network messages
 	 */
 	static public class TWPlayerStatus {
-		boolean left = false;
-		boolean right = false;
-		boolean up = false;
-		boolean down = false;
 		
-		int move = 0; 			// 1 means forward, -1 backwards and 0 still
-		int turn = 0; 			// 1 means turn right, -1 left and 0 go straight
-		boolean shoot = false; 	//true if the player wants to shoot
+		/**
+		 * If the player is pressing up
+		 */
+		boolean up = false;
+		/**
+		 * if the player is pressing down
+		 */
+		boolean down = false;
+		/**
+		 * if the player is pressing right
+		 */
+		boolean right = false;
+		/**
+		 * if the player is pressing left
+		 */
+		boolean left = false;
+		/**
+		 * if the player is moving, 1 means forward, -1 backwards and 0 standing still
+		 */
+		int move = 0;
+		/**
+		 * if the player is turning, 1 means turn right, -1 left and 0 go straight
+		 */
+		int turn = 0;
+		/**
+		 * if the player wants to shoot
+		 */
+		boolean shoot = false;
+		/**
+		 * if the player status has changed, used client side to send the status
+		 * only when it's been changed
+		 */
 		boolean change = false;
 		
+		/**
+		 * Constructor
+		 */
 		public TWPlayerStatus(){ }
 		
 	}
 	
-	@SuppressWarnings("serial")
 	/**
-	 * synchronized entitylist containing the entities and methods for returning different items in the list
-	 * @author Ludde
-	 *
+	 * Synchronized entity list containing the entities and methods for returning 
+	 * different items in the list
 	 */
 	static public class TWEntityContainer extends CopyOnWriteArrayList<TWGameEntity>{
 	
+		/** required for serialization */
+		private static final long serialVersionUID = 1L;
+
 		/**
 		 * container constructor
 		 */
@@ -70,7 +96,7 @@ public class TWNetwork {
 		 * @param id the id of the desired player
 		 * @return returns the desired player, null if player does not exist/method failed
 		 */
-		public TWPlayer getPlayer ( Integer id ){
+		public TWPlayer getPlayer( Integer id) {
 			for ( TWPlayer player : this.getPlayers() ){
 				if ( player.id == id ){
 					return player;
@@ -78,18 +104,19 @@ public class TWNetwork {
 			}
 			return null;
 		}
+		
 		/**
 		 * remove a player from the list (and consequently the game), does nothing if id is invalid
 		 * @param id the player to remove
 		 */
-		public void removePlayer ( Integer id ){
+		public void removePlayer(Integer id) {
 			for ( TWPlayer player : this.getPlayers() ){
-				if ( player.id == id ){
+				if (player.id == id) {
 					this.remove(player);
 				}
 			}
-			
 		}
+		
 		/**
 		 * get all the game players in an ArrayList, returns empty set if no players are in the game.
 		 * @return all players
@@ -120,8 +147,6 @@ public class TWNetwork {
 	}
 	/**
 	 * the game map to be played
-	 * @author Ludde
-	 *
 	 */
 	static public class TWMap{
 		String path;
@@ -136,27 +161,26 @@ public class TWNetwork {
 		 * @param path path to map
 		 * @param folder map folder
 		 */
-		public TWMap( String path, String folder ){
+		public TWMap(String path, String folder){
 			this.path = path;
 			this.folder = folder;
 		}
-		
 	}
 	
 	/**
-	 * message container, used by the chat. Is a synhronized list of strings
-	 * @author Ludde
-	 *
+	 * Message container, used by the chat. Is a synhronized list of strings
 	 */
 	static public class TWMessageContainer extends CopyOnWriteArrayList<String>{
-		
+		/** 
+		 * required for serialization 
+		 */
+		private static final long serialVersionUID = 1L;
 		/**
 		 * message container constructor, creates an empty list of messages
 		 */
 		TWMessageContainer(){
 			super();
 		}
-		
 	}
 
 }

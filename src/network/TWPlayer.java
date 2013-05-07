@@ -9,24 +9,19 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class TWPlayer extends TWGameEntity {
 
-	/**
-	 * player id
-	 */
+	/** player id */
 	int id;
-	/**
-	 * player hp
-	 */
+	
+	/** * player hp */
 	int hp = 100;
-	/**
-	 * player score
-	 */
+	
+	/** player score */
 	int score = 0;
-	/**
-	 * the time of the last shot, used when calculating next possible shot
-	 */
+	
+	/** the time of the last shot, used when calculating next possible shot */
 	long lastShot = 0;
-	/** status container
-	 */
+	
+	/** status container */
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
 	
 	/**
