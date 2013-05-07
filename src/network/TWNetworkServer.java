@@ -38,7 +38,8 @@ public class TWNetworkServer {
 			}
 
 			public void connected(Connection connection){
-				gameServer.entities.add( new TWPlayer(connection.getID()) );
+				
+				gameServer.addPlayer( connection.getID() );
 				server.sendToTCP( connection.getID(),  gameServer.mapInfo );
 			}
 			

@@ -100,17 +100,13 @@ public class TWGameServer {
 		for ( TWPlayer player : players ){
 			for ( TWGameEntity entity : entities ){
 				if ( entity instanceof TWBullet && player.collides(entity) ){
+					
 					player.hp = player.hp - 20;
 					entities.remove(entity);
+					
 					if ( player.hp == 0 ){
-						
-						Random random = new Random();
-
-						do {
-							player.position.set(random.nextInt( map.getWidth()), random.nextInt(map.getHeight()));
-						} while ( isBlocked( player.position ));
-
-						player.direction.set(0,1);
+						player.position = getRandomNotBlockedPosition();
+						player.direction = new Vector2f( getRandomAngle() );
 						player.hp = 100;
 						entities.getPlayer( ((TWBullet) entity ).playerId ).score ++;
 					}
@@ -139,6 +135,27 @@ public class TWGameServer {
 
 	public void endGame() {
 		networkServer.stop();
+	}
+	
+	public Vector2f getRandomNotBlockedPosition(){
+		Random random = new Random();
+		Vector2f position = new Vector2f();
+		do {
+			position.set( random.nextInt( map.getWidth() * map.getTileWidth() ), random.nextInt( map.getHeight() * map.getTileHeight() ) );
+		} while ( isBlocked( position ));
+		return position;
+	}
+	
+	public int getRandomAngle(){
+		Random random = new Random();
+		return random.nextInt(359);
+	}
+	
+	public void addPlayer(int id) {
+		TWPlayer player = new TWPlayer( id );
+		player.position = getRandomNotBlockedPosition();
+		player.direction = new Vector2f( getRandomAngle() );
+		entities.add(player);
 	}
 
 }

@@ -16,7 +16,6 @@ public class TWPlayer extends TWGameEntity {
 	public TWPlayer( Integer id ) {
 		this.id = id;
 		size = new Vector2f(86,40);
-		direction = new Vector2f(45);
 	}
 	
 	@Override
