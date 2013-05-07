@@ -49,27 +49,21 @@ public class TWNetworkClient {
 		TWNetwork.register( client );
 		//add a network listener
 		client.addListener( new Listener() {
-
 			/**
 			 * method invoked when connected to the network
 			 */
 			public void connected(Connection connection) {
 				id = connection.getID();
 			}
-			
 			/**
-			 * method invoked when recieved an object, synchronizes information
+			 * method invoked when received an object, synchronizes information
 			 */
 			public void received(Connection connection, Object object) {
-				
-				if ( object instanceof TWEntityContainer ){
+				if (object instanceof TWEntityContainer) {
 					gameClient.entities = (TWEntityContainer) object;
-				} 
-				else if ( object instanceof TWMap ){
+				} else if (object instanceof TWMap) {
 					gameClient.mapInfo = (TWMap) object;
-				}
-				
-				else if ( object instanceof TWMessageContainer ) {
+				} else if (object instanceof TWMessageContainer) {
 					gameClient.messages = (TWMessageContainer) object;
 				}
 			}
@@ -80,7 +74,6 @@ public class TWNetworkClient {
 			 */
 			public void disconnected(Connection connection) { 
 				TWGame.gameLog.add("The host has disconnected.");
-				
 				for (TWPlayer player : gameClient.entities.getPlayers()) {
 					if (player.score == 10) {
 						TWGame.gameLog.add("Player " +player.id+ " has won the game!");
@@ -90,7 +83,6 @@ public class TWNetworkClient {
 			}
 
 		});
-
 	}
 
 	/**
