@@ -96,6 +96,7 @@ public class TWMapMenuState extends BasicGameState  {
 				map1Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
+				//Skicka in kartan här och gå in i gamestate
 			}
 		} else {
 			if(map1Scale > 1.0f) {
@@ -108,6 +109,8 @@ public class TWMapMenuState extends BasicGameState  {
 				map2Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
+				//Skicka in kartan här och gå in i gamestate
+
 			}
 		} else {
 			if(map2Scale > 1.0f) {
@@ -120,6 +123,8 @@ public class TWMapMenuState extends BasicGameState  {
 				map3Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
+				//Skicka in kartan här och gå in i gamestate
+
 			}
 		} else {
 			if(map3Scale > 1.0f) {
@@ -132,6 +137,7 @@ public class TWMapMenuState extends BasicGameState  {
 				map4Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
+				//Skicka in kartan här och gå in i gamestate
 			}
 		} else {
 			if(map4Scale > 1.0f) {
