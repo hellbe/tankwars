@@ -30,6 +30,9 @@ public class TWNetworkServer {
 
 				if (object instanceof String) {
 					gameServer.messages.add( "Player " + connection.getID() + ": " + (String) object );
+					if ( gameServer.messages.size() == 8 ){
+						gameServer.messages.remove(0);
+					}
 				}
 				
 				else if ( object instanceof TWPlayerStatus ) {

@@ -27,7 +27,7 @@ public class TWGameServer {
 		networkServer = new TWNetworkServer( this );
 		
 		// Load map data
-		mapInfo = new TWMap(mapName,"data");
+		mapInfo = new TWMap( mapName, "data" );
 		map = new TiledMap( mapInfo.path , mapInfo.folder );
 		loadMapBlockData();	
 		

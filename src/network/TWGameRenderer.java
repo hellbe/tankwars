@@ -2,6 +2,7 @@ package network;
 
 import java.util.ArrayList;
 import network.TWNetwork.TWEntityContainer;
+import network.TWNetwork.TWMap;
 import network.TWNetwork.TWMessageContainer;
 
 import org.newdawn.slick.Color;
@@ -19,13 +20,22 @@ public class TWGameRenderer {
 	TWGameClient gameClient;
 	Image bulletImage;
 	Image tankImage;
-	Vector2f offset;
+	Vector2f offset = new Vector2f();
 	TiledMap map;
 	TextField messageField;
+	Color bgColor = new Color( 0f, 0f, 0f, 0.3f );
+	Color transparent = new Color( 0f, 0f, 0f, 0f );
+	int windowHeight;
+	int windowWidth;
+	int mapHeight;
+	int mapWidth;
+	int margin = 5;
+	int textHeight = 20;
 
 	public TWGameRenderer( final TWGameClient gameClient, GameContainer gc ){
 		this.gameClient = gameClient;
-		offset = new Vector2f();
+		this.windowHeight = gc.getHeight();
+		this.windowWidth = gc.getWidth();
 		try {
 			tankImage = new Image("data/tank.png");
 			bulletImage = new Image("data/bullet2.png");
@@ -33,9 +43,9 @@ public class TWGameRenderer {
 		catch (SlickException e) {
 			e.printStackTrace();
 		}
-		messageField = new TextField(gc, gc.getDefaultFont(), 10, 570, 350, 25);
-		messageField.setBorderColor( new Color( 0f, 0f, 0f, 0.0f ) ); 
-		messageField.setBackgroundColor( new Color( 0f, 0f, 0f, 0.3f ));
+		messageField = new TextField(gc, gc.getDefaultFont(), 2 * margin, windowHeight - textHeight - 2 * margin, 350, 20);
+		messageField.setBorderColor( transparent ); 
+		messageField.setBackgroundColor( transparent );
 		messageField.addListener( new ComponentListener(){
 			public void componentActivated( AbstractComponent source ){
 				gameClient.sendMessage( messageField.getText() );
@@ -46,13 +56,13 @@ public class TWGameRenderer {
 	}
 
 	public void updateOffset(){
-		Vector2f position = gameClient.getPlayerEntityPosition();
+		Vector2f position = gameClient.entities.getPlayer( gameClient.getPlayerId() ).position;
 
 		// Set x-axis offset
-		if( position.x > 400 ){
-			offset.x = position.x - 400f;
-			if ( position.x > map.getWidth() * map.getTileWidth() - 400 ){
-				offset.x = map.getWidth() * map.getTileWidth() - 800;
+		if( position.x > windowWidth / 2 ){
+			offset.x = position.x - windowWidth / 2;
+			if ( position.x > mapWidth - windowWidth / 2 ){
+				offset.x = mapWidth - windowWidth;
 			}
 		} 
 		else {
@@ -60,10 +70,10 @@ public class TWGameRenderer {
 		}
 
 		// Set y-axis offset
-		if( position.y > 300  ){
-			offset.y = position.y - 300f;
-			if ( position.y > map.getHeight() * map.getTileHeight() - 300 ){
-				offset.y = map.getHeight() * map.getTileHeight() - 600;
+		if( position.y > windowHeight / 2  ){
+			offset.y = position.y - windowHeight / 2;
+			if ( position.y > mapHeight - windowHeight / 2 ){
+				offset.y = mapHeight - windowHeight;
 			}
 		}
 		else {
@@ -88,34 +98,35 @@ public class TWGameRenderer {
 		}
 	}
 
+	public void loadMap(TWMap mapInfo) throws SlickException {
+		map = new TiledMap( mapInfo.path, mapInfo.folder );
+		mapWidth = map.getWidth() * map.getTileWidth();
+		mapHeight = map.getHeight() * map.getTileHeight();
+	}
+	
 	public void renderMap() throws SlickException {
-		if( map == null ){
-			if ( gameClient.mapInfo != null ){
-				map = new TiledMap( gameClient.mapInfo.path, gameClient.mapInfo.folder );
-			}
-		} 
-		else {
-			map.render( - (int) offset.x, - (int) offset.y);
-		}
+		map.render( - (int) offset.x, - (int) offset.y );
 	}
 
 	public void renderScore(Graphics g){
 		ArrayList<TWPlayer> players = gameClient.entities.getPlayers();
-		int y = 30;
-		g.setColor( new Color( 0, 0, 0, 0.3f) );
-		g.fillRect(5, 5, 200, 30 + 20 * players.size() );
+		g.setColor( bgColor );
+		g.fillRect( margin, margin, 150, 60 + textHeight * players.size() );
 		g.setColor( Color.white );
+		g.drawString("Score", 2 * margin, 30);
+		g.drawLine( 2 * margin, 51, 150 - margin, 51);
+		int y = 55;
 		for ( TWPlayer player : players ){
-			String string = "Player "+player.id+"'s score: "+player.score;
+			String string = "Player " + player.id + ": " + player.score;
 			if ( player.id == gameClient.networkClient.id ){
 				g.setColor( Color.red );
-				g.drawString( string , 10, y );
+				g.drawString( string , 2 * margin, y );
 				g.setColor( Color.white );
 			} 
 			else {
-				g.drawString( string , 10, y );
+				g.drawString( string, 2 * margin, y );
 			}
-			y = y + 20;
+			y = y + textHeight;
 		}
 	}
 
@@ -137,22 +148,20 @@ public class TWGameRenderer {
 	}
 
 	public void renderMessages( Graphics g, TWMessageContainer messages ) {
-		g.setColor( new Color( 0f, 0f, 0f, 0.3f ));
-		g.fillRect( 10, 400, 350, 165 );
+		int boxHeight = 2 * margin + textHeight + messages.size() * 20;
+		g.setColor( bgColor );
+		g.fillRect( margin, windowHeight - boxHeight - margin, 400, boxHeight );
 		g.setColor( Color.white );
-		int y = 405;
+		int y = windowHeight - 2 * margin - textHeight * ( 1 + messages.size() ) ;
 		for ( String message : messages ){
-			g.drawString( message, 15, y );
-			y = y + 20;
+			g.drawString( message, 2 * margin, y );
+			y = y + textHeight;
 		}
 	}
 
-	public void renderMessageBox( GameContainer gc, Graphics g, String string ) {
+	public void renderMessageField( GameContainer gc, Graphics g, String string ) {
 		messageField.render(gc,g);
 		messageField.setFocus(true);
-//		g.setColor( new Color( 0f, 0f, 0f, 0.3f ));
-//		g.fillRect( 10, 570, 350, 25 );
-//		g.setColor( Color.white );
-//		g.drawString(string, 15, 573 );
 	}
+
 }
