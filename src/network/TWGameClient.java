@@ -43,6 +43,9 @@ public class TWGameClient extends BasicGameState {
 		for ( TWGameEntity entity : entities ){
 			renderer.renderEntity( entity );
 		}
+		for ( TWPlayer player : entities.getPlayers() ){
+			renderer.renderHealthBar(player, g);
+		}
 		renderer.renderScore(g);
 	}
 

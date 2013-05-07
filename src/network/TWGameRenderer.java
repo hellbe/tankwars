@@ -84,10 +84,10 @@ public class TWGameRenderer {
 		ArrayList<TWPlayer> players = gameClient.entities.getPlayers();
 		int y = 30;
 		g.setColor( new Color( 0, 0, 0, 0.3f) );
-		g.fillRect(5, 5, 300, 30 + 20 * players.size() );
+		g.fillRect(5, 5, 200, 30 + 20 * players.size() );
 		g.setColor( Color.white );
 		for ( TWPlayer player : players ){
-			String string = "Player "+player.id+" got "+player.hp+"hp and score: "+player.score;
+			String string = "Player "+player.id+"'s score: "+player.score;
 			if ( player.id == gameClient.networkClient.id ){
 				g.setColor( Color.red );
 				g.drawString( string , 10, y );
@@ -98,5 +98,20 @@ public class TWGameRenderer {
 			}
 			y = y + 20;
 		}
+	}
+	
+	public void renderHealthBar( TWPlayer player, Graphics g ){
+		if ( player.hp > 50 ){
+			g.setColor( Color.green );
+		}
+		else if ( player.hp > 20 ){
+			g.setColor( Color.yellow );
+		}
+		else if ( player.hp > 0 ){
+			g.setColor( Color.red );
+		}
+		g.fillRect( player.position.x - offset.x - 25f , player.position.y - 45f - offset.y, player.hp / 2, 10 );
+		g.setColor( Color.black );
+		g.drawRect( player.position.x - offset.x - 25f , player.position.y - 45f - offset.y, 50, 10 );
 	}
 }
