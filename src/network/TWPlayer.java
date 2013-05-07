@@ -5,23 +5,31 @@ import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Playerclass, contains useful information about every player
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  */
 public class TWPlayer extends TWGameEntity {
 
 	/** player id */
 	int id;
 	
-	/** * player hp */
+	/**
+	 * player hp
+	 */
 	int hp = 100;
 	
-	/** player score */
+	/**
+	 * player score
+	 */
 	int score = 0;
 	
-	/** the time of the last shot, used when calculating next possible shot */
+	/**
+	 * the time of the last shot, used when calculating next possible shot
+	 */
 	long lastShot = 0;
 	
-	/** status container */
+	/** 
+	 * status container
+	 */
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
 	
 	/**

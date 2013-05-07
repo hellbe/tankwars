@@ -8,7 +8,7 @@ import com.esotericsoftware.kryonet.EndPoint;
 
 /**
  * network class, registers and contains the classes we want to send over the network
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  */
 public class TWNetwork {
 
@@ -29,8 +29,9 @@ public class TWNetwork {
 		kryo.register(TWBullet.class);
 		kryo.register(TWMessageContainer.class);
 	}
+	
 	/**
-	 * All network messages
+	 * PlayerStatus that is sent over network 
 	 */
 	static public class TWPlayerStatus {
 		
@@ -76,8 +77,14 @@ public class TWNetwork {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Synchronized entity list containing the entities and methods for returning 
 	 * different items in the list
+=======
+	 * synchronized entitylist containing the entities and methods for returning different items in the list
+	 * @author Ludwig, Peter, Simon
+	 *
+>>>>>>> Fixat till lite Javadoc
 	 */
 	static public class TWEntityContainer extends CopyOnWriteArrayList<TWGameEntity>{
 	
@@ -85,7 +92,7 @@ public class TWNetwork {
 		private static final long serialVersionUID = 1L;
 
 		/**
-		 * container constructor
+		 * EntityContainer constructor
 		 */
 		public TWEntityContainer(){
 			super();

@@ -16,21 +16,23 @@ import com.esotericsoftware.kryonet.*;
 
 /**
  * The clientside network handler; sends messages to the networkserver and the gameclient. Also recieves updates.
- * 
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public class TWNetworkClient {
+	
 	/**
 	 * the client used
 	 */
 	private Client client;
+	
 	/**
-	 * the gameclient to update
+	 * the GameClient to update
 	 */
 	private TWGameClient gameClient;
+	
 	/**
-	 * NWClient id
+	 * TWClient id
 	 */
 	public int id;
 
@@ -54,6 +56,7 @@ public class TWNetworkClient {
 			public void connected(Connection connection) {
 				id = connection.getID();
 			}
+			
 			/**
 			 * method invoked when recieved an object, synchronizes information
 			 */
@@ -70,6 +73,7 @@ public class TWNetworkClient {
 					gameClient.messages = (TWMessageContainer) object;
 				}
 			}
+			
 			/**
 			 * method invoked when disconnected from the server, checks if someone has won the game and
 			 * adds it to the GameLog if so. Redirects the Game back to the mainmenu

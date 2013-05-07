@@ -15,7 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 /**
  * GameClient class; handles all the local calculations on the playing client
  * also forwards information to the connected NetworkClient
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public class TWGameClient extends BasicGameState {

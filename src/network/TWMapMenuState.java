@@ -13,7 +13,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
  * the state where you choose the desired map
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public class TWMapMenuState extends BasicGameState  {

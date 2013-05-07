@@ -2,12 +2,12 @@ package network;
 
 /**
  * A simple runnable class updating the server
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public class TWServerUpdater implements Runnable {
 
-// TODO: implement this: http://www.koonsolo.com/news/dewitters-gameloop/
+//  TODO: implement this: http://www.koonsolo.com/news/dewitters-gameloop/
 //	long oldTime;
 //	long newTime;
 //	long delta;
@@ -23,7 +23,7 @@ public class TWServerUpdater implements Runnable {
 	TWGameServer server;
 	
 	/**
-	 * server updater constructor
+	 * ServerUpdater constructor
 	 * @param server the server to update
 	 */
 	public TWServerUpdater( TWGameServer server ){

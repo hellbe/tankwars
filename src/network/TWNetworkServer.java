@@ -11,21 +11,23 @@ import com.esotericsoftware.kryonet.Server;
 
 /**
  * the network server handling the connection between gameserver and network client.
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public class TWNetworkServer {
+	
 	/**
 	 * this server
 	 */
 	private Server server;
+	
 	/**
 	 * the gameserver
 	 */
 	private TWGameServer gameServer;
 
 	/**
-	 * networkserver constructor, registers the server to the network, binds a port to the network and adds a listener
+	 * NetworkServer constructor, registers the server to the network, binds a port to the network and adds a listener
 	 * @param gameServer
 	 * @throws SlickException
 	 */
@@ -98,6 +100,7 @@ public class TWNetworkServer {
 	public void updateClients(TWMessageContainer messages) {
 		server.sendToAllTCP( messages );
 	}
+	
 	/**
 	 * stop this server from broadcasting
 	 */

@@ -4,7 +4,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 /**
  * the abstract shell for every entity in the game.
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public abstract class TWGameEntity {

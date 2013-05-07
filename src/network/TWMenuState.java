@@ -14,7 +14,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
  * Menu state GameState; the main menu containing a gamelog and the main menu options 
- * @author Ludde
+ * @author Ludwig, Peter, Simon
  *
  */
 public class TWMenuState extends BasicGameState {
