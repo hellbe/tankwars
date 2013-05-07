@@ -108,7 +108,6 @@ public class TWMenuState extends BasicGameState {
 				hostGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.HOST = true;
 				sbg.enterState( TWGame.MAPMENUSTATE );
 			}
 		} 
@@ -123,7 +122,7 @@ public class TWMenuState extends BasicGameState {
 				joinGameScale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				TWGame.HOST = false;
+				TWGame.host = false;
 				sbg.enterState(TWGame.GAMESTATE);
 			}
 		} 

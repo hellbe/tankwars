@@ -29,8 +29,6 @@ public class TWMapMenuState extends BasicGameState  {
 	float backScale = 1;
 	float scaleStep = 0.0001f;
 	
-	String map;
-
 	public TWMapMenuState( int stateID ){
 		this.stateID = stateID;
 	}
@@ -52,7 +50,7 @@ public class TWMapMenuState extends BasicGameState  {
 		map4option = menuOptions.getSubImage(476, 0, 156, 118);
 		
 		//Load back image
-		back= new Image("data/tankwars-mapback.png");
+		back = new Image("data/tankwars-mapback.png");
 	}
 
 	@Override
@@ -98,8 +96,9 @@ public class TWMapMenuState extends BasicGameState  {
 				map1Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				//Skicka in kartan här och gå in i gamestate
-				map = "data/TankWarsMap1.tmx";
+				TWGame.mapName = "data/TankWarsMap1.tmx";
+				TWGame.host = true;
+				sbg.enterState(TWGame.GAMESTATE);
 			}
 		} else {
 			if(map1Scale > 1.0f) {
@@ -112,9 +111,9 @@ public class TWMapMenuState extends BasicGameState  {
 				map2Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				//Skicka in kartan här och gå in i gamestate
-				map = "data/TankWarsMap2.tmx";
-
+				TWGame.mapName = "data/TankWarsMap2.tmx";
+				TWGame.host = true;
+				sbg.enterState(TWGame.GAMESTATE);
 			}
 		} else {
 			if(map2Scale > 1.0f) {
@@ -127,9 +126,9 @@ public class TWMapMenuState extends BasicGameState  {
 				map3Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				//Skicka in kartan här och gå in i gamestate
-				map = "data/TankWarsMap3.tmx";
-
+				TWGame.mapName = "data/TankWarsMap3.tmx";
+				TWGame.host = true;
+				sbg.enterState(TWGame.GAMESTATE);
 			}
 		} else {
 			if(map3Scale > 1.0f) {
@@ -142,8 +141,9 @@ public class TWMapMenuState extends BasicGameState  {
 				map4Scale += scaleStep * delta;
 			}
 			if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-				//Skicka in kartan här och gå in i gamestate
-				map = "data/TankWarsMap4.tmx";
+				TWGame.mapName = "data/TankWarsMap4.tmx";
+				TWGame.host = true;
+				sbg.enterState(TWGame.GAMESTATE);
 			}
 		} else {
 			if(map4Scale > 1.0f) {
