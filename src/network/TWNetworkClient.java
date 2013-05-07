@@ -4,6 +4,8 @@ import java.net.InetAddress;
 
 import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWMap;
+import network.TWNetwork.TWMessageContainer;
+import network.TWNetwork.TWPlayerStatus;
 
 import org.newdawn.slick.SlickException;
 import com.esotericsoftware.kryonet.*;
@@ -32,6 +34,10 @@ public class TWNetworkClient {
 				} 
 				else if ( object instanceof TWMap ){
 					gameClient.mapInfo = (TWMap) object;
+				}
+				
+				else if ( object instanceof TWMessageContainer ) {
+					gameClient.messages = (TWMessageContainer) object;
 				}
 			}
 

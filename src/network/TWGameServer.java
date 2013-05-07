@@ -3,6 +3,7 @@ package network;
 import java.util.ArrayList;
 
 import network.TWNetwork.TWEntityContainer;
+import network.TWNetwork.TWMessageContainer;
 import network.TWNetwork.TWMap;
 import network.TWNetwork.TWPlayerStatus;
 import org.newdawn.slick.SlickException;
@@ -10,13 +11,15 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class TWGameServer {
-	public TiledMap map;
-	public TWMap mapInfo;
-	public boolean[][] mapBlockData;
+	TiledMap map;
+	TWMap mapInfo;
+	boolean[][] mapBlockData;
 	TWNetworkServer networkServer;
 	TWServerUpdater updater;
 	Thread thread;
 	TWEntityContainer entities = new TWEntityContainer();
+	TWMessageContainer messages = new TWMessageContainer();
+	int lastMessageUpdate = 0;
 	
 	public TWGameServer() throws SlickException {
 		// Start network server
@@ -108,8 +111,12 @@ public class TWGameServer {
 			}
 		}
 		
-		// Update the clients
+		// Update the client entities
 		networkServer.updateClients( entities );
+		
+		// Update the client messages
+		networkServer.updateClients( messages );
+		
 	}
 
 	private boolean playersCollide( TWPlayer player , ArrayList<TWPlayer> players) {

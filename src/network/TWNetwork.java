@@ -21,6 +21,7 @@ public class TWNetwork {
 		kryo.register(CopyOnWriteArrayList.class);
 		kryo.register(TWMap.class);
 		kryo.register(TWBullet.class);
+		kryo.register(TWMessageContainer.class);
 	}
 	/**
 	 * All network messages
@@ -90,12 +91,21 @@ public class TWNetwork {
 		String path;
 		String folder;
 		
+		public TWMap(){}
+		
 		public TWMap( String path, String folder ){
 			this.path = path;
 			this.folder = folder;
 		}
 		
-		public TWMap(){}
+	}
+	
+	static public class TWMessageContainer extends CopyOnWriteArrayList<String>{
+		
+		TWMessageContainer(){
+			super();
+		}
+		
 	}
 
 }

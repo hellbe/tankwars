@@ -2,6 +2,7 @@ package network;
 
 import java.io.IOException;
 import network.TWNetwork.TWEntityContainer;
+import network.TWNetwork.TWMessageContainer;
 import network.TWNetwork.TWPlayerStatus;
 import org.newdawn.slick.SlickException;
 import com.esotericsoftware.kryonet.Connection;
@@ -26,7 +27,14 @@ public class TWNetworkServer {
 
 		server.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
-				handleReceived( connection, object );
+
+				if (object instanceof String) {
+					gameServer.messages.add( "Player " + connection.getID() + ": " + (String) object );
+				}
+				
+				else if ( object instanceof TWPlayerStatus ) {
+					gameServer.updatePlayerStatus( connection.getID(), (TWPlayerStatus) object );
+				}
 			}
 
 			public void connected(Connection connection){
@@ -42,18 +50,6 @@ public class TWNetworkServer {
 
 	}
 
-	private void handleReceived(Connection connection, Object object) {
-
-		if (object instanceof String) {
-			message( (String) object );
-		}
-
-		else if ( object instanceof TWPlayerStatus ) {
-			gameServer.updatePlayerStatus( connection.getID(), (TWPlayerStatus) object );
-		}
-
-	}
-
 	private final void message( String message ){
 		System.out.println("Server got: "+message);
 	}
@@ -62,7 +58,12 @@ public class TWNetworkServer {
 		server.sendToAllTCP( entities );
 	}
 	
+	public void updateClients(TWMessageContainer messages) {
+		server.sendToAllTCP( messages );
+	}
+	
 	public void stop(){
 		server.stop();
 	}
+
 }

@@ -3,6 +3,7 @@ package network;
 import network.TWNetwork.TWEntityContainer;
 import network.TWNetwork.TWMap;
 import network.TWNetwork.TWPlayerStatus;
+import network.TWNetwork.TWMessageContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -13,38 +14,39 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class TWGameClient extends BasicGameState {
 
+	private int gameStateID = -1;
 	TWNetworkClient networkClient;
 	TWGameServer gameServer;
 	TWGameRenderer renderer;
 	StateBasedGame game;
-	
-	private int gameStateID = -1;
-	TWEntityContainer entities = new TWEntityContainer();
+
 	TWMap mapInfo;
+	TWEntityContainer entities = new TWEntityContainer();
+	TWMessageContainer messages = new TWMessageContainer();
 	TWPlayerStatus playerStatus = new TWPlayerStatus();
-	boolean host;
+	boolean typing = false;
 
 	public TWGameClient( int gameStateID ) throws SlickException {
 		this.gameStateID = gameStateID;
 	}
 
 	@Override
-	public void init( GameContainer container, StateBasedGame game ) throws SlickException {
-		renderer = new TWGameRenderer( this );
+	public void init( GameContainer gc, StateBasedGame game ) throws SlickException {
+		this.game = game;
+		renderer = new TWGameRenderer( this, gc );
 		networkClient = new TWNetworkClient( this );
-		this.game=game;
 	}
 
 
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
 		renderer.updateOffset();
 		renderer.renderMap();
-		for ( TWGameEntity entity : entities ){
-			renderer.renderEntity( entity );
-		}
-		for ( TWPlayer player : entities.getPlayers() ){
-			renderer.renderHealthBar(player, g);
+		renderer.renderEntities( entities );
+		renderer.renderHealthBars( entities.getPlayers(), g);
+		renderer.renderMessages( g, messages );
+		if ( typing ){
+			renderer.renderMessageBox( gc, g, "test" );
 		}
 		renderer.renderScore(g);
 	}
@@ -76,11 +78,21 @@ public class TWGameClient extends BasicGameState {
 	}
 
 	public void keyPressed( int key, char c ){
-		updatePlayerStatus( key, true );
+		handleKeyPress( key, true );
 	}
 
 	public void keyReleased(int key, char c){
-		updatePlayerStatus( key, false );
+		handleKeyPress( key, false );
+	}
+
+	public void handleKeyPress( int key, boolean pressed ){
+		if( key == Input.KEY_ENTER && pressed){
+			typing = true;
+		}
+		if( ! typing ){
+			updatePlayerStatus(key,pressed);
+		}
+
 	}
 
 	public void updatePlayerStatus(int key, boolean pressed ) {
@@ -145,6 +157,13 @@ public class TWGameClient extends BasicGameState {
 		}
 	}
 
+	public void sendMessage( String message ){
+		if ( message != ""){
+			networkClient.send(message);
+		}
+		typing = false;
+	}
+
 	public Vector2f getPlayerEntityPosition(){
 		TWPlayer player = entities.getPlayer( networkClient.id );
 		if( player != null ){
@@ -152,7 +171,6 @@ public class TWGameClient extends BasicGameState {
 		}
 		return new Vector2f();
 	}
-
 
 }
 
